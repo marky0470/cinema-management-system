@@ -75,16 +75,17 @@ public final class MainForm extends javax.swing.JFrame {
             mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             mainWindow.pack();
             mainWindow.setVisible(true);
-            mainWindow.showAdminDashboardPanel();
+            mainWindow.showMoviesPanel();
         });
     }
     
-    public void showAdminDashboardPanel() {
+    public void showMoviesPanel() {
         JPanel compositePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,0));
-        AdminDashPanel adminDashPanel = new AdminDashPanel();
+        //AdminDashPanel adminDashPanel = new AdminDashPanel();
+        MoviesPanel moviesPanel = new MoviesPanel();
         NavbarPanel navbarPanel = new NavbarPanel();
         compositePanel.add(navbarPanel);
-        compositePanel.add(adminDashPanel);
+        compositePanel.add(moviesPanel);
         setContentPane(compositePanel);
         revalidate();
         repaint();

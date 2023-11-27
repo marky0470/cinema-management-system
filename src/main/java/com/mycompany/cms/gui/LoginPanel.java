@@ -167,7 +167,7 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.setVisible(true);
             loginForm.setVisible(false);
             
-            mainForm.showAdminDashboardPanel();
+            mainForm.showMoviesPanel();
         });
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -182,7 +182,7 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.setVisible(true);
             loginForm.setVisible(false);
             if (isAdmin) {
-                mainForm.showAdminDashboardPanel();
+                mainForm.showMoviesPanel();
             } else {
                 System.out.println("Staff dash not yet implemented");
 //                mainForm.showStaffDashboardPanel();
