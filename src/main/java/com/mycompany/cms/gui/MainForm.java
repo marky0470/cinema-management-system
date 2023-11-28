@@ -75,21 +75,22 @@ public final class MainForm extends javax.swing.JFrame {
             mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             mainWindow.pack();
             mainWindow.setVisible(true);
-            mainWindow.showMoviesPanel();
+            MoviesPanel moviesPanel = new MoviesPanel();
+            mainWindow.showPanel(moviesPanel);
         });
     }
     
-    public void showMoviesPanel() {
+    public void showPanel(JPanel panel) {
         JPanel compositePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,0));
-        //AdminDashPanel adminDashPanel = new AdminDashPanel();
-        MoviesPanel moviesPanel = new MoviesPanel();
-        NavbarPanel navbarPanel = new NavbarPanel();
+        NavbarPanel navbarPanel = new NavbarPanel(this);
         compositePanel.add(navbarPanel);
-        compositePanel.add(moviesPanel);
+        compositePanel.add(panel);
         setContentPane(compositePanel);
         revalidate();
         repaint();
     }
+    
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

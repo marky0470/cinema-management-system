@@ -10,11 +10,13 @@ package com.mycompany.cms.gui;
  */
 public class NavbarPanel extends javax.swing.JPanel {
 
+    MainForm mainForm;
     /**
      * Creates new form NavbarPanel
      */
-    public NavbarPanel() {
+    public NavbarPanel(MainForm mainForm) {
         initComponents();
+        this.mainForm = mainForm;
     }
 
     /**
@@ -34,6 +36,11 @@ public class NavbarPanel extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(150, 600));
 
         jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("jButton1");
 
@@ -65,6 +72,14 @@ public class NavbarPanel extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    //staff button
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        StaffPanel staffPanel = new StaffPanel();
+        mainForm.showPanel(staffPanel);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
