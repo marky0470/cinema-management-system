@@ -168,8 +168,8 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.setVisible(true);
             loginForm.setVisible(false);
             
-            MoviesPanel moviesPanel = new MoviesPanel();
-            mainForm.showPanel(moviesPanel);
+//            MoviesPanel moviesPanel = new MoviesPanel();
+//            mainForm.showPanel(moviesPanel);
         });
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -184,8 +184,8 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.setVisible(true);
             loginForm.setVisible(false);
             if (isAdmin) {
-                MoviesPanel moviesPanel = new MoviesPanel();
-                mainForm.showPanel(moviesPanel);
+//                MoviesPanel moviesPanel = new MoviesPanel();
+//                mainForm.showPanel(moviesPanel);
             } else {
                 System.out.println("Staff dash not yet implemented");
 //                mainForm.showStaffDashboardPanel();
