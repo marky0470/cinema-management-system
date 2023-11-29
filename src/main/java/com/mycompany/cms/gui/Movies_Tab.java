@@ -302,6 +302,13 @@ public class Movies_Tab extends javax.swing.JFrame {
 	    } catch (SQLException e) {
             System.out.println(e);
 	    }
+        
+        jTitleText.setText("");
+	jRatingText.setText("");
+	jReleaseDateText.setText("");
+	jGenreText.setText("");
+	jDurationText.setText("");
+        
     }//GEN-LAST:event_jAddButtonActionPerformed
 
     private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
@@ -338,6 +345,12 @@ public class Movies_Tab extends javax.swing.JFrame {
 	    } catch (SQLException e) {
             System.out.println(e);
 	    }
+        
+        jTitleText.setText("");
+	jRatingText.setText("");
+	jReleaseDateText.setText("");
+	jGenreText.setText("");
+	jDurationText.setText("");
         
     }//GEN-LAST:event_jUpdateButtonActionPerformed
 
