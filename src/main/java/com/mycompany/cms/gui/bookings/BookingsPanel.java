@@ -16,14 +16,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -42,30 +39,28 @@ import javax.swing.event.ChangeListener;
 public class BookingsPanel extends javax.swing.JPanel {
     
     Connection conn;
-    SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH);
-
+    private final SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH);
+    private final BookingsTabbedPanel panel;
+    
     /**
      * Creates new form BookingsPanel
+     * @param panel
      */
-    public BookingsPanel() {
+    public BookingsPanel(BookingsTabbedPanel panel) {
         initComponents();
+        
+        this.panel = panel;
         
         Connector connector = new Connector();
         conn = connector.getConnection();
         
-        try {
-//            SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH);
-            jDateSpinner.setModel(model);
-            JSpinner.DateEditor editor = new JSpinner.DateEditor(jDateSpinner, "MM/dd/yyyy");
-            jDateSpinner.setEditor(editor);
-            jDateSpinner.addChangeListener(getDateSpinnerChangeListener());
-            
-            changeDateLabel();
-            getScreenings();    
-        } catch (IOException e) {
-            
-        }
+        jDateSpinner.setModel(model);
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(jDateSpinner, "MM/dd/yyyy");
+        jDateSpinner.setEditor(editor);
+        jDateSpinner.addChangeListener(getDateSpinnerChangeListener());
         
+        changeDateLabel();
+        getScreenings();
     }
     
     private void changeDateLabel() {
@@ -73,7 +68,44 @@ public class BookingsPanel extends javax.swing.JPanel {
         jDateLabel.setText(selectedDate.toString());
     }
     
-    private void getScreenings() throws IOException {
+    private void getScreeningsBySearch() {
+        try {
+            String movieTitle = jSearchTextField.getText();
+            Date date = getSelectedDate();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            String sql = """
+                         SELECT 
+                            DISTINCT(title),
+                            image,
+                            movie_id
+                         FROM
+                            (
+                                SELECT
+                                    screening.date_start,
+                                    screening.date_end,
+                                    movies.movie_id,
+                                    movies.title,
+                                    movies.image
+                                FROM
+                                    screening
+                                LEFT JOIN movies ON screening.movie_id = movies.movie_id
+                            ) screening
+                         WHERE 
+                            (? BETWEEN screening.date_start AND screening.date_end) AND 
+                            (title LIKE ?);
+                         """;
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setDate(1, sqlDate);
+            preparedStatement.setString(2, "%" + movieTitle + "%");
+            ResultSet result = preparedStatement.executeQuery();
+            
+            displayScreenings(result);
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
+    
+    private void getScreenings() {
         try {
             Date date = getSelectedDate();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -98,50 +130,62 @@ public class BookingsPanel extends javax.swing.JPanel {
                             ? BETWEEN screening.date_start AND screening.date_end;""";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setDate(1, sqlDate);
-            ResultSet res = st.executeQuery();
+            ResultSet result = st.executeQuery();
             
-            jMoviesPanel.removeAll();
-            jMoviesPanel.setLayout(new BoxLayout(jMoviesPanel, BoxLayout.Y_AXIS));
-            jMoviesPanel.setBackground(Color.WHITE);
-                     
-            int index = 0;
-            JPanel panel = new JPanel();
-            panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
-            
-            while (res.next()) {
-                String title = res.getString("title");
-                int movieId = res.getInt("movie_id");
-                BufferedImage im = ImageIO.read(res.getBinaryStream("image"));
-                JPanel card = createCardPanel(movieId, title, im);
-                panel.add(card);
-                
-                index++;
-                
-                if (index == 5) {
-                    jMoviesPanel.add(panel);
-                    index = 0;
-                    panel = new JPanel();
-                    panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
-                }
-            }
-            
-            jMoviesPanel.add(panel);
-            
-            jMoviesPanel.revalidate();
-            jMoviesPanel.repaint();
-            
-            revalidate();
-            repaint();
+            displayScreenings(result);
         } catch  (SQLException e) {
             System.out.println(e);
         }
     }
     
-    private static JPanel createCardPanel(int movieId, String title, BufferedImage image) {
+    private void displayScreenings(ResultSet res) {
+        try {
+            try {
+                jMoviesPanel.removeAll();
+                jMoviesPanel.setLayout(new BoxLayout(jMoviesPanel, BoxLayout.Y_AXIS));
+                jMoviesPanel.setBackground(Color.WHITE);
+
+                int index = 0;
+                JPanel panel = new JPanel();
+                panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+
+                while (res.next()) {
+                    String title = res.getString("title");
+                    int movieId = res.getInt("movie_id");
+                    BufferedImage im = ImageIO.read(res.getBinaryStream("image"));
+                    JPanel card = createCardPanel(movieId, title, im);
+                    panel.add(card);
+
+                    index++;
+
+                    if (index == 5) {
+                        jMoviesPanel.add(panel);
+                        index = 0;
+                        panel = new JPanel();
+                        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+                    }
+                }
+
+                jMoviesPanel.add(panel);
+
+                jMoviesPanel.revalidate();
+                jMoviesPanel.repaint();
+
+                revalidate();
+                repaint();
+            } catch (SQLException e) {
+                System.out.println(e.toString());
+            }
+        } catch (IOException ioException) {
+            System.out.println(ioException.toString());
+        }
+    }
+    
+    private JPanel createCardPanel(int movieId, String title, BufferedImage image) {
         JPanel cardPanel = new JPanel();
         
         cardPanel.setBorder(new CompoundBorder(
-            new LineBorder(new Color(45, 45, 45, 20), 1, true),
+            new LineBorder(new Color(45, 45, 45, 50), 1, true),
             new EmptyBorder(1, 1, 1, 1)
         ));
         cardPanel.setPreferredSize(new Dimension(200, 350));
@@ -169,37 +213,32 @@ public class BookingsPanel extends javax.swing.JPanel {
     
     private ChangeListener getDateSpinnerChangeListener() {
         return (ChangeEvent e) -> {
-            try  {
-               changeDateLabel();
-               getScreenings();
-            } catch (IOException ioException) {
-                //
-            }
+            changeDateLabel();
+            getScreenings();
         };
     }
     
-    static private MouseAdapter getMouseListener(int id, String title, JPanel card) {
+    private MouseAdapter getMouseListener(int id, String title, JPanel card) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                BookingsSchedulesForm schedulesForm = new BookingsSchedulesForm(id, title);
-                schedulesForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                schedulesForm.setVisible(true);
+                BookingsPanel.this.panel.setSelectedMovieId(id);
+                BookingsPanel.this.panel.openSchedulesTab();
             }
             
             @Override
             public void mouseEntered(MouseEvent e) {
                 card.setBorder(new CompoundBorder(
-                        new LineBorder(Color.GRAY, 1, true),
-                        new EmptyBorder(5,5,5,5)
+                    new LineBorder(new Color(45, 45, 45, 70), 1, true),
+                    new EmptyBorder(1, 1, 1, 1)
                 ));
             }
             
             @Override
             public void mouseExited(MouseEvent e) {
                 card.setBorder(new CompoundBorder(
-                        new LineBorder(Color.WHITE, 1, true),
-                        new EmptyBorder(5,5,5,5)
+                    new LineBorder(new Color(45, 45, 45, 50), 1, true),
+                    new EmptyBorder(1, 1, 1, 1)
                 ));
             }
         };
@@ -230,9 +269,10 @@ public class BookingsPanel extends javax.swing.JPanel {
         jScrollPane = new javax.swing.JScrollPane();
         jMoviesPanel = new javax.swing.JPanel();
 
-        setPreferredSize(new java.awt.Dimension(955, 0));
+        setMinimumSize(new java.awt.Dimension(1140, 800));
+        setPreferredSize(new java.awt.Dimension(1140, 800));
         setRequestFocusEnabled(false);
-        setSize(new java.awt.Dimension(955, 0));
+        setSize(new java.awt.Dimension(1140, 800));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1440, 100));
@@ -260,13 +300,13 @@ public class BookingsPanel extends javax.swing.JPanel {
         jLabel1.setText("Bookings");
         jPanel2.add(jLabel1);
 
-        jPanel7.setPreferredSize(new java.awt.Dimension(750, 30));
+        jPanel7.setPreferredSize(new java.awt.Dimension(800, 30));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,24 +339,24 @@ public class BookingsPanel extends javax.swing.JPanel {
         jPanel3.add(jPanel5);
 
         jSearchTextField.setPreferredSize(new java.awt.Dimension(200, 30));
-        jSearchTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSearchTextFieldActionPerformed(evt);
-            }
-        });
         jPanel3.add(jSearchTextField);
 
         jSearchButton.setText("Search");
         jSearchButton.setPreferredSize(new java.awt.Dimension(78, 30));
+        jSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchButtonActionPerformed(evt);
+            }
+        });
         jPanel3.add(jSearchButton);
 
-        jPanel6.setPreferredSize(new java.awt.Dimension(550, 30));
+        jPanel6.setPreferredSize(new java.awt.Dimension(600, 30));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,13 +405,14 @@ public class BookingsPanel extends javax.swing.JPanel {
         add(jScrollPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jSearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jSearchTextFieldActionPerformed
-
     private void jTodayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTodayButtonActionPerformed
         model.setValue(new Date());
     }//GEN-LAST:event_jTodayButtonActionPerformed
+
+    private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+        getScreeningsBySearch();
+        jSearchTextField.setText("");
+    }//GEN-LAST:event_jSearchButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

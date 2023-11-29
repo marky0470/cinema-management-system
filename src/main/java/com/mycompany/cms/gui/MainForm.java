@@ -8,6 +8,7 @@ import com.mycompany.cms.gui.movies.MoviesPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.mycompany.cms.gui.accounts.AccountsPanel;
 import com.mycompany.cms.gui.bookings.BookingsPanel;
+import com.mycompany.cms.gui.bookings.BookingsTabbedPanel;
 import com.mycompany.cms.gui.cinemas.CinemasPanel;
 import com.mycompany.cms.gui.tickets.TicketsPanel;
 import java.awt.BorderLayout;
@@ -237,7 +238,8 @@ public final class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jBookingsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBookingsButtonMouseClicked
-        BookingsPanel bookingsPanel = new BookingsPanel();
+//        BookingsPanel bookingsPanel = new BookingsPanel();
+        BookingsTabbedPanel bookingsPanel = new BookingsTabbedPanel();
         showPanel(bookingsPanel, jBookingsButton);
     }//GEN-LAST:event_jBookingsButtonMouseClicked
 
