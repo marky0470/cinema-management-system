@@ -4,6 +4,7 @@
  */
 package com.mycompany.cms.gui;
 
+import com.mycompany.cms.gui.movies.MoviesPanel;
 import com.mycompany.cms.util.Connector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
