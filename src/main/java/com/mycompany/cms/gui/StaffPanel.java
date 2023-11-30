@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -23,6 +24,7 @@ public class StaffPanel extends javax.swing.JPanel {
      */
     public StaffPanel() {
         initComponents();
+        refreshTable();
     }
 
     /**
@@ -310,6 +312,8 @@ private void applyFilter(String filterText) {
     if (jCheckBox1.isSelected()) {
         Admin = 1;
     }
+    
+    String hashedPassword = BCrypt.hashpw(Password, BCrypt.gensalt());
 
     String query = "INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)";
     
@@ -323,7 +327,7 @@ private void applyFilter(String filterText) {
             pstmt.setString(1, FirstName);
             pstmt.setString(2, LastName);
             pstmt.setString(3, Email);
-            pstmt.setString(4, Password);
+            pstmt.setString(4, hashedPassword);
             pstmt.setInt(5, Admin);
 
             // Execute the query

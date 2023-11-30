@@ -135,14 +135,11 @@ public class LoginPanel extends javax.swing.JPanel {
                 System.out.println("No user exists");
                 return;
             }
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            String hashedPassword = resultSet.getString("password");
             if (!BCrypt.checkpw(password, hashedPassword)) {
                 System.out.println("Wrong password");
+                return;
             }
-//            if (!password.equals(resultSet.getString("password"))) {
-//                System.out.println("Wrong password");
-//                return;
-//            }
             System.out.println("Authenticated Successfully");
             boolean isAdmin = resultSet.getBoolean("is_admin");
             if (isAdmin) {
