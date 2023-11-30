@@ -11,8 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.mindrot.jbcrypt.BCrypt;
-
 /**
  *
  * @author marks
@@ -25,6 +26,15 @@ public class StaffPanel extends javax.swing.JPanel {
     public StaffPanel() {
         initComponents();
         refreshTable();
+        jtable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    // Handle the selection change
+                    getDataFromSelectedRow();
+                }
+            }
+        });
     }
 
     /**
@@ -55,6 +65,24 @@ public class StaffPanel extends javax.swing.JPanel {
         jTextField5 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 102, 51));
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -71,6 +99,12 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,7 +143,7 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
-        view_button.setText("VIEW");
+        view_button.setText("REFRESH");
         view_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 view_buttonActionPerformed(evt);
@@ -146,8 +180,16 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
-        jTextField5.setForeground(new java.awt.Color(153, 153, 153));
         jTextField5.setText("FILTER");
+        jTextField5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jTextField5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField5MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jTextField5MouseEntered(evt);
+            }
+        });
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
@@ -239,7 +281,32 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addContainerGap(53, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-private void refreshTable() {       
+
+  private void getDataFromSelectedRow(){
+  int selectedRow = jtable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            // no row selected
+            return;
+        }
+
+        int userId = (int) jtable1.getValueAt(selectedRow, 0);
+        String firstName = (String) jtable1.getValueAt(selectedRow, 1);
+        String lastName = (String) jtable1.getValueAt(selectedRow, 2);
+        String email = (String) jtable1.getValueAt(selectedRow, 3);
+        String password = (String) jtable1.getValueAt(selectedRow, 4);
+        boolean isAdmin = (boolean) jtable1.getValueAt(selectedRow, 5);
+
+        // Now you can use the retrieved data as needed
+        jTextField1.setText(firstName);
+        jTextField2.setText(lastName);
+        jTextField3.setText(email);
+        jTextField4.setText(password);
+        jCheckBox1.setSelected(isAdmin);
+    
+    }
+  
+    private void refreshTable() {       
    try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
@@ -267,35 +334,39 @@ private void refreshTable() {
             System.out.println(e);
         }
 }
+        
 private void applyFilter(String filterText) {
-    try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
+     try {
+        Connector connector = new Connector();
+        Connection con = connector.getConnection();
 
-            String query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE first_name LIKE ?";
+        String query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users " +
+                       "WHERE user_id LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR is_admin LIKE ?";
 
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, "%" + filterText + "%");
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            for (int i = 1; i <= 5; i++) {
+                pstmt.setString(i, "%" + filterText + "%");
+            }
 
-                try (ResultSet resultSet = pstmt.executeQuery()) {
-                    DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
-                    model.setRowCount(0);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
+                model.setRowCount(0);
 
-                    while (resultSet.next()) {
-                        int userId = resultSet.getInt("user_id");
-                        String firstName = resultSet.getString("first_name");
-                        String lastName = resultSet.getString("last_name");
-                        String email = resultSet.getString("email");
-                        String password = resultSet.getString("password");
-                        boolean isAdmin = resultSet.getBoolean("is_admin");
+                while (resultSet.next()) {
+                    int userId = resultSet.getInt("user_id");
+                    String firstName = resultSet.getString("first_name");
+                    String lastName = resultSet.getString("last_name");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    boolean isAdmin = resultSet.getBoolean("is_admin");
 
-                        model.addRow(new Object[]{userId, firstName, lastName, email, password, isAdmin});
-                    }
+                    model.addRow(new Object[]{userId, firstName, lastName, email, password, isAdmin});
                 }
             }
-        } catch (SQLException e) {
-            System.out.println(e);
         }
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
 }
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -352,10 +423,16 @@ private void applyFilter(String filterText) {
     
     
     private void edit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_buttonActionPerformed
-  int selectedRow = jtable1.getSelectedRow();
-
+   
+        int selectedRow = jtable1.getSelectedRow();
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
+        return ;
+    }
+
+    // Validate input fields
+    if (!validateFields()) {
+        JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
@@ -384,11 +461,23 @@ private void applyFilter(String filterText) {
             refreshTable();
         }
     } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         System.out.println(e);
     }
+}
 
+private boolean validateFields() {
+    
+    String firstName = jTextField1.getText();
+    String lastName = jTextField2.getText();
+    String email = jTextField3.getText();
+    String password = jTextField4.getText();
+
+    // You can add more specific validation logic as needed
+    return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !password.isEmpty();
     }//GEN-LAST:event_edit_buttonActionPerformed
 
+ 
     private void delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttonActionPerformed
   int[] selectedRows = jtable1.getSelectedRows();
 
@@ -433,6 +522,34 @@ private void applyFilter(String filterText) {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+
+    }//GEN-LAST:event_formComponentShown
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+     
+    }//GEN-LAST:event_formMouseDragged
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+
+    }//GEN-LAST:event_formMouseMoved
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+       getDataFromSelectedRow();
+    }//GEN-LAST:event_formMouseClicked
+
+    private void jTextField5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseClicked
+       // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5MouseClicked
+
+    private void jTextField5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseEntered
+        jTextField5.setText("");
+    }//GEN-LAST:event_jTextField5MouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
