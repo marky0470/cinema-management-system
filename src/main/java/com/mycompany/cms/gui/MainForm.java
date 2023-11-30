@@ -260,7 +260,7 @@ public final class MainForm extends javax.swing.JFrame {
 
     private void jAccountButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jAccountButtonMouseClicked
         StaffPanel staffPanel = new StaffPanel();
-        showPanel(staffPanel);
+        showPanel(staffPanel, jAccountButton);
     }//GEN-LAST:event_jAccountButtonMouseClicked
 
     private static MouseAdapter getMouseAdapter(JLabel label) {
