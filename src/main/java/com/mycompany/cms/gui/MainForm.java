@@ -6,11 +6,9 @@ package com.mycompany.cms.gui;
 
 import com.mycompany.cms.gui.movies.MoviesPanel;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.mycompany.cms.gui.accounts.AccountsPanel;
-import com.mycompany.cms.gui.bookings.BookingsPanel;
 import com.mycompany.cms.gui.bookings.BookingsTabbedPanel;
 import com.mycompany.cms.gui.cinemas.CinemasPanel;
-import com.mycompany.cms.gui.tickets.TicketsPanel;
+import com.mycompany.cms.gui.movies.MoviePanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -244,8 +242,8 @@ public final class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jBookingsButtonMouseClicked
 
     private void jMoviesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMoviesButtonMouseClicked
-        MoviesPanel moviesPanel = new MoviesPanel();
-        showPanel(moviesPanel, jMoviesButton);
+        MoviePanel moviePanel = new MoviePanel();
+        showPanel(moviePanel, jMoviesButton);
     }//GEN-LAST:event_jMoviesButtonMouseClicked
 
     private void jTicketButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTicketButtonMouseClicked
