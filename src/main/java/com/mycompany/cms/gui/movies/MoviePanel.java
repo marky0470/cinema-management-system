@@ -23,10 +23,40 @@ public class MoviePanel extends javax.swing.JPanel {
      */
     public MoviePanel() {
         initComponents();
+        refreshTable();
+
+    }
+    
+    private void refreshTable() {       
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+
+            String query = "SELECT movie_id, title, rating, released, genre, duration FROM movies";
+
+                try (PreparedStatement pstmt = con.prepareStatement(query);
+                    ResultSet resultSet = pstmt.executeQuery()) {
+
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+
+                    while (resultSet.next()) {
+                    int movieId = resultSet.getInt("movie_id");
+                    String title = resultSet.getString("title");
+                    String rating = resultSet.getString("rating");
+                    int released = resultSet.getInt("released");
+                    String genre = resultSet.getString("genre");
+                    int duration = resultSet.getInt("duration");
+
+                    model.addRow(new Object[]{movieId, title, rating, released, genre, duration});
+                    }
+                }
+            } catch (SQLException e) {
+              System.out.println(e);
+            }
     }
     
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,11 +85,18 @@ public class MoviePanel extends javax.swing.JPanel {
         jReleaseDateText = new javax.swing.JTextField();
         jGenreText = new javax.swing.JTextField();
         jDurationText = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jDeleteButton = new javax.swing.JButton();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(780, 720));
         setRequestFocusEnabled(false);
         setVerifyInputWhenFocusTarget(false);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
 
         jClearButton.setText("Clear");
         jClearButton.addActionListener(new java.awt.event.ActionListener() {
@@ -124,16 +161,17 @@ public class MoviePanel extends javax.swing.JPanel {
 
         jDurationLabel.setText("Duration");
 
+        jMovieTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMovieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Title ", "Rating", "Release date", "Genre", "Duration", "Action"
+                "ID", "Title ", "Rating", "Release date", "Genre", "Duration"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -141,20 +179,39 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
         jMovieTable.getTableHeader().setReorderingAllowed(false);
+        jMovieTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMovieTableMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jMovieTable);
         if (jMovieTable.getColumnModel().getColumnCount() > 0) {
             jMovieTable.getColumnModel().getColumn(0).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(0).setPreferredWidth(50);
             jMovieTable.getColumnModel().getColumn(1).setResizable(false);
             jMovieTable.getColumnModel().getColumn(2).setResizable(false);
             jMovieTable.getColumnModel().getColumn(3).setResizable(false);
             jMovieTable.getColumnModel().getColumn(4).setResizable(false);
             jMovieTable.getColumnModel().getColumn(5).setResizable(false);
-            jMovieTable.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jRatingText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRatingTextActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Refresh");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jDeleteButton.setText("Delete");
+        jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteButtonActionPerformed(evt);
             }
         });
 
@@ -167,42 +224,46 @@ public class MoviePanel extends javax.swing.JPanel {
                 .addComponent(jMovieLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDateLabel)
                     .addComponent(jRatingLabel)
                     .addComponent(jTitleLabel)
                     .addComponent(jGenreLabel)
                     .addComponent(jDurationLabel)
-                    .addComponent(jClearButton))
-                .addGap(27, 27, 27)
+                    .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
                         .addComponent(jImageHolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTitleText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRatingText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jReleaseDateText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jGenreText, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(jUpdateButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                                .addComponent(jAddButton)
-                                .addGap(36, 36, 36))
+                                .addGap(8, 8, 8)
+                                .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jDurationText))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTitleText)
-                                    .addComponent(jRatingText)
-                                    .addComponent(jReleaseDateText)
-                                    .addComponent(jGenreText)
-                                    .addComponent(jDurationText, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(317, 317, 317)
+                                .addComponent(jButton1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(30, 30, 30))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,41 +273,48 @@ public class MoviePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jImageHolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(99, 99, 99)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTitleLabel)
                                 .addComponent(jTitleText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(257, 257, 257))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jRatingLabel)
+                                .addComponent(jRatingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jDateLabel)
+                                .addComponent(jReleaseDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jGenreLabel)
+                                .addComponent(jGenreText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jDurationLabel)
+                                .addComponent(jDurationText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(73, 73, 73)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jUpdateButton)
+                                .addComponent(jAddButton)
+                                .addComponent(jClearButton)
+                                .addComponent(jDeleteButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSearchText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRatingLabel)
-                            .addComponent(jRatingText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jDateLabel)
-                            .addComponent(jReleaseDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jGenreLabel)
-                            .addComponent(jGenreText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jDurationLabel)
-                            .addComponent(jDurationText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(73, 73, 73)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jUpdateButton)
-                            .addComponent(jAddButton)
-                            .addComponent(jClearButton))))
-                .addGap(227, 227, 227))
+                        .addComponent(jButton1)))
+                .addGap(186, 186, 186))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void jClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearButtonActionPerformed
         // TODO add your handling code here:
                 
@@ -263,12 +331,12 @@ public class MoviePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         
         //UPDATE//
-        
-        String title = jTitleText.getText();
-        String rating = jRatingText.getText();
-        String release_date = jReleaseDateText.getText();
-        String genre = jGenreText.getText();
-        String duration = jDurationText.getText();  
+
+            String title = jTitleText.getText();
+            String rating = jRatingText.getText();
+            int released = Integer.parseInt((jReleaseDateText.getText()));
+            String genre = jGenreText.getText();
+            int duration = Integer.parseInt(jDurationText.getText()); 
         
         try {
             Connector connector = new Connector();
@@ -277,18 +345,20 @@ public class MoviePanel extends javax.swing.JPanel {
             int selectedRow = jMovieTable.getSelectedRow();
 	    int movie_id_column = 0;
 
-	    selectedRow = jMovieTable.getSelectedRow();
- 	    String movie_id = jMovieTable.getModel().getValueAt(selectedRow, movie_id_column).toString();
+ 	    int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
 
-	    String query = "UPDATE movies SET (title = ?, rating = ?, release_date = ?, genre = ?, duration = ?) WHERE (movie_id = ?)";
-
+	    String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ? WHERE movie_id = ?";
 	    PreparedStatement prepStmt = con.prepareStatement(query);
+            
 	    prepStmt.setString(1, title);
             prepStmt.setString(2, rating);
-            prepStmt.setString(3, release_date);
+            prepStmt.setInt(3, released);
             prepStmt.setString(4, genre);
-            prepStmt.setString(5, duration);
-            prepStmt.setString(6, movie_id);
+            prepStmt.setInt(5, duration);
+            prepStmt.setInt(6, movie_id);
+            
+            prepStmt.executeUpdate();
+
 	    
 	    } catch (SQLException e) {
             System.out.println(e);
@@ -300,6 +370,7 @@ public class MoviePanel extends javax.swing.JPanel {
 	jGenreText.setText("");
 	jDurationText.setText("");
         
+        refreshTable();
     }//GEN-LAST:event_jUpdateButtonActionPerformed
 
     private void jAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddButtonActionPerformed
@@ -309,22 +380,26 @@ public class MoviePanel extends javax.swing.JPanel {
         
         String title = jTitleText.getText();
         String rating = jRatingText.getText();
-        String release_date = jReleaseDateText.getText();
+        int released = Integer.parseInt((jReleaseDateText.getText()));
         String genre = jGenreText.getText();
-        String duration = jDurationText.getText();  
+        int duration = Integer.parseInt(jDurationText.getText());  
+        
+        String query = "INSERT INTO movies (title, rating, released, genre, duration) VALUES (?, ?, ?, ?, ?)";
         
         try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
-
-	    String query = "INSERT INTO movies (title, rating, release_date, genre, duration) VALUES (?, ?, ?, ?, ?)";
-
+            
 	    PreparedStatement prepStmt = con.prepareStatement(query);
+            
 	    prepStmt.setString(1, title);
             prepStmt.setString(2, rating);
-            prepStmt.setString(3, release_date);
+            prepStmt.setInt(3, released);
             prepStmt.setString(4, genre);
-            prepStmt.setString(5, duration);
+            prepStmt.setInt(5, duration);
+            
+            prepStmt.executeUpdate();
+
 	    
 	    } catch (SQLException e) {
             System.out.println(e);
@@ -336,6 +411,7 @@ public class MoviePanel extends javax.swing.JPanel {
 	jGenreText.setText("");
 	jDurationText.setText("");
         
+        refreshTable();
     }//GEN-LAST:event_jAddButtonActionPerformed
 
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
@@ -349,32 +425,31 @@ public class MoviePanel extends javax.swing.JPanel {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
 
-	    String query = "SELECT * FROM movies WHERE title LIKE ?";
+            String query = "SELECT movie_id, title, rating, released, genre, duration FROM movies WHERE title LIKE ?";
 
-	    PreparedStatement prepStmt = con.prepareStatement(query);
-	    prepStmt.setString(1, searchInput);
-            
-            ResultSet resultSet = prepStmt.executeQuery();
-            resultSet.next();
-            
-            while(resultSet.next()){
                 
-                String id = String.valueOf(resultSet.getInt("movie_id"));
-                String title = resultSet.getString("title");
-                String rating = resultSet.getString("rating");
-                String release_date = resultSet.getString("release_date");
-                String genre = resultSet.getString("genre");
-                String duration = String.valueOf(resultSet.getInt("duration"));
-                
-                String tblData[] = {id, title, rating, release_date, genre, duration};
-                DefaultTableModel tblModel = (DefaultTableModel)jMovieTable.getModel();
-                
+                    PreparedStatement pstmt = con.prepareStatement(query);
+                    pstmt.setString(1, "%" + searchInput + "%");
+                    ResultSet resultSet = pstmt.executeQuery();
+                    
+
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+
+                    while (resultSet.next()) {
+                    int movieId = resultSet.getInt("movie_id");
+                    String title = resultSet.getString("title");
+                    String rating = resultSet.getString("rating");
+                    int released = resultSet.getInt("released");
+                    String genre = resultSet.getString("genre");
+                    int duration = resultSet.getInt("duration");
+
+                    model.addRow(new Object[]{movieId, title, rating, released, genre, duration});
+                    }
+
+            } catch (SQLException e) {
+              System.out.println(e);
             }
-            
-            
-	    } catch (SQLException e) {
-            System.out.println(e);
-	    }
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
     private void jSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchTextActionPerformed
@@ -385,11 +460,98 @@ public class MoviePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRatingTextActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:     
+        
+        try {
+                 Connector connector = new Connector();
+                 Connection con = connector.getConnection();
+
+                 String query = "SELECT movie_id, title, rating, released, genre, duration FROM movies";
+
+                 try (PreparedStatement pstmt = con.prepareStatement(query);
+                      ResultSet resultSet = pstmt.executeQuery()) {
+
+                     DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                     model.setRowCount(0);
+
+                     while (resultSet.next()) {
+                         int movieId = resultSet.getInt("movie_id");
+                         String title = resultSet.getString("title");
+                         String rating = resultSet.getString("rating");
+                         int released = resultSet.getInt("released");
+                         String genre = resultSet.getString("genre");
+                         int duration = resultSet.getInt("duration");
+
+                         model.addRow(new Object[]{movieId, title, rating, released, genre, duration});
+                     }
+                 }
+             } catch (SQLException e) {
+                 System.out.println(e);
+             }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        // TODO add your handling code here:     
+    }//GEN-LAST:event_formMouseMoved
+
+    private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
+        // TODO add your handling code here:
+        
+        //Delete//
+	
+	try {
+
+	    Connector connector = new Connector();
+            Connection con = connector.getConnection();
+
+	    int selectedRow = jMovieTable.getSelectedRow();
+	    int movieid_column = 0;
+ 	    int movie_table_id = (int) jMovieTable.getModel().getValueAt(selectedRow, movieid_column);
+
+            
+            String query = "DELETE FROM movies WHERE movie_id = ?";
+            
+            PreparedStatement prepStmt = con.prepareStatement(query);
+            prepStmt.setInt(1, movie_table_id);
+            
+            prepStmt.executeUpdate();
+
+	} catch (SQLException e) {
+        System.out.println(e);
+	}
+        
+        refreshTable();
+    }//GEN-LAST:event_jDeleteButtonActionPerformed
+
+    private void jMovieTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseReleased
+        // TODO add your handling code here:
+        int selectedRow = jMovieTable.getSelectedRow();
+	    int movie_id_column = 0;
+	    int title_column = 1;
+	    int rating_column = 2;
+	    int release_date_column = 3;
+	    int genre_column = 4;
+	    int duration_column = 5;
+            String movie_id = jMovieTable.getModel().getValueAt(selectedRow, movie_id_column).toString();
+            
+        if(selectedRow!=-1){
+
+	    jTitleText.setText(jMovieTable.getModel().getValueAt(selectedRow, title_column).toString());
+	    jRatingText.setText(jMovieTable.getModel().getValueAt(selectedRow, rating_column).toString());
+	    jReleaseDateText.setText(jMovieTable.getModel().getValueAt(selectedRow, release_date_column).toString());
+	    jGenreText.setText(jMovieTable.getModel().getValueAt(selectedRow, genre_column).toString());
+	    jDurationText.setText(jMovieTable.getModel().getValueAt(selectedRow, duration_column).toString());
+        }
+    }//GEN-LAST:event_jMovieTableMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jAddButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jClearButton;
     private javax.swing.JLabel jDateLabel;
+    private javax.swing.JButton jDeleteButton;
     private javax.swing.JLabel jDurationLabel;
     private javax.swing.JTextField jDurationText;
     private javax.swing.JLabel jGenreLabel;
