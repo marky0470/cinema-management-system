@@ -124,6 +124,7 @@ public class MoviePanel extends javax.swing.JPanel {
 
         jDurationLabel.setText("Duration");
 
+        jMovieTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMovieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -281,14 +282,17 @@ public class MoviePanel extends javax.swing.JPanel {
  	    String movie_id = jMovieTable.getModel().getValueAt(selectedRow, movie_id_column).toString();
 
 	    String query = "UPDATE movies SET (title = ?, rating = ?, release_date = ?, genre = ?, duration = ?) WHERE (movie_id = ?)";
-
 	    PreparedStatement prepStmt = con.prepareStatement(query);
+            
 	    prepStmt.setString(1, title);
             prepStmt.setString(2, rating);
             prepStmt.setString(3, release_date);
             prepStmt.setString(4, genre);
             prepStmt.setString(5, duration);
             prepStmt.setString(6, movie_id);
+            
+            prepStmt.executeUpdate();
+
 	    
 	    } catch (SQLException e) {
             System.out.println(e);
@@ -313,18 +317,22 @@ public class MoviePanel extends javax.swing.JPanel {
         String genre = jGenreText.getText();
         String duration = jDurationText.getText();  
         
+        String query = "INSERT INTO movies (title, rating, release_date, genre, duration) VALUES (?, ?, ?, ?, ?)";
+        
         try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
-
-	    String query = "INSERT INTO movies (title, rating, release_date, genre, duration) VALUES (?, ?, ?, ?, ?)";
-
+            
 	    PreparedStatement prepStmt = con.prepareStatement(query);
+            
 	    prepStmt.setString(1, title);
             prepStmt.setString(2, rating);
             prepStmt.setString(3, release_date);
             prepStmt.setString(4, genre);
             prepStmt.setString(5, duration);
+            
+            prepStmt.executeUpdate();
+
 	    
 	    } catch (SQLException e) {
             System.out.println(e);
