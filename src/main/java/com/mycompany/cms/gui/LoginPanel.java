@@ -167,7 +167,7 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.pack();
             mainForm.setVisible(true);
             loginForm.setVisible(false);
-            
+
             MoviePanel moviePanel = new MoviePanel();
             mainForm.showPanel(moviePanel);
         });

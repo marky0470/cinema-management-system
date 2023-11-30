@@ -8,6 +8,7 @@ import com.mycompany.cms.gui.movies.MoviesPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.mycompany.cms.gui.accounts.AccountsPanel;
 import com.mycompany.cms.gui.bookings.BookingsPanel;
+import com.mycompany.cms.gui.bookings.BookingsTabbedPanel;
 import com.mycompany.cms.gui.cinemas.CinemasPanel;
 import com.mycompany.cms.gui.tickets.TicketsPanel;
 import java.awt.BorderLayout;
@@ -25,6 +26,8 @@ import javax.swing.SwingUtilities;
  */
 public final class MainForm extends javax.swing.JFrame {
 
+    static private JLabel previousActive = null;
+    
     /**
      * Creates new form JLoginFrame
      */
@@ -39,6 +42,9 @@ public final class MainForm extends javax.swing.JFrame {
         jTicketButton.addMouseListener(getMouseAdapter(jTicketButton));
         jCinemaButton.addMouseListener(getMouseAdapter(jCinemaButton));
         jLogOutButton.addMouseListener(getMouseAdapter(jLogOutButton));
+        
+        MoviesPanel moviesPanel = new MoviesPanel();
+        showPanel(moviesPanel, jMoviesButton);
     }
 
     /**
@@ -232,23 +238,24 @@ public final class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jBookingsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBookingsButtonMouseClicked
-        BookingsPanel bookingsPanel = new BookingsPanel();
-        showPanel(bookingsPanel);
+//        BookingsPanel bookingsPanel = new BookingsPanel();
+        BookingsTabbedPanel bookingsPanel = new BookingsTabbedPanel();
+        showPanel(bookingsPanel, jBookingsButton);
     }//GEN-LAST:event_jBookingsButtonMouseClicked
 
     private void jMoviesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMoviesButtonMouseClicked
         MoviesPanel moviesPanel = new MoviesPanel();
-        showPanel(moviesPanel);
+        showPanel(moviesPanel, jMoviesButton);
     }//GEN-LAST:event_jMoviesButtonMouseClicked
 
     private void jTicketButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTicketButtonMouseClicked
         TicketsPanel ticketsPanel = new TicketsPanel();
-        showPanel(ticketsPanel);
+        showPanel(ticketsPanel, jTicketButton);
     }//GEN-LAST:event_jTicketButtonMouseClicked
 
     private void jCinemaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCinemaButtonMouseClicked
         CinemasPanel cinemasPanel = new CinemasPanel();
-        showPanel(cinemasPanel);
+        showPanel(cinemasPanel, jCinemaButton);
     }//GEN-LAST:event_jCinemaButtonMouseClicked
 
     private void jAccountButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jAccountButtonMouseClicked
@@ -260,16 +267,18 @@ public final class MainForm extends javax.swing.JFrame {
         return new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                System.out.println(label.getText());
-                label.setBackground(new Color(242,242,242));
-                label.setForeground(new Color(239, 124, 18));
+                if (previousActive != label) {
+                    label.setBackground(new Color(242,242,242));
+                    label.setForeground(new Color(239, 124, 18));
+                }
             }
             
             @Override
             public void mouseExited(MouseEvent e) {
-                System.out.println("Exit");
-                label.setBackground(new Color(239, 124, 18));
-                label.setForeground(Color.WHITE);
+                if (previousActive != label) {
+                    label.setBackground(new Color(239, 124, 18));
+                    label.setForeground(Color.WHITE);
+                }
             }
         };
     }
@@ -290,21 +299,25 @@ public final class MainForm extends javax.swing.JFrame {
             mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             mainWindow.pack();
             mainWindow.setVisible(true);
-            MoviesPanel moviesPanel = new MoviesPanel();
-            mainWindow.showPanel(moviesPanel);
+//            MoviesPanel moviesPanel = new MoviesPanel();
+//            mainWindow.showPanel(moviesPanel);
         });
     }
     
-    public void showPanel(JPanel panel) {
-//        JPanel compositePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0,0));
-//        NavbarPanel navbarPanel = new NavbarPanel(this);
-//        compositePanel.add(navbarPanel);
-//        compositePanel.add(panel);
-//        setContentPane(compositePanel);
+    public void showPanel(JPanel panel, JLabel labelButton) {
+        labelButton.setBackground(new Color(242,242,242));
+        labelButton.setForeground(new Color(239, 124, 18));
         jContentPanel.removeAll();
         jContentPanel.add(panel, BorderLayout.CENTER);
         revalidate();
         repaint();
+        
+        if (previousActive != null && previousActive != labelButton) {
+            previousActive.setBackground(new Color(239, 124, 18));
+            previousActive.setForeground(Color.WHITE);
+        }
+        
+        previousActive = labelButton;
     }
     
     
