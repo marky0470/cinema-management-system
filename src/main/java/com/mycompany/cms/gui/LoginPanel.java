@@ -4,7 +4,7 @@
  */
 package com.mycompany.cms.gui;
 
-import com.mycompany.cms.gui.movies.MoviesPanel;
+import com.mycompany.cms.gui.movies.MoviePanel;
 import com.mycompany.cms.util.Connector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -167,9 +167,9 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.pack();
             mainForm.setVisible(true);
             loginForm.setVisible(false);
-            
-//            MoviesPanel moviesPanel = new MoviesPanel();
-//            mainForm.showPanel(moviesPanel);
+
+            MoviePanel moviePanel = new MoviePanel();
+            mainForm.showPanel(moviePanel);
         });
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -184,8 +184,8 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.setVisible(true);
             loginForm.setVisible(false);
             if (isAdmin) {
-//                MoviesPanel moviesPanel = new MoviesPanel();
-//                mainForm.showPanel(moviesPanel);
+                MoviePanel moviePanel = new MoviePanel();
+                mainForm.showPanel(moviePanel);
             } else {
                 System.out.println("Staff dash not yet implemented");
 //                mainForm.showStaffDashboardPanel();
