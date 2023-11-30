@@ -249,8 +249,8 @@ public final class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMoviesButtonMouseClicked
 
     private void jTicketButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTicketButtonMouseClicked
-        TicketsPanel ticketsPanel = new TicketsPanel();
-        showPanel(ticketsPanel, jTicketButton);
+        AdminScreening adminScreening = new AdminScreening();
+        showPanel(adminScreening, jTicketButton);
     }//GEN-LAST:event_jTicketButtonMouseClicked
 
     private void jCinemaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCinemaButtonMouseClicked
