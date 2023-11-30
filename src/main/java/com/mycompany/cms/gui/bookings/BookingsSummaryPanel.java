@@ -4,17 +4,94 @@
  */
 package com.mycompany.cms.gui.bookings;
 
+import com.mycompany.cms.models.Ticket;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author francisjamestolentino
  */
 public class BookingsSummaryPanel extends javax.swing.JPanel {
 
+    private float total = 0;
+    private Connection conn;
+    private BookingsTabbedPanel panel;
+    private DefaultTableModel model;
+    
     /**
      * Creates new form BookingsSummaryPanel
+     * @param panel
      */
-    public BookingsSummaryPanel() {
+    public BookingsSummaryPanel(BookingsTabbedPanel panel) {
         initComponents();
+        
+        this.panel = panel;
+        this.conn = panel.getDBConnection();
+        refreshTableModel();
+    }
+    
+    private void refreshTableModel() {
+        this.model = new DefaultTableModel(new String[]{"Screening ID", "Date", "Time", "Seat", "Price"}, 0);
+    }
+    
+    public void refresh() {
+        refreshTableModel();
+        displayMovieDetails();
+        displayTickets();
+    }
+    
+    private void displayMovieDetails() {
+        BufferedImage image = this.panel.getMoviePoster();
+        Date screeningDate = this.panel.getScreeningDate();
+        String title = this.panel.getMovieTitle();
+        Time timeStart = this.panel.getScreeningTimeStart();
+        Time timeEnd = this.panel.getScreeningTimeEnd();
+        
+        if (image != null) {        
+            ImageIcon imageIcon = new ImageIcon(image);
+
+            int panelWidth = jPosterPanel.getWidth();
+            int panelHeight = jPosterPanel.getHeight();
+
+            Image scaledImage = imageIcon.getImage().getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
+            JLabel poster = new JLabel(new ImageIcon(scaledImage));
+
+            jPosterPanel.removeAll();
+            jPosterPanel.add(poster);
+            jTitleLabel.setText(title);
+            jDateTextField.setText(screeningDate.toString());
+            jTimeStartTextField.setText(timeStart.toString());
+            jTimeEndTextField.setText(timeEnd.toString());
+        }
+    }
+    
+    private void displayTickets() {
+        ArrayList<Ticket> tickets = this.panel.getTickets();
+        for (Ticket ticket : tickets) {
+            int screeningId = ticket.getScreeningId();
+            Date date = ticket.getDate();
+            Time time = ticket.getTime();
+            String seat = ticket.getSeat();
+            float price = ticket.getPrice();
+            total += price;
+            model.addRow(new Object[]{screeningId, date, time, seat, price});
+        }
+        NumberFormat formatter = NumberFormat.getInstance();
+        jTotalLabel.setText("PHP " + formatter.format(total));
+        jTable1.setModel(model);
     }
 
     /**
@@ -26,19 +103,261 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
+        jPanel1 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTitleLabel = new javax.swing.JLabel();
+        jPosterPanel = new javax.swing.JPanel();
+        jDateTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTimeStartTextField = new javax.swing.JTextField();
+        jTimeEndTextField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jContinueButton = new javax.swing.JButton();
+        jBackButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTotalLabel = new javax.swing.JLabel();
+
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(1140, 800));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(400, 600));
+
+        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel3.setText("Tickets Summary");
+
+        jTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTitleLabel.setText("Movie Title");
+
+        jPosterPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPosterPanel.setPreferredSize(new java.awt.Dimension(405, 405));
+        jPosterPanel.setRequestFocusEnabled(false);
+        jPosterPanel.setLayout(new java.awt.BorderLayout());
+
+        jDateTextField.setText("jTextField1");
+        jDateTextField.setFocusable(false);
+
+        jLabel2.setText("Date:");
+
+        jTimeStartTextField.setText("jTextField1");
+        jTimeStartTextField.setFocusable(false);
+
+        jTimeEndTextField.setText("jTextField1");
+        jTimeEndTextField.setFocusable(false);
+
+        jLabel4.setText("Time Start");
+
+        jLabel5.setText("Time End:");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jDateTextField)
+                        .addComponent(jPosterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jTitleLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jTimeStartTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jTimeEndTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPosterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(4, 4, 4)
+                .addComponent(jDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTimeStartTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTimeEndTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
+
+        jPanel1.add(jPanel6, java.awt.BorderLayout.WEST);
+
+        jPanel7.setPreferredSize(new java.awt.Dimension(594, 600));
+        jPanel7.setSize(new java.awt.Dimension(594, 600));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.setRowHeight(25);
+        jScrollPane1.setViewportView(jTable1);
+
+        jContinueButton.setText("Continue");
+        jContinueButton.setPreferredSize(new java.awt.Dimension(150, 35));
+        jContinueButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jContinueButtonActionPerformed(evt);
+            }
+        });
+
+        jBackButton.setText("Back");
+        jBackButton.setPreferredSize(new java.awt.Dimension(150, 35));
+        jBackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBackButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel1.setText("TOTAL:");
+
+        jTotalLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jTotalLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jTotalLabel.setText("jLabel6");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addComponent(jBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jContinueButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTotalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jContinueButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39))
+        );
+
+        jPanel1.add(jPanel7, java.awt.BorderLayout.CENTER);
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jContinueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jContinueButtonActionPerformed
+        ArrayList<Ticket> tickets = this.panel.getTickets();
+        for (Ticket ticket : tickets) {
+            try {
+                String sql = """
+                             INSERT INTO `tickets`(
+                                `time`,
+                                `date`,
+                                `screening_id`,
+                                `seat`,
+                                `price`
+                            )
+                            VALUES(
+                                ?,
+                                ?,
+                                ?,
+                                ?,
+                                ?
+                            )
+                            """;
+                PreparedStatement statement = conn.prepareStatement(sql);
+                statement.setTime(1, ticket.getTime());
+                statement.setDate(2, new java.sql.Date(ticket.getDate().getTime()));
+                statement.setInt(3, ticket.getScreeningId());
+                statement.setString(4, ticket.getSeat());
+                statement.setFloat(5, ticket.getPrice());
+                
+                statement.execute();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+                JOptionPane.showMessageDialog(this, "Order unsuccessful, please try again", "Error Occured", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        
+        JOptionPane.showMessageDialog(this, "Tickets successfully punched!", "Tickets Ordered", JOptionPane.INFORMATION_MESSAGE);
+        this.panel.openMoviesTab();
+    }//GEN-LAST:event_jContinueButtonActionPerformed
+
+    private void jBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackButtonActionPerformed
+        this.panel.openSeatsTab();
+    }//GEN-LAST:event_jBackButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBackButton;
+    private javax.swing.JButton jContinueButton;
+    private javax.swing.JTextField jDateTextField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPosterPanel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTimeEndTextField;
+    private javax.swing.JTextField jTimeStartTextField;
+    private javax.swing.JLabel jTitleLabel;
+    private javax.swing.JLabel jTotalLabel;
     // End of variables declaration//GEN-END:variables
 }
