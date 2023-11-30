@@ -130,11 +130,11 @@ public class MoviePanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Title ", "Rating", "Release date", "Genre", "Duration", "Action"
+                "ID", "Title ", "Rating", "Release date", "Genre", "Duration"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -145,12 +145,12 @@ public class MoviePanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jMovieTable);
         if (jMovieTable.getColumnModel().getColumnCount() > 0) {
             jMovieTable.getColumnModel().getColumn(0).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(0).setPreferredWidth(50);
             jMovieTable.getColumnModel().getColumn(1).setResizable(false);
             jMovieTable.getColumnModel().getColumn(2).setResizable(false);
             jMovieTable.getColumnModel().getColumn(3).setResizable(false);
             jMovieTable.getColumnModel().getColumn(4).setResizable(false);
             jMovieTable.getColumnModel().getColumn(5).setResizable(false);
-            jMovieTable.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jRatingText.addActionListener(new java.awt.event.ActionListener() {
@@ -313,11 +313,11 @@ public class MoviePanel extends javax.swing.JPanel {
         
         String title = jTitleText.getText();
         String rating = jRatingText.getText();
-        String release_date = jReleaseDateText.getText();
+        int released = Integer.parseInt((jReleaseDateText.getText()));
         String genre = jGenreText.getText();
-        String duration = jDurationText.getText();  
+        int duration = Integer.parseInt(jDurationText.getText());  
         
-        String query = "INSERT INTO movies (title, rating, release_date, genre, duration) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO movies (title, rating, released, genre, duration) VALUES (?, ?, ?, ?, ?)";
         
         try {
             Connector connector = new Connector();
@@ -327,9 +327,9 @@ public class MoviePanel extends javax.swing.JPanel {
             
 	    prepStmt.setString(1, title);
             prepStmt.setString(2, rating);
-            prepStmt.setString(3, release_date);
+            prepStmt.setInt(3, released);
             prepStmt.setString(4, genre);
-            prepStmt.setString(5, duration);
+            prepStmt.setInt(5, duration);
             
             prepStmt.executeUpdate();
 
