@@ -27,34 +27,34 @@ public class MoviePanel extends javax.swing.JPanel {
 
     }
     
-        private void refreshTable() {       
-            try {
-                     Connector connector = new Connector();
-                     Connection con = connector.getConnection();
+    private void refreshTable() {       
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
 
-                     String query = "SELECT movie_id, title, rating, released, genre, duration FROM movies";
+            String query = "SELECT movie_id, title, rating, released, genre, duration FROM movies";
 
-                     try (PreparedStatement pstmt = con.prepareStatement(query);
-                          ResultSet resultSet = pstmt.executeQuery()) {
+                try (PreparedStatement pstmt = con.prepareStatement(query);
+                    ResultSet resultSet = pstmt.executeQuery()) {
 
-                         DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
-                         model.setRowCount(0);
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
 
-                         while (resultSet.next()) {
-                             int movieId = resultSet.getInt("movie_id");
-                             String title = resultSet.getString("title");
-                             String rating = resultSet.getString("rating");
-                             int released = resultSet.getInt("released");
-                             String genre = resultSet.getString("genre");
-                             int duration = resultSet.getInt("duration");
+                    while (resultSet.next()) {
+                    int movieId = resultSet.getInt("movie_id");
+                    String title = resultSet.getString("title");
+                    String rating = resultSet.getString("rating");
+                    int released = resultSet.getInt("released");
+                    String genre = resultSet.getString("genre");
+                    int duration = resultSet.getInt("duration");
 
-                             model.addRow(new Object[]{movieId, title, rating, released, genre, duration});
-                         }
-                     }
-                 } catch (SQLException e) {
-                     System.out.println(e);
-                 }
+                    model.addRow(new Object[]{movieId, title, rating, released, genre, duration});
+                    }
                 }
+            } catch (SQLException e) {
+              System.out.println(e);
+            }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
