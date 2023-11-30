@@ -7,16 +7,12 @@ package com.mycompany.cms.gui.bookings;
 import com.mycompany.cms.util.Connector;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -46,82 +42,72 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
     }
     
     public void refresh() {
-        int id = this.panel.selectedMovieId;
-        getMovieDetails(id);
+        int id = this.panel.getSelectedMovieId();
+        
+        displayMovieDetails();
+        getMovieScreenings(id);
     }
     
-    private void getMovieDetails(int id) {
+    private void displayMovieDetails() {
+        BufferedImage image = this.panel.getMoviePoster();
+        Date screeningDate = this.panel.getScreeningDate();
+        String title = this.panel.getMovieTitle();
+        
+        if (image != null) {        
+            ImageIcon imageIcon = new ImageIcon(image);
+
+            int panelWidth = jPosterPanel.getWidth();
+            int panelHeight = jPosterPanel.getHeight();
+
+            Image scaledImage = imageIcon.getImage().getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
+            JLabel poster = new JLabel(new ImageIcon(scaledImage));
+
+            jPosterPanel.removeAll();
+            jPosterPanel.add(poster);
+            jTitleLabel.setText(title);
+            jDateTextField.setText(screeningDate.toString());
+        }
+    }
+    
+    private void getMovieScreenings(int id) {
         try {
+            Date screeningDate = this.panel.getScreeningDate();
+            if (screeningDate == null) return;
             String sql = """
                         SELECT
-                            *,
-                            220 - COUNT(ticket_id) as available_seats
-                        FROM
-                            (
-                            SELECT
-                                screening.screening_id,
-                                movies.title,
-                                screening.price,
-                                movies.image,
-                                screening.movie_id,
-                                screening.time_start,
-                                screening.time_end,
-                                screening.date_start,
-                                screening.date_end,
-                                cinemas.name,
-                                cinemas.type,
-                                tickets.ticket_id
-                            FROM
-                                (
-                                    (
-                                        screening
-                                    LEFT JOIN movies ON screening.movie_id = movies.movie_id
-                                    LEFT JOIN cinemas ON screening.cinema_id = cinemas.cinema_id
-                                    )
-                                LEFT JOIN tickets ON screening.screening_id = tickets.screening_id
-                                )
-                        ) screening
-                        WHERE
-                            screening.movie_id = ? AND(
-                                ? BETWEEN screening.date_start AND screening.date_end
-                            )
-                        GROUP BY
-                            screening.screening_id;;
+                            	screening.*,
+                                movies.*,
+                                cinemas.*, 
+                                tickets.*,
+                                220 - COUNT(tickets.ticket_id) as available_seats
+                            FROM 
+                            	screening
+                            JOIN movies ON screening.movie_id = movies.movie_id
+                            JOIN cinemas ON screening.cinema_id = cinemas.cinema_id
+                            LEFT JOIN tickets ON screening.screening_id = tickets.screening_id
+                            WHERE screening.movie_id = ? AND screening.date = ?
+                            GROUP BY time_start, time_end
+                            ORDER BY screening.screening_id;
                          """;
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            preparedStatement.setDate(2, new java.sql.Date(new Date().getTime()));
+            preparedStatement.setDate(2, new java.sql.Date(screeningDate.getTime()));
             ResultSet result = preparedStatement.executeQuery();
             
-            DefaultTableModel model = new DefaultTableModel(new String[] {"Time Start", "Time End", "Cinema", "Type", "Available Seats"}, 0);
+            DefaultTableModel model = new DefaultTableModel(new String[] {"Screening ID", "Time Start", "Time End", "Cinema", "Type", "Available Seats", "Price"}, 0);
                        
             int index = 0;
             while(result.next()) {
-                if (index == 0) {
-                    String title = result.getString("title");
-                    BufferedImage im = ImageIO.read(result.getBinaryStream("image"));
-                    
-                    ImageIcon imageIcon = new ImageIcon(im);
-                    
-                    int panelWidth = jPosterPanel.getWidth();
-                    int panelHeight = jPosterPanel.getHeight();
-                    
-                    Image scaledImage = imageIcon.getImage().getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
-                    
-                    JLabel poster = new JLabel(new ImageIcon(scaledImage));
-                    jPosterPanel.removeAll();
-                    jPosterPanel.add(poster);
-                    jTitleLabel.setText(title);
-                }
-                
+                int screeningId = result.getInt("screening_id");
                 Time timeStart = result.getTime("time_start");
                 Time timeEnd = result.getTime("time_end");
                 int cinema = result.getInt("name");
                 String type = result.getString("type");
                 int availableSeats = result.getInt("available_seats");
+                int price = result.getInt("price");
                 
                 
-                model.addRow(new Object[] {timeStart, timeEnd, cinema, type, availableSeats});
+                model.addRow(new Object[] {screeningId, timeStart, timeEnd, cinema, type, availableSeats, price});
                 index++;
             }
             
@@ -129,8 +115,6 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
             
         } catch (SQLException e) {
             System.out.println(e.toString());
-        } catch (IOException ex) {
-            Logger.getLogger(BookingsSchedulesPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -154,6 +138,8 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jQuantityTextField = new javax.swing.JTextField();
+        jDateTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jContinueButton = new javax.swing.JButton();
         jBackButton = new javax.swing.JButton();
 
@@ -187,9 +173,8 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
                 .addContainerGap(50, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPosterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)))
+                    .addComponent(jTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -219,37 +204,54 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable1.setRowHeight(25);
-        jTable1.setRowSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
-        jLabel1.setText("Quantity");
-
-        jQuantityTextField.setPreferredSize(new java.awt.Dimension(78, 30));
-        jQuantityTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jQuantityTextFieldActionPerformed(evt);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable1.setRowHeight(25);
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setText("Quantity:");
+
+        jQuantityTextField.setPreferredSize(new java.awt.Dimension(78, 30));
+
+        jDateTextField.setText("jTextField1");
+        jDateTextField.setFocusable(false);
+
+        jLabel2.setText("Date:");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jQuantityTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateTextField)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -274,16 +276,16 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
+                .addContainerGap(52, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jContinueButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
                         .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,23 +313,39 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
     private void jContinueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jContinueButtonActionPerformed
         String quantity = jQuantityTextField.getText();
         
+        int row = jTable1.getSelectedRow();
+        
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a screening schedule first", "Select Schedule", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         if (quantity.isBlank() || quantity.isEmpty() || quantity.matches(".*[a-zA-Z].*")) {
             JOptionPane.showMessageDialog(this, "Invalid Quantity! Please make sure quantity is valid", "Invalid Quantity", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
+        int selectedScreeningId = (int) jTable1.getValueAt(row, 0);
+        Time timeStart = (Time) jTable1.getValueAt(row, 1);
+        Time timeEnd = (Time) jTable1.getValueAt(row, 2);
+        int price = (int) jTable1.getValueAt(row, 6);
+        
+        jQuantityTextField.setText("");
+        this.panel.setSelectedScreeningId(selectedScreeningId);
+        this.panel.setTicketQuantity(Integer.parseInt(quantity));
+        this.panel.setScreeningTimeStart(timeStart);
+        this.panel.setScreeningTimeEnd(timeEnd);
+        this.panel.setPrice(price);
         this.panel.openSeatsTab();
     }//GEN-LAST:event_jContinueButtonActionPerformed
-
-    private void jQuantityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jQuantityTextFieldActionPerformed
-
-    }//GEN-LAST:event_jQuantityTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBackButton;
     private javax.swing.JButton jContinueButton;
+    private javax.swing.JTextField jDateTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel6;

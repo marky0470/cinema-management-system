@@ -4,18 +4,37 @@
  */
 package com.mycompany.cms.gui.bookings;
 
+import com.mycompany.cms.models.Ticket;
+import com.mycompany.cms.util.Connector;
+import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author francisjamestolentino
  */
 public class BookingsTabbedPanel extends javax.swing.JPanel {
     
-    public int selectedMovieId;
+    final private Connection connection = new Connector().getConnection();
+    
+    private ArrayList<Ticket> tickets;
+    private int selectedMovieId;
+    private int selectedScreeningId;
+    private int ticketQuantity;
+    private Date screeningDate;
+    private Time screeningTimeStart;
+    private Time screeningTimeEnd;
+    private int price;
+    private BufferedImage moviePoster;
+    private String movieTitle;
     
     BookingsPanel bookingsPanel = new BookingsPanel(this);
     BookingsSchedulesPanel bookingsSchedulesPanel = new BookingsSchedulesPanel(this);
-    BookingsSeatPanel bookingsSeatPanel = new BookingsSeatPanel();
-    BookingsSummaryPanel bookingsSummaryPanel = new BookingsSummaryPanel();
+    BookingsSeatPanel bookingsSeatPanel = new BookingsSeatPanel(this);
+    BookingsSummaryPanel bookingsSummaryPanel = new BookingsSummaryPanel(this);
 
     /**
      * Creates new form BookingsTabbedPanel
@@ -32,7 +51,87 @@ public class BookingsTabbedPanel extends javax.swing.JPanel {
     }
     
     public void setSelectedMovieId(int id) {
-        selectedMovieId = id;
+        this.selectedMovieId = id;
+    }
+    
+    public int getSelectedMovieId() {
+        return this.selectedMovieId;
+    }
+    
+    public void setSelectedScreeningId(int id) {
+        this.selectedScreeningId = id;
+    }
+    
+    public int getSelectedScreeningId() {
+        return this.selectedScreeningId;
+    }
+    
+    public void setTicketQuantity(int quantity) {
+        this.ticketQuantity = quantity;
+    }
+    
+    public int getTicketQuantity() {
+        return this.ticketQuantity;
+    }
+    
+    public void setMoviePoster(BufferedImage image) {
+        this.moviePoster = image;
+    }
+    
+    public BufferedImage getMoviePoster() {
+        return this.moviePoster;
+    }   
+    
+    public void setMovieTitle(String title) {
+        this.movieTitle = title;
+    }
+    
+    public String getMovieTitle() {
+        return this.movieTitle;
+    }
+    
+    public void setScreeningDate(Date screeningDate) {
+        this.screeningDate = screeningDate;
+    }
+    
+    public Date getScreeningDate() {
+        return this.screeningDate;
+    }
+    
+    public void setScreeningTimeStart(Time timeStart) {
+        this.screeningTimeStart = timeStart;
+    }
+    
+    public Time getScreeningTimeStart() {
+        return this.screeningTimeStart;
+    }
+    
+    public void setScreeningTimeEnd(Time timeEnd){
+        this.screeningTimeEnd = timeEnd;
+    }
+    
+    public Time getScreeningTimeEnd() {
+        return this.screeningTimeEnd;
+    }
+    
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    
+    public int getPrice() {
+        return this.price;
+    }
+    
+    public void setTickets(ArrayList<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+    
+    public ArrayList<Ticket> getTickets() {
+        return this.tickets;
+    }
+    
+    public Connection getDBConnection() {
+        return this.connection;
     }
     
     private void setEnabledTabs(int index) {
@@ -69,6 +168,7 @@ public class BookingsTabbedPanel extends javax.swing.JPanel {
         jTabbedPane.setSelectedIndex(2);
         jTabbedPane.revalidate();
         jTabbedPane.repaint();
+        bookingsSeatPanel.refresh();
         revalidate();
         repaint();
     }
@@ -78,6 +178,7 @@ public class BookingsTabbedPanel extends javax.swing.JPanel {
         jTabbedPane.setSelectedIndex(3);
         jTabbedPane.revalidate();
         jTabbedPane.repaint();
+        bookingsSummaryPanel.refresh();
         revalidate();
         repaint();
     }

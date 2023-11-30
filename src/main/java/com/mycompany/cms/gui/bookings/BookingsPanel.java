@@ -81,8 +81,7 @@ public class BookingsPanel extends javax.swing.JPanel {
                          FROM
                             (
                                 SELECT
-                                    screening.date_start,
-                                    screening.date_end,
+                                    screening.date,
                                     movies.movie_id,
                                     movies.title,
                                     movies.image
@@ -91,7 +90,7 @@ public class BookingsPanel extends javax.swing.JPanel {
                                 LEFT JOIN movies ON screening.movie_id = movies.movie_id
                             ) screening
                          WHERE 
-                            (? BETWEEN screening.date_start AND screening.date_end) AND 
+                            (screening.date = ?) AND 
                             (title LIKE ?);
                          """;
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -110,24 +109,23 @@ public class BookingsPanel extends javax.swing.JPanel {
             Date date = getSelectedDate();
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             String sql = """
-                        SELECT 
-                            DISTINCT(title),
-                            image, 
+                        SELECT DISTINCT
+                            (title),
+                            image,
                             movie_id
-                        FROM 
+                        FROM
                             (
-                                SELECT 
-                                    screening.date_start,
-                                    screening.date_end,
-                                    movies.movie_id,
-                                    movies.title,
-                                    movies.image
-                                FROM 
-                                    screening
-                                LEFT JOIN movies on screening.movie_id = movies.movie_id
-                            ) screening
+                            SELECT
+                                screening.date,
+                                movies.movie_id,
+                                movies.title,
+                                movies.image
+                            FROM
+                                screening
+                            LEFT JOIN movies ON screening.movie_id = movies.movie_id
+                        ) screening
                         WHERE
-                            ? BETWEEN screening.date_start AND screening.date_end;""";
+                            screening.date = ?;""";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setDate(1, sqlDate);
             ResultSet result = st.executeQuery();
@@ -201,7 +199,7 @@ public class BookingsPanel extends javax.swing.JPanel {
         titleLabel.setPreferredSize(new Dimension(180, 20));
         cardPanel.add(titleLabel);
         
-        cardPanel.addMouseListener(getMouseListener(movieId, title, cardPanel));
+        cardPanel.addMouseListener(getMouseListener(movieId, title, image, cardPanel));
 
         return cardPanel;
     }
@@ -218,11 +216,14 @@ public class BookingsPanel extends javax.swing.JPanel {
         };
     }
     
-    private MouseAdapter getMouseListener(int id, String title, JPanel card) {
+    private MouseAdapter getMouseListener(int id, String title, BufferedImage image, JPanel card) {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 BookingsPanel.this.panel.setSelectedMovieId(id);
+                BookingsPanel.this.panel.setMovieTitle(title);
+                BookingsPanel.this.panel.setMoviePoster(image);
+                BookingsPanel.this.panel.setScreeningDate(getSelectedDate());
                 BookingsPanel.this.panel.openSchedulesTab();
             }
             
