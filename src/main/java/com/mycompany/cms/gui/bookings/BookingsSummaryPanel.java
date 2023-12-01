@@ -172,7 +172,7 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel6Layout.createSequentialGroup()
                                     .addComponent(jTimeStartTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addGap(0, 0, Short.MAX_VALUE)))
@@ -233,7 +233,10 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
         jTable1.setRowHeight(25);
         jScrollPane1.setViewportView(jTable1);
 
+        jContinueButton.setBackground(new java.awt.Color(239, 124, 18));
+        jContinueButton.setForeground(new java.awt.Color(242, 242, 242));
         jContinueButton.setText("Continue");
+        jContinueButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 124, 18), 1, true));
         jContinueButton.setPreferredSize(new java.awt.Dimension(150, 35));
         jContinueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,7 +244,10 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
             }
         });
 
+        jBackButton.setBackground(new java.awt.Color(242, 242, 242));
+        jBackButton.setForeground(new java.awt.Color(239, 124, 18));
         jBackButton.setText("Back");
+        jBackButton.setBorder(null);
         jBackButton.setPreferredSize(new java.awt.Dimension(150, 35));
         jBackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
