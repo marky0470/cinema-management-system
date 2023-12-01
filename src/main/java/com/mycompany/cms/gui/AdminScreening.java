@@ -10,8 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import java.sql.Time;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,10 +23,49 @@ public class AdminScreening extends javax.swing.JPanel {
     /**
      * Creates new form AdminScreening
      */
+    
+    //AdminScreening adminScreening = new AdminScreening();
+    //    showPanel(adminScreening);
+    
+    
     public AdminScreening() {
         initComponents();
+        refreshTable();
+        jEditButton.setVisible(false);
+        jEditButton.setEnabled(false);
+        jDeleteButton.setVisible(false);
+        jDeleteButton.setEnabled(false);
     }
+    
+    private void refreshTable() {
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+            
+            String query = "SELECT screening_id, movie_id, cinema_id, time_start, time_end, date, price FROM screening";
+            
+            try (PreparedStatement pstmt = con.prepareStatement(query);
+                    ResultSet resultSet = pstmt.executeQuery()) {
 
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+
+                    while (resultSet.next()) {
+                    int screeningId = resultSet.getInt("screening_id");
+                    int movieId = resultSet.getInt("movie_id");
+                    int cinemaId = resultSet.getInt("cinema_id");
+                    Time timeStart = resultSet.getTime("time_start");
+                    Time timeEnd = resultSet.getTime("time_end");
+                    Date date = resultSet.getDate("date");
+                    int price = resultSet.getInt("price");
+
+                    model.addRow(new Object[]{screeningId, movieId, cinemaId, timeStart, timeEnd, date, price});
+                    }
+                }
+            } catch (SQLException e) {
+              System.out.println(e);
+              }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,70 +78,61 @@ public class AdminScreening extends javax.swing.JPanel {
         jMovieLabel = new javax.swing.JLabel();
         jScreenLabel = new javax.swing.JLabel();
         jAddDateButton = new javax.swing.JButton();
-        jShowDateLabel = new javax.swing.JLabel();
-        jTimeLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jShowDateLabel1 = new javax.swing.JLabel();
-        jTimeLabel1 = new javax.swing.JLabel();
-        jTimeLabel2 = new javax.swing.JLabel();
-        jShowDateLabel2 = new javax.swing.JLabel();
+        jMovieTable = new javax.swing.JTable();
         jSearchField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
-        jEndtime3 = new javax.swing.JLabel();
-        jEndtime2 = new javax.swing.JLabel();
-        jEndtime1 = new javax.swing.JLabel();
         jClearAllButton = new javax.swing.JButton();
         jAddShowtimeButton = new javax.swing.JButton();
         jCinemaDateLabel = new javax.swing.JLabel();
-        jDeleteButton1 = new javax.swing.JButton();
-        jEditButton1 = new javax.swing.JButton();
-        jDeleteButton2 = new javax.swing.JButton();
-        jEditButton2 = new javax.swing.JButton();
-        jEditButton3 = new javax.swing.JButton();
-        jDeleteButton3 = new javax.swing.JButton();
-        jDeleteButton5 = new javax.swing.JButton();
-        jEditButton5 = new javax.swing.JButton();
-        jEditButton6 = new javax.swing.JButton();
-        jDeleteButton6 = new javax.swing.JButton();
-        jDeleteButton4 = new javax.swing.JButton();
-        jEditButton4 = new javax.swing.JButton();
-        jEditButton9 = new javax.swing.JButton();
-        jEditButton7 = new javax.swing.JButton();
-        jEditButton8 = new javax.swing.JButton();
-        jDeleteButton8 = new javax.swing.JButton();
-        jDeleteButton7 = new javax.swing.JButton();
-        jDeleteButton9 = new javax.swing.JButton();
-        jEditButton13 = new javax.swing.JButton();
-        jEditButton18 = new javax.swing.JButton();
-        jEditButton16 = new javax.swing.JButton();
-        jEditButton17 = new javax.swing.JButton();
-        jDeleteButton17 = new javax.swing.JButton();
-        jDeleteButton16 = new javax.swing.JButton();
-        jDeleteButton18 = new javax.swing.JButton();
-        jDeleteButton11 = new javax.swing.JButton();
-        jEditButton11 = new javax.swing.JButton();
-        jEditButton12 = new javax.swing.JButton();
-        jDeleteButton12 = new javax.swing.JButton();
-        jDeleteButton14 = new javax.swing.JButton();
-        jEditButton14 = new javax.swing.JButton();
-        jDeleteButton10 = new javax.swing.JButton();
-        jEditButton15 = new javax.swing.JButton();
-        jEditButton10 = new javax.swing.JButton();
-        jDeleteButton15 = new javax.swing.JButton();
-        jDeleteButton13 = new javax.swing.JButton();
-        jEditButton20 = new javax.swing.JButton();
-        jEditButton19 = new javax.swing.JButton();
-        jDeleteButton19 = new javax.swing.JButton();
-        jDeleteButton20 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
-        jSpinner3 = new javax.swing.JSpinner();
         jMovieDropDown = new javax.swing.JComboBox<>();
         jScreenDropDown = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        jEndtime1 = new javax.swing.JLabel();
+        jShowDateLabel = new javax.swing.JLabel();
+        jTimeLabel = new javax.swing.JLabel();
+        jShowDate1 = new javax.swing.JSpinner();
         jTimeDropDown1 = new javax.swing.JComboBox<>();
-        jTimeDropDown3 = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
+        jTimeLabel1 = new javax.swing.JLabel();
+        jEndtime2 = new javax.swing.JLabel();
+        jShowDateLabel1 = new javax.swing.JLabel();
+        jShowDate2 = new javax.swing.JSpinner();
         jTimeDropDown2 = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jTimeLabel3 = new javax.swing.JLabel();
+        jShowDateLabel3 = new javax.swing.JLabel();
+        jEndtime4 = new javax.swing.JLabel();
+        jShowDate3 = new javax.swing.JSpinner();
+        jTimeDropDown4 = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        jTimeLabel2 = new javax.swing.JLabel();
+        jShowDateLabel2 = new javax.swing.JLabel();
+        jEndtime3 = new javax.swing.JLabel();
+        jShowDate4 = new javax.swing.JSpinner();
+        jTimeDropDown3 = new javax.swing.JComboBox<>();
+        jPanel5 = new javax.swing.JPanel();
+        jTimeLabel4 = new javax.swing.JLabel();
+        jShowDateLabel4 = new javax.swing.JLabel();
+        jEndtime5 = new javax.swing.JLabel();
+        jSpinner5 = new javax.swing.JSpinner();
+        jTimeDropDown5 = new javax.swing.JComboBox<>();
+        jPanel6 = new javax.swing.JPanel();
+        jTimeLabel5 = new javax.swing.JLabel();
+        jShowDateLabel5 = new javax.swing.JLabel();
+        jEndtime6 = new javax.swing.JLabel();
+        jSpinner6 = new javax.swing.JSpinner();
+        jTimeDropDown6 = new javax.swing.JComboBox<>();
+        jPanel7 = new javax.swing.JPanel();
+        jTimeLabel6 = new javax.swing.JLabel();
+        jShowDateLabel6 = new javax.swing.JLabel();
+        jEndtime7 = new javax.swing.JLabel();
+        jSpinner7 = new javax.swing.JSpinner();
+        jTimeDropDown7 = new javax.swing.JComboBox<>();
+        jEditButton = new javax.swing.JButton();
+        jDeleteButton = new javax.swing.JButton();
+        jTestButton = new javax.swing.JButton();
 
         jMovieLabel.setText("Movie");
 
@@ -116,80 +146,70 @@ public class AdminScreening extends javax.swing.JPanel {
             }
         });
 
-        jShowDateLabel.setText("Show Date");
-
-        jTimeLabel.setText("Time");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jMovieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Title", "Start", "End", "Sold"
+                "ID", "Movie", "Cinema", "Start", "End", "Date", "Price"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        jMovieTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMovieTable.setGridColor(new java.awt.Color(0, 0, 0));
+        jMovieTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMovieTableMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jMovieTableMouseExited(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jMovieTable);
+        if (jMovieTable.getColumnModel().getColumnCount() > 0) {
+            jMovieTable.getColumnModel().getColumn(0).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(1).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(2).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(3).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(4).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(5).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jShowDateLabel1.setText("Show Date");
-
-        jTimeLabel1.setText("Time");
-
-        jTimeLabel2.setText("Time");
-
-        jShowDateLabel2.setText("Show Date");
-
         jSearchButton.setText("Search");
-
-        jEndtime3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jEndtime3.setText("8:30 PM");
-        jEndtime3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jEndtime3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        jEndtime2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jEndtime2.setText("7:00 PM");
-        jEndtime2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jEndtime2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        jEndtime1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jEndtime1.setText("6:48 PM");
-        jEndtime1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jEndtime1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jClearAllButton.setText("Clear All");
         jClearAllButton.addActionListener(new java.awt.event.ActionListener() {
@@ -199,6 +219,11 @@ public class AdminScreening extends javax.swing.JPanel {
         });
 
         jAddShowtimeButton.setText("Add Showtime");
+        jAddShowtimeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddShowtimeButtonActionPerformed(evt);
+            }
+        });
 
         jCinemaDateLabel.setBackground(new java.awt.Color(255, 255, 255));
         jCinemaDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -206,402 +231,595 @@ public class AdminScreening extends javax.swing.JPanel {
         jCinemaDateLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jCinemaDateLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jDeleteButton1.setText("X");
+        jMovieDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Movie", "Transformer", "9", "CJ7", "Avengers" }));
 
-        jEditButton1.setText("Edit");
+        jScreenDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Screen", "1", "2", "3", "4" }));
 
-        jDeleteButton2.setText("X");
+        jEndtime1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jEndtime1.setText("6:48 PM");
+        jEndtime1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jEndtime1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jEditButton2.setText("Edit");
+        jShowDateLabel.setText("Show Date");
 
-        jEditButton3.setText("Edit");
+        jTimeLabel.setText("Time");
 
-        jDeleteButton3.setText("X");
-
-        jDeleteButton5.setText("X");
-
-        jEditButton5.setText("Edit");
-
-        jEditButton6.setText("Edit");
-
-        jDeleteButton6.setText("X");
-
-        jDeleteButton4.setText("X");
-
-        jEditButton4.setText("Edit");
-
-        jEditButton9.setText("Edit");
-
-        jEditButton7.setText("Edit");
-
-        jEditButton8.setText("Edit");
-
-        jDeleteButton8.setText("X");
-
-        jDeleteButton7.setText("X");
-
-        jDeleteButton9.setText("X");
-
-        jEditButton13.setText("Edit");
-
-        jEditButton18.setText("Edit");
-
-        jEditButton16.setText("Edit");
-
-        jEditButton17.setText("Edit");
-
-        jDeleteButton17.setText("X");
-
-        jDeleteButton16.setText("X");
-
-        jDeleteButton18.setText("X");
-
-        jDeleteButton11.setText("X");
-
-        jEditButton11.setText("Edit");
-
-        jEditButton12.setText("Edit");
-
-        jDeleteButton12.setText("X");
-
-        jDeleteButton14.setText("X");
-
-        jEditButton14.setText("Edit");
-
-        jDeleteButton10.setText("X");
-
-        jEditButton15.setText("Edit");
-
-        jEditButton10.setText("Edit");
-
-        jDeleteButton15.setText("X");
-
-        jDeleteButton13.setText("X");
-
-        jEditButton20.setText("Edit");
-
-        jEditButton19.setText("Edit");
-
-        jDeleteButton19.setText("X");
-
-        jDeleteButton20.setText("X");
-
-        jMovieDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jScreenDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jShowDate1.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1701335134179L), null, null, java.util.Calendar.DAY_OF_YEAR));
 
         jTimeDropDown1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTimeDropDown3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jTimeLabel1.setText("Time");
+
+        jEndtime2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jEndtime2.setText("7:00 PM");
+        jEndtime2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jEndtime2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jShowDateLabel1.setText("Show Date");
 
         jTimeDropDown2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jShowDateLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jShowDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTimeLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTimeDropDown2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jEndtime2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jShowDateLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jShowDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTimeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jEndtime2)
+                        .addComponent(jTimeDropDown2)))
+                .addContainerGap())
+        );
+
+        jTimeLabel3.setText("Time");
+
+        jShowDateLabel3.setText("Show Date");
+
+        jEndtime4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jEndtime4.setText("8:30 PM");
+        jEndtime4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jEndtime4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jTimeDropDown4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jShowDateLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jShowDate3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jTimeLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTimeDropDown4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jEndtime4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jShowDateLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jShowDate3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTimeLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jEndtime4)
+                        .addComponent(jTimeDropDown4)))
+                .addContainerGap())
+        );
+
+        jTimeLabel2.setText("Time");
+
+        jShowDateLabel2.setText("Show Date");
+
+        jEndtime3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jEndtime3.setText("8:30 PM");
+        jEndtime3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jEndtime3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jTimeDropDown3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jShowDateLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jShowDate4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jTimeLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTimeDropDown3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jEndtime3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jShowDateLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jShowDate4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTimeLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jEndtime3)
+                        .addComponent(jTimeDropDown3)))
+                .addContainerGap())
+        );
+
+        jTimeLabel4.setText("Time");
+
+        jShowDateLabel4.setText("Show Date");
+
+        jEndtime5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jEndtime5.setText("8:30 PM");
+        jEndtime5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jEndtime5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jTimeDropDown5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jShowDateLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jTimeLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTimeDropDown5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jEndtime5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jShowDateLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTimeLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jEndtime5)
+                        .addComponent(jTimeDropDown5)))
+                .addContainerGap())
+        );
+
+        jTimeLabel5.setText("Time");
+
+        jShowDateLabel5.setText("Show Date");
+
+        jEndtime6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jEndtime6.setText("8:30 PM");
+        jEndtime6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jEndtime6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jTimeDropDown6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTimeLabel6.setText("Time");
+
+        jShowDateLabel6.setText("Show Date");
+
+        jEndtime7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jEndtime7.setText("8:30 PM");
+        jEndtime7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jEndtime7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jTimeDropDown7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jShowDateLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(jTimeLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTimeDropDown7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jEndtime7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jShowDateLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTimeLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jEndtime7)
+                        .addComponent(jTimeDropDown7)))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jShowDateLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jTimeLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTimeDropDown6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jEndtime6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jShowDateLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTimeLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jEndtime6)
+                        .addComponent(jTimeDropDown6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(8, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jTimeLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTimeDropDown1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jEndtime1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jShowDateLabel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jShowDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jShowDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jShowDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jEndtime1)
+                        .addComponent(jTimeDropDown1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
+        );
+
+        jScrollPane2.setViewportView(jPanel2);
+
+        jEditButton.setText("Edit");
+
+        jDeleteButton.setText("Delete");
+        jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteButtonActionPerformed(evt);
+            }
+        });
+
+        jTestButton.setText("Test");
+        jTestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTestButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jAddDateButton)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jClearAllButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jAddShowtimeButton))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jTimeLabel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTimeDropDown1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jEndtime1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jShowDateLabel)
-                            .addGap(18, 18, 18)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jMovieLabel)
-                                    .addGap(41, 41, 41))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScreenLabel)
-                                    .addGap(39, 39, 39)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(1, 1, 1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jShowDateLabel1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jTimeLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTimeDropDown2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jEndtime2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jShowDateLabel2)
-                            .addGap(18, 18, 18)
-                            .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jTimeLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTimeDropDown3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jEndtime3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSearchButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCinemaDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jAddDateButton)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jMovieLabel)
+                                                .addGap(41, 41, 41))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jScreenLabel)
+                                                .addGap(39, 39, 39)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(1, 1, 1))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jClearAllButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jAddShowtimeButton)))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSearchButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCinemaDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addGap(279, 279, 279)
+                        .addComponent(jTestButton)
+                        .addGap(49, 49, 49)
+                        .addComponent(jEditButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(jDeleteButton)))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jMovieLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jCinemaDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jEditButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDeleteButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(45, 45, 45)
+                        .addComponent(jMovieLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jScreenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addComponent(jAddDateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jShowDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jEndtime1)
-                                .addComponent(jTimeDropDown1)))
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jShowDateLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTimeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jEndtime2)
-                                .addComponent(jTimeDropDown2)))
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jShowDateLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTimeLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jEndtime3)
-                                .addComponent(jTimeDropDown3)))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jAddShowtimeButton)
-                            .addComponent(jClearAllButton))
-                        .addGap(91, 91, 91)))
-                .addContainerGap(203, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCinemaDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jScreenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
+                                .addComponent(jAddDateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jAddShowtimeButton)
+                                    .addComponent(jClearAllButton))))))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jDeleteButton)
+                    .addComponent(jEditButton)
+                    .addComponent(jTestButton))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jAddDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddDateButtonActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jAddDateButtonActionPerformed
 
     private void jClearAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearAllButtonActionPerformed
         // TODO add your handling code here:
-
+        
         jMovieDropDown.setSelectedIndex(0);
 	jScreenDropDown.setSelectedIndex(0);
 	jTimeDropDown1.setSelectedIndex(0);
 	jTimeDropDown2.setSelectedIndex(0);
-	jTimeDropDown3.setSelectedIndex(0);        
+	jTimeDropDown3.setSelectedIndex(0);
     }//GEN-LAST:event_jClearAllButtonActionPerformed
+
+    private void jAddShowtimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddShowtimeButtonActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+        int movie = jMovieDropDown.getSelectedIndex();
+        int screen = jScreenDropDown.getSelectedIndex();
+        int showDate = (Integer) jShowDate1.getValue();
+        int time1 = jTimeDropDown1.getSelectedIndex();
+        String endtime1 = jEndtime1.getText();
+        int showDate2 = (Integer) jShowDate2.getValue();
+        int time2 = jTimeDropDown2.getSelectedIndex();
+        String endtime2 = jEndtime2.getText();
+        int showDate3 = (Integer) jShowDate3.getValue();
+        int time3 = jTimeDropDown3.getSelectedIndex();
+        String endtime3 = jEndtime3.getText();
+        int showDate4 = (Integer) jShowDate4.getValue();
+        int time4 = jTimeDropDown4.getSelectedIndex();
+        String endtime4 = jEndtime4.getText();
+        
+        String query = "INSERT INTO screening (movie_id, cinema_id, date, time_start, time_end, price) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+            
+	    PreparedStatement prepStmt = con.prepareStatement(query);
+            
+	    prepStmt.setInt(1, movie);
+            prepStmt.setInt(2, screen);
+            prepStmt.setInt(3, showDate);
+            prepStmt.setInt(4, time1);
+            prepStmt.setString(5, endtime1);
+            
+            prepStmt.executeUpdate();
+
+	    
+	    } catch (SQLException e) {
+            System.out.println(e);
+	    }
+        refreshTable();
+       
+    }//GEN-LAST:event_jAddShowtimeButtonActionPerformed
+
+    private void jTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTestButtonActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+
+            String query = "SELECT screening_id, movie_id, cinema_id, time_start, time_end, date, price FROM screening";
+
+                try (PreparedStatement pstmt = con.prepareStatement(query);
+                    ResultSet resultSet = pstmt.executeQuery()) {
+
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+
+                    while (resultSet.next()) {
+                    int screeningId = resultSet.getInt("screening_id");
+                    int movieId = resultSet.getInt("movie_id");
+                    int cinemaId = resultSet.getInt("cinema_id");
+                    Time timeStart = resultSet.getTime("time_start");
+                    Time timeEnd = resultSet.getTime("time_end");
+                    Date date = resultSet.getDate("date");
+                    int price = resultSet.getInt("price");
+
+                    model.addRow(new Object[]{screeningId, movieId, cinemaId, timeStart, timeEnd, date, price});
+                    }
+                }
+            } catch (SQLException e) {
+              System.out.println(e);
+            }
+        refreshTable();
+    }//GEN-LAST:event_jTestButtonActionPerformed
+
+    private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+
+	    Connector connector = new Connector();
+            Connection con = connector.getConnection();
+
+	    int selectedRow = jMovieTable.getSelectedRow();
+	    int movieid_column = 0;
+ 	    int movie_table_id = (int) jMovieTable.getModel().getValueAt(selectedRow, movieid_column);
+
+            
+            String query = "DELETE FROM screening WHERE screening_id = ?";
+            
+            PreparedStatement prepStmt = con.prepareStatement(query);
+            prepStmt.setInt(1, movie_table_id);
+            
+            prepStmt.executeUpdate();
+
+	} catch (SQLException e) {
+        System.out.println(e);
+	}
+        refreshTable();
+    }//GEN-LAST:event_jDeleteButtonActionPerformed
+
+    private void jMovieTableMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseExited
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jMovieTableMouseExited
+
+    private void jMovieTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseClicked
+        // TODO add your handling code here:
+
+        jEditButton.setVisible(true);
+        jEditButton.setEnabled(true);
+        jDeleteButton.setVisible(true);
+        jDeleteButton.setEnabled(true);
+    }//GEN-LAST:event_jMovieTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -609,68 +827,59 @@ public class AdminScreening extends javax.swing.JPanel {
     private javax.swing.JButton jAddShowtimeButton;
     private javax.swing.JLabel jCinemaDateLabel;
     private javax.swing.JButton jClearAllButton;
-    private javax.swing.JButton jDeleteButton1;
-    private javax.swing.JButton jDeleteButton10;
-    private javax.swing.JButton jDeleteButton11;
-    private javax.swing.JButton jDeleteButton12;
-    private javax.swing.JButton jDeleteButton13;
-    private javax.swing.JButton jDeleteButton14;
-    private javax.swing.JButton jDeleteButton15;
-    private javax.swing.JButton jDeleteButton16;
-    private javax.swing.JButton jDeleteButton17;
-    private javax.swing.JButton jDeleteButton18;
-    private javax.swing.JButton jDeleteButton19;
-    private javax.swing.JButton jDeleteButton2;
-    private javax.swing.JButton jDeleteButton20;
-    private javax.swing.JButton jDeleteButton3;
-    private javax.swing.JButton jDeleteButton4;
-    private javax.swing.JButton jDeleteButton5;
-    private javax.swing.JButton jDeleteButton6;
-    private javax.swing.JButton jDeleteButton7;
-    private javax.swing.JButton jDeleteButton8;
-    private javax.swing.JButton jDeleteButton9;
-    private javax.swing.JButton jEditButton1;
-    private javax.swing.JButton jEditButton10;
-    private javax.swing.JButton jEditButton11;
-    private javax.swing.JButton jEditButton12;
-    private javax.swing.JButton jEditButton13;
-    private javax.swing.JButton jEditButton14;
-    private javax.swing.JButton jEditButton15;
-    private javax.swing.JButton jEditButton16;
-    private javax.swing.JButton jEditButton17;
-    private javax.swing.JButton jEditButton18;
-    private javax.swing.JButton jEditButton19;
-    private javax.swing.JButton jEditButton2;
-    private javax.swing.JButton jEditButton20;
-    private javax.swing.JButton jEditButton3;
-    private javax.swing.JButton jEditButton4;
-    private javax.swing.JButton jEditButton5;
-    private javax.swing.JButton jEditButton6;
-    private javax.swing.JButton jEditButton7;
-    private javax.swing.JButton jEditButton8;
-    private javax.swing.JButton jEditButton9;
+    private javax.swing.JButton jDeleteButton;
+    private javax.swing.JButton jEditButton;
     private javax.swing.JLabel jEndtime1;
     private javax.swing.JLabel jEndtime2;
     private javax.swing.JLabel jEndtime3;
+    private javax.swing.JLabel jEndtime4;
+    private javax.swing.JLabel jEndtime5;
+    private javax.swing.JLabel jEndtime6;
+    private javax.swing.JLabel jEndtime7;
     private javax.swing.JComboBox<String> jMovieDropDown;
     private javax.swing.JLabel jMovieLabel;
+    private javax.swing.JTable jMovieTable;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JComboBox<String> jScreenDropDown;
     private javax.swing.JLabel jScreenLabel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchField;
+    private javax.swing.JSpinner jShowDate1;
+    private javax.swing.JSpinner jShowDate2;
+    private javax.swing.JSpinner jShowDate3;
+    private javax.swing.JSpinner jShowDate4;
     private javax.swing.JLabel jShowDateLabel;
     private javax.swing.JLabel jShowDateLabel1;
     private javax.swing.JLabel jShowDateLabel2;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel jShowDateLabel3;
+    private javax.swing.JLabel jShowDateLabel4;
+    private javax.swing.JLabel jShowDateLabel5;
+    private javax.swing.JLabel jShowDateLabel6;
+    private javax.swing.JSpinner jSpinner5;
+    private javax.swing.JSpinner jSpinner6;
+    private javax.swing.JSpinner jSpinner7;
+    private javax.swing.JButton jTestButton;
     private javax.swing.JComboBox<String> jTimeDropDown1;
     private javax.swing.JComboBox<String> jTimeDropDown2;
     private javax.swing.JComboBox<String> jTimeDropDown3;
+    private javax.swing.JComboBox<String> jTimeDropDown4;
+    private javax.swing.JComboBox<String> jTimeDropDown5;
+    private javax.swing.JComboBox<String> jTimeDropDown6;
+    private javax.swing.JComboBox<String> jTimeDropDown7;
     private javax.swing.JLabel jTimeLabel;
     private javax.swing.JLabel jTimeLabel1;
     private javax.swing.JLabel jTimeLabel2;
+    private javax.swing.JLabel jTimeLabel3;
+    private javax.swing.JLabel jTimeLabel4;
+    private javax.swing.JLabel jTimeLabel5;
+    private javax.swing.JLabel jTimeLabel6;
     // End of variables declaration//GEN-END:variables
 }
