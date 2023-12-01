@@ -342,8 +342,11 @@ public class BookingsPanel extends javax.swing.JPanel {
         jSearchTextField.setPreferredSize(new java.awt.Dimension(200, 30));
         jPanel3.add(jSearchTextField);
 
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
+        jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
-        jSearchButton.setPreferredSize(new java.awt.Dimension(78, 30));
+        jSearchButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 124, 18), 1, true));
+        jSearchButton.setPreferredSize(new java.awt.Dimension(85, 30));
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSearchButtonActionPerformed(evt);
@@ -351,13 +354,13 @@ public class BookingsPanel extends javax.swing.JPanel {
         });
         jPanel3.add(jSearchButton);
 
-        jPanel6.setPreferredSize(new java.awt.Dimension(600, 30));
+        jPanel6.setPreferredSize(new java.awt.Dimension(590, 30));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 590, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,7 +372,9 @@ public class BookingsPanel extends javax.swing.JPanel {
         jDateSpinner.setPreferredSize(new java.awt.Dimension(100, 30));
         jPanel3.add(jDateSpinner);
 
+        jTodayButton.setBackground(new java.awt.Color(247, 222, 200));
         jTodayButton.setText("Today");
+        jTodayButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 222, 200), 1, true));
         jTodayButton.setPreferredSize(new java.awt.Dimension(100, 30));
         jTodayButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

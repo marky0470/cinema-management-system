@@ -589,7 +589,10 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
 
         jPanel4.setPreferredSize(new java.awt.Dimension(805, 80));
 
+        jContinueButton.setBackground(new java.awt.Color(239, 124, 18));
+        jContinueButton.setForeground(new java.awt.Color(242, 242, 242));
         jContinueButton.setText("Continue");
+        jContinueButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jContinueButton.setPreferredSize(new java.awt.Dimension(130, 35));
         jContinueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -597,7 +600,10 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
             }
         });
 
+        jBackButton.setBackground(new java.awt.Color(242, 242, 242));
+        jBackButton.setForeground(new java.awt.Color(239, 124, 18));
         jBackButton.setText("Back");
+        jBackButton.setBorder(null);
         jBackButton.setPreferredSize(new java.awt.Dimension(130, 35));
         jBackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -605,7 +611,9 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
             }
         });
 
+        jClearButton.setBackground(new java.awt.Color(247, 222, 200));
         jClearButton.setText("Clear");
+        jClearButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 222, 200), 1, true));
         jClearButton.setPreferredSize(new java.awt.Dimension(130, 35));
         jClearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -711,8 +719,6 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel233;
     private javax.swing.JPanel jPanel234;
     private javax.swing.JPanel jPanel26;
@@ -721,8 +727,6 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPosterPanel;
     private javax.swing.JTextField jQuantityTextField;
     private javax.swing.JTextField jSelectedSeatsTextField;

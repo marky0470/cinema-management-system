@@ -160,7 +160,8 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
         jTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jTitleLabel.setText("Movie Title");
 
-        jPosterPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPosterPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(200, 200, 200), 1, true));
+        jPosterPanel.setForeground(new java.awt.Color(200, 200, 200));
         jPosterPanel.setPreferredSize(new java.awt.Dimension(405, 405));
         jPosterPanel.setRequestFocusEnabled(false);
         jPosterPanel.setLayout(new java.awt.BorderLayout());
@@ -255,7 +256,10 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
+        jContinueButton.setBackground(new java.awt.Color(239, 124, 18));
+        jContinueButton.setForeground(new java.awt.Color(242, 242, 242));
         jContinueButton.setText("Continue");
+        jContinueButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 124, 18), 1, true));
         jContinueButton.setPreferredSize(new java.awt.Dimension(150, 35));
         jContinueButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,7 +267,10 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
             }
         });
 
+        jBackButton.setBackground(new java.awt.Color(242, 242, 242));
+        jBackButton.setForeground(new java.awt.Color(239, 124, 18));
         jBackButton.setText("Back");
+        jBackButton.setBorder(null);
         jBackButton.setPreferredSize(new java.awt.Dimension(150, 35));
         jBackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
