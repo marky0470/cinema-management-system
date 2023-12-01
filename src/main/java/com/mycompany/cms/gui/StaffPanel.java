@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+import org.mindrot.jbcrypt.BCrypt;
 /**
  *
  * @author marks
@@ -26,7 +26,6 @@ public class StaffPanel extends javax.swing.JPanel {
     public StaffPanel() {
         initComponents();
         refreshTable();
-        
         jtable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
@@ -634,7 +633,7 @@ private void applyFilter(String filterText) {
         if (jCheckBox1.isSelected()) {
             Admin = 1;
         }
-
+        String hashedPassword = BCrypt.hashpw(Password, BCrypt.gensalt());
         String query = "INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)";
 
         try {
@@ -647,7 +646,7 @@ private void applyFilter(String filterText) {
                 pstmt.setString(1, FirstName);
                 pstmt.setString(2, LastName);
                 pstmt.setString(3, Email);
-                pstmt.setString(4, Password);
+                pstmt.setString(4, hashedPassword);
                 pstmt.setInt(5, Admin);
 
                 // Execute the query

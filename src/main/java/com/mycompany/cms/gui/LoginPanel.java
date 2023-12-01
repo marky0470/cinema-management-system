@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 /**
  *
@@ -119,26 +121,22 @@ public class LoginPanel extends javax.swing.JPanel {
         String password = jPasswordPasswordField.getText();
 
         try {
-            // Create a connection to the database
             Connector connector = new Connector();
             Connection con = connector.getConnection();
 
-            // Prepare the SQL statement, di pwede mag add add sa string dito bawal bawal
-            String query = "SELECT password, is_admin FROM users WHERE email = ?";  //Means get the password and is_admin, from users table, but only if they have this specific email
-            PreparedStatement prepStmt = con.prepareStatement(query); //Converts string into statement
-            prepStmt.setString(1, email); //replaces the first ? with the our email variable (i)
+            String query = "SELECT password, is_admin FROM users WHERE email = ?";
+            PreparedStatement prepStmt = con.prepareStatement(query);
+            prepStmt.setString(1, email);
 
-            // Execute/send query to SQL to be processed, all results are stored in resultset
             ResultSet resultSet = prepStmt.executeQuery();
             resultSet.next();
-            //A ResultSet is like a table, but it only sees a certain row of the table at a time and at first, it can only see the header and cannot give you any values back
-            //That is why we need to do resultSet.next();
 
             if (resultSet == null) {
                 System.out.println("No user exists");
                 return;
             }
-            if (!password.equals(resultSet.getString("password"))) {
+            String hashedPassword = resultSet.getString("password");
+            if (!BCrypt.checkpw(password, hashedPassword)) {
                 System.out.println("Wrong password");
                 return;
             }
@@ -167,9 +165,6 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.pack();
             mainForm.setVisible(true);
             loginForm.setVisible(false);
-            
-            MoviePanel moviePanel = new MoviePanel();
-            mainForm.showPanel(moviePanel);
         });
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -184,8 +179,7 @@ public class LoginPanel extends javax.swing.JPanel {
             mainForm.setVisible(true);
             loginForm.setVisible(false);
             if (isAdmin) {
-                MoviePanel moviePanel = new MoviePanel();
-                mainForm.showPanel(moviePanel);
+
             } else {
                 System.out.println("Staff dash not yet implemented");
 //                mainForm.showStaffDashboardPanel();
