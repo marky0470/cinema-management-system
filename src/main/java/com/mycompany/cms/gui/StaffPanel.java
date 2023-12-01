@@ -278,7 +278,6 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
-        JPF1.setText("jPasswordField1");
         JPF1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         JPF1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -286,7 +285,6 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
-        JPF2.setText("jPasswordField2");
         JPF2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -319,12 +317,11 @@ public class StaffPanel extends javax.swing.JPanel {
                         .addComponent(JPF2))
                     .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField5)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+                    .addComponent(jTextField5))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,7 +442,7 @@ private void applyFilter(String filterText) {
                     String email = resultSet.getString("email");
                     String password = resultSet.getString("password");
                     boolean isAdmin = resultSet.getBoolean("is_admin");
-
+                     
                     model.addRow(new Object[]{userId, firstName, lastName, email, password, isAdmin});
                 }
             }
