@@ -324,7 +324,7 @@ public class StaffPanel extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jTextField5)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -540,14 +540,15 @@ private void applyFilter(String filterText) {
             JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         int userId = (int) jtable1.getValueAt(selectedRow, 0);
         String firstName = jTextField1.getText();
         String lastName = jTextField2.getText();
         String email = jTextField3.getText();
         String password = JPF1.getText();
         boolean admin = jCheckBox1.isSelected();
-
+        
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         String query = "UPDATE users SET first_name=?, last_name=?, email=?, password=?, is_admin=? WHERE user_id=?";
 
         try {
@@ -558,7 +559,7 @@ private void applyFilter(String filterText) {
                 pstmt.setString(1, firstName);
                 pstmt.setString(2, lastName);
                 pstmt.setString(3, email);
-                pstmt.setString(4, password);
+                pstmt.setString(4, hashedPassword);
                 pstmt.setBoolean(5, admin);
                 pstmt.setInt(6, userId);
 
