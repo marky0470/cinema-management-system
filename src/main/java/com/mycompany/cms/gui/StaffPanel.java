@@ -525,7 +525,12 @@ private void applyFilter(String filterText) {
     }//GEN-LAST:event_view_buttonActionPerformed
 
     private void edit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_buttonActionPerformed
- if (JPF1.getText().equals(JPF2.getText() ) == false){
+        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")|| JPF1.getText().equals("")|| JPF2.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Missing Information");
+        }
+        else{
+        
+        if (JPF1.getText().equals(JPF2.getText() ) == false){
             JOptionPane.showMessageDialog(this, "Password is not the Same");
         }
  else{
@@ -571,7 +576,7 @@ private void applyFilter(String filterText) {
             System.out.println(e);
         }
  }
-
+        }
         }
 
         private boolean validateFields() {
@@ -621,6 +626,10 @@ private void applyFilter(String filterText) {
     }//GEN-LAST:event_delete_buttonActionPerformed
 
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
+        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")|| JPF1.getText().equals("")|| JPF2.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Missing Information");
+        }else{
+        
         if (JPF1.getText().equals(JPF2.getText() ) == false){
             JOptionPane.showMessageDialog(this, "Password is not the Same");
         }
@@ -657,7 +666,7 @@ private void applyFilter(String filterText) {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
+        }
         }
         
         
