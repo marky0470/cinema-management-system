@@ -71,6 +71,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jCheckBox2 = new javax.swing.JCheckBox();
         JPF1 = new javax.swing.JPasswordField();
         JPF2 = new javax.swing.JPasswordField();
+        admin_only_btn = new javax.swing.JToggleButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -287,6 +288,13 @@ public class StaffPanel extends javax.swing.JPanel {
 
         JPF2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        admin_only_btn.setText("Show Admin only");
+        admin_only_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                admin_only_btnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -318,7 +326,10 @@ public class StaffPanel extends javax.swing.JPanel {
                     .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(admin_only_btn))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
                     .addComponent(jTextField5))
                 .addContainerGap(29, Short.MAX_VALUE))
@@ -330,7 +341,8 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(admin_only_btn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,6 +405,12 @@ public class StaffPanel extends javax.swing.JPanel {
    try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField5.setText("");
+            JPF1.setText("");
+            JPF2.setText("");
 
             String query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users";
 
@@ -673,11 +691,16 @@ private void applyFilter(String filterText) {
         // TODO add your handling code here:
     }//GEN-LAST:event_JPF1ActionPerformed
 
+    private void admin_only_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_only_btnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_admin_only_btnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField JPF1;
     private javax.swing.JPasswordField JPF2;
     private javax.swing.JButton add_button;
+    private javax.swing.JToggleButton admin_only_btn;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton delete_button;
     private javax.swing.JButton edit_button;
