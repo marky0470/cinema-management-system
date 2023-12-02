@@ -168,7 +168,8 @@ public class StaffPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jtable1);
 
-        jCheckBox1.setText("Check ");
+        jCheckBox1.setText("Admin*");
+        jCheckBox1.setToolTipText("");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
