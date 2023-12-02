@@ -14,7 +14,6 @@ import java.sql.Time;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -92,6 +91,11 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
         NumberFormat formatter = NumberFormat.getInstance();
         jTotalLabel.setText("PHP " + formatter.format(total));
         jTable1.setModel(model);
+        
+        for (int i=0; i<model.getColumnCount(); i++) {
+            Class<?> c = model.getColumnClass(i);
+            jTable1.setDefaultEditor(c, null);
+        }    
     }
 
     /**
@@ -342,6 +346,7 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jContinueButtonActionPerformed
 
     private void jBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBackButtonActionPerformed
+        total = 0;
         this.panel.openSeatsTab();
     }//GEN-LAST:event_jBackButtonActionPerformed
 

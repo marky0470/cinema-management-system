@@ -95,7 +95,7 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
             ResultSet result = preparedStatement.executeQuery();
             
             DefaultTableModel model = new DefaultTableModel(new String[] {"Screening ID", "Time Start", "Time End", "Cinema", "Type", "Available Seats", "Price"}, 0);
-                       
+            
             int index = 0;
             while(result.next()) {
                 int screeningId = result.getInt("screening_id");
@@ -112,6 +112,11 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
             }
             
             jTable1.setModel(model);
+            
+            for (int i=0; i<model.getColumnCount(); i++) {
+                Class<?> c = model.getColumnClass(i);
+                jTable1.setDefaultEditor(c, null);
+            }
             
         } catch (SQLException e) {
             System.out.println(e.toString());

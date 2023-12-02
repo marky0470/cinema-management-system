@@ -261,12 +261,11 @@ public class BookingsPanel extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jDateLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         jSearchTextField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
         jDateSpinner = new javax.swing.JSpinner();
         jTodayButton = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
         jScrollPane = new javax.swing.JScrollPane();
         jMoviesPanel = new javax.swing.JPanel();
 
@@ -322,25 +321,8 @@ public class BookingsPanel extends javax.swing.JPanel {
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(1076, 50));
-        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        jPanel5.setPreferredSize(new java.awt.Dimension(20, 30));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel5);
 
         jSearchTextField.setPreferredSize(new java.awt.Dimension(200, 30));
-        jPanel3.add(jSearchTextField);
 
         jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -352,25 +334,8 @@ public class BookingsPanel extends javax.swing.JPanel {
                 jSearchButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(jSearchButton);
-
-        jPanel6.setPreferredSize(new java.awt.Dimension(590, 30));
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel6);
 
         jDateSpinner.setPreferredSize(new java.awt.Dimension(100, 30));
-        jPanel3.add(jDateSpinner);
 
         jTodayButton.setBackground(new java.awt.Color(247, 222, 200));
         jTodayButton.setText("Today");
@@ -381,7 +346,46 @@ public class BookingsPanel extends javax.swing.JPanel {
                 jTodayButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(jTodayButton);
+
+        jRefreshButton.setBackground(new java.awt.Color(247, 222, 200));
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 222, 200), 1, true));
+        jRefreshButton.setPreferredSize(new java.awt.Dimension(100, 30));
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRefreshButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(471, 471, 471)
+                .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTodayButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTodayButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -420,6 +424,10 @@ public class BookingsPanel extends javax.swing.JPanel {
         jSearchTextField.setText("");
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
+        getScreeningsBySearch();
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jDateLabel;
@@ -430,9 +438,8 @@ public class BookingsPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JButton jRefreshButton;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchTextField;
