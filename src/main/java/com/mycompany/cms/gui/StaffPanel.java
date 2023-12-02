@@ -206,6 +206,8 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Filter Search");
 
+        add_button.setBackground(new java.awt.Color(255, 153, 51));
+        add_button.setForeground(new java.awt.Color(255, 255, 255));
         add_button.setText("SAVE");
         buttonGroup1.add(add_button);
         add_button.addActionListener(new java.awt.event.ActionListener() {
@@ -214,6 +216,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        delete_button.setBackground(new java.awt.Color(255, 153, 51));
+        delete_button.setForeground(new java.awt.Color(255, 255, 255));
         delete_button.setText("DELETE");
         buttonGroup1.add(delete_button);
         delete_button.addActionListener(new java.awt.event.ActionListener() {
@@ -222,6 +226,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        edit_button.setBackground(new java.awt.Color(255, 153, 51));
+        edit_button.setForeground(new java.awt.Color(255, 255, 255));
         edit_button.setText("EDIT");
         buttonGroup1.add(edit_button);
         edit_button.addActionListener(new java.awt.event.ActionListener() {
@@ -230,6 +236,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        view_button.setBackground(new java.awt.Color(255, 153, 0));
+        view_button.setForeground(new java.awt.Color(255, 255, 255));
         view_button.setText("REFRESH");
         buttonGroup1.add(view_button);
         view_button.addActionListener(new java.awt.event.ActionListener() {
