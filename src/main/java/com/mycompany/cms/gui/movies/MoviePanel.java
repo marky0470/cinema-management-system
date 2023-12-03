@@ -87,7 +87,6 @@ public class MoviePanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jMovieTable = new javax.swing.JTable();
         jTitleText = new javax.swing.JTextField();
-        jRatingText = new javax.swing.JTextField();
         jReleaseDateText = new javax.swing.JTextField();
         jDurationText = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -96,6 +95,7 @@ public class MoviePanel extends javax.swing.JPanel {
         imageContainerPanel = new javax.swing.JPanel();
         moviePosterLabel = new javax.swing.JLabel();
         jGenreComboBox = new javax.swing.JComboBox<>();
+        jRatingComboBox = new javax.swing.JComboBox<>();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(780, 720));
@@ -198,13 +198,6 @@ public class MoviePanel extends javax.swing.JPanel {
 
         jTitleText.setPreferredSize(null);
 
-        jRatingText.setPreferredSize(null);
-        jRatingText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRatingTextActionPerformed(evt);
-            }
-        });
-
         jReleaseDateText.setPreferredSize(null);
 
         jDurationText.setPreferredSize(null);
@@ -260,12 +253,26 @@ public class MoviePanel extends javax.swing.JPanel {
             "Thriller",
             "Western" }));
 
+jRatingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "G", "PG", "R-13", "R-16", "R-18" }));
+
 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 this.setLayout(layout);
 layout.setHorizontalGroup(
     layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTitleLabel)
+                .addGap(55, 55, 55)
+                .addComponent(jTitleText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,27 +281,12 @@ layout.setHorizontalGroup(
                     .addComponent(jDurationLabel)
                     .addComponent(jRatingLabel))
                 .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jRatingText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jReleaseDateText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDurationText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jGenreComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jTitleLabel)
-                        .addGap(55, 55, 55)
-                        .addComponent(jTitleText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE)))
-        .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jReleaseDateText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDurationText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jGenreComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRatingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(317, 317, 317)
@@ -344,8 +336,8 @@ layout.setHorizontalGroup(
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRatingText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRatingLabel))
+                        .addComponent(jRatingLabel)
+                        .addComponent(jRatingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jDateLabel)
@@ -379,7 +371,7 @@ layout.setHorizontalGroup(
         //CLEAR//
         
         jTitleText.setText("");
-	jRatingText.setText("");
+	jRatingComboBox.setSelectedIndex(0);
 	jReleaseDateText.setText("");
 	jGenreComboBox.setSelectedIndex(0);
 	jDurationText.setText("");
@@ -391,7 +383,7 @@ layout.setHorizontalGroup(
         //UPDATE//
 
             String title = jTitleText.getText();
-            String rating = jRatingText.getText();
+            String rating = (String) jRatingComboBox.getSelectedItem();
             int released = Integer.parseInt((jReleaseDateText.getText()));
             String genre = (String) jGenreComboBox.getSelectedItem();
             int duration = Integer.parseInt(jDurationText.getText()); 
@@ -423,7 +415,7 @@ layout.setHorizontalGroup(
 	    }
         
         jTitleText.setText("");
-	jRatingText.setText("");
+        jRatingComboBox.setSelectedIndex(0);
 	jReleaseDateText.setText("");
 	jGenreComboBox.setSelectedIndex(0);
 	jDurationText.setText("");
@@ -437,7 +429,7 @@ layout.setHorizontalGroup(
         //ADD//
         
         String title = jTitleText.getText();
-        String rating = jRatingText.getText();
+        String rating =  (String) jRatingComboBox.getSelectedItem();
         int released = Integer.parseInt((jReleaseDateText.getText()));
         String genre = (String) jGenreComboBox.getSelectedItem();
         int duration = Integer.parseInt(jDurationText.getText());  
@@ -465,7 +457,7 @@ layout.setHorizontalGroup(
 	    }
         
         jTitleText.setText("");
-	jRatingText.setText("");
+	jRatingComboBox.setSelectedIndex(0);
 	jReleaseDateText.setText("");
 	jGenreComboBox.setSelectedIndex(0);
 	jDurationText.setText("");
@@ -514,10 +506,6 @@ layout.setHorizontalGroup(
     private void jSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jSearchTextActionPerformed
-
-    private void jRatingTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRatingTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRatingTextActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:     
@@ -597,7 +585,7 @@ layout.setHorizontalGroup(
         if(selectedRow!=-1){
 
 	    jTitleText.setText(jMovieTable.getModel().getValueAt(selectedRow, title_column).toString());
-	    jRatingText.setText(jMovieTable.getModel().getValueAt(selectedRow, rating_column).toString());
+	    jRatingComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, rating_column).toString());
 	    jReleaseDateText.setText(jMovieTable.getModel().getValueAt(selectedRow, release_date_column).toString());
 	    jGenreComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, genre_column).toString());
 	    jDurationText.setText(jMovieTable.getModel().getValueAt(selectedRow, duration_column).toString());
@@ -636,8 +624,8 @@ layout.setHorizontalGroup(
     private javax.swing.JLabel jGenreLabel;
     private javax.swing.JLabel jMovieLabel;
     private javax.swing.JTable jMovieTable;
+    private javax.swing.JComboBox<String> jRatingComboBox;
     private javax.swing.JLabel jRatingLabel;
-    private javax.swing.JTextField jRatingText;
     private javax.swing.JTextField jReleaseDateText;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jSearchButton;
