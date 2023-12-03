@@ -11,11 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -44,6 +41,55 @@ public class AdminScreening extends javax.swing.JPanel {
         jUpdateButton.setVisible(false);
         jUpdateButton.setEnabled(false);
         
+        //Populate movie selector with movies
+        String[] movieList;
+        movieList = getMovies();
+        jMovieDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(movieList));
+        
+        String[] cinemaList;
+        cinemaList = getCinemas();
+        jScreenDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(cinemaList));
+        
+    }
+    
+    private String[] getMovies() {
+        ArrayList<String> movies = new ArrayList<String>();
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+            
+            String query = "SELECT title FROM movies";
+            
+            PreparedStatement pstmt = con.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                movies.add(rs.getString("title"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return movies.toArray(new String[(movies.size())]);
+    }
+    
+    private String[] getCinemas() {
+        ArrayList<String> cinemas = new ArrayList<String>();
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+            
+            String query = "SELECT name FROM cinemas";
+            
+            PreparedStatement pstmt = con.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                cinemas.add(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return cinemas.toArray(new String[(cinemas.size())]);
     }
     
     
