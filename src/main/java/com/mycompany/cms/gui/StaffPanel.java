@@ -67,11 +67,11 @@ public class StaffPanel extends javax.swing.JPanel {
         edit_button = new javax.swing.JButton();
         view_button = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jCheckBox2 = new javax.swing.JCheckBox();
         JPF1 = new javax.swing.JPasswordField();
         JPF2 = new javax.swing.JPasswordField();
         JBC1 = new javax.swing.JComboBox<>();
         search_btn = new javax.swing.JButton();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -161,12 +161,27 @@ public class StaffPanel extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane1.setViewportView(jtable1);
+        if (jtable1.getColumnModel().getColumnCount() > 0) {
+            jtable1.getColumnModel().getColumn(0).setResizable(false);
+            jtable1.getColumnModel().getColumn(1).setResizable(false);
+            jtable1.getColumnModel().getColumn(2).setResizable(false);
+            jtable1.getColumnModel().getColumn(3).setResizable(false);
+            jtable1.getColumnModel().getColumn(4).setResizable(false);
+            jtable1.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jCheckBox1.setText("Admin*");
         jCheckBox1.setToolTipText("");
@@ -200,7 +215,7 @@ public class StaffPanel extends javax.swing.JPanel {
 
         add_button.setBackground(new java.awt.Color(255, 153, 51));
         add_button.setForeground(new java.awt.Color(255, 255, 255));
-        add_button.setText("SAVE");
+        add_button.setText("Save");
         buttonGroup1.add(add_button);
         add_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +225,7 @@ public class StaffPanel extends javax.swing.JPanel {
 
         delete_button.setBackground(new java.awt.Color(255, 153, 51));
         delete_button.setForeground(new java.awt.Color(255, 255, 255));
-        delete_button.setText("DELETE");
+        delete_button.setText("Delete");
         buttonGroup1.add(delete_button);
         delete_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,7 +235,7 @@ public class StaffPanel extends javax.swing.JPanel {
 
         edit_button.setBackground(new java.awt.Color(255, 153, 51));
         edit_button.setForeground(new java.awt.Color(255, 255, 255));
-        edit_button.setText("EDIT");
+        edit_button.setText("Update");
         buttonGroup1.add(edit_button);
         edit_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,7 +245,7 @@ public class StaffPanel extends javax.swing.JPanel {
 
         view_button.setBackground(new java.awt.Color(255, 153, 0));
         view_button.setForeground(new java.awt.Color(255, 255, 255));
-        view_button.setText("REFRESH");
+        view_button.setText("Refresh");
         buttonGroup1.add(view_button);
         view_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,13 +285,6 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel6.setLabelFor(jLabel4);
         jLabel6.setText("Confirm Password");
 
-        jCheckBox2.setText("See Password");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
-            }
-        });
-
         JPF1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         JPF1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,6 +298,13 @@ public class StaffPanel extends javax.swing.JPanel {
 
         search_btn.setText("jButton1");
 
+        jCheckBox2.setText("hide/unhide");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -299,7 +314,6 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel6)
-                        .addComponent(jCheckBox2)
                         .addComponent(JPF1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
@@ -315,7 +329,9 @@ public class StaffPanel extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jTextField2))))
-                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox2))
                 .addGap(76, 76, 76)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -474,10 +490,6 @@ private void applyFilter(String filterText) {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
     
     
     
@@ -523,17 +535,6 @@ private void applyFilter(String filterText) {
     private void jTextField5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseExited
 
     }//GEN-LAST:event_jTextField5MouseExited
-
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        if (jCheckBox2.isSelected()){
-        JPF1.setEchoChar((char)0);
-        JPF2.setEchoChar((char)0);
-        }
-        else{
-        JPF1.setEchoChar('*');
-        JPF2.setEchoChar('*');
-        }
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void view_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_view_buttonActionPerformed
         refreshTable();
@@ -690,6 +691,14 @@ private void applyFilter(String filterText) {
     private void JPF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JPF1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_JPF1ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
