@@ -3,6 +3,7 @@ package com.mycompany.cms.gui.movies;
 import com.mycompany.cms.util.Connector;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -67,6 +68,13 @@ public class MoviePanel extends javax.swing.JPanel {
             }
     }
     
+    private Image convertBlobToImage(byte[] blobData) throws IOException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(blobData);
+        BufferedImage bufferedImage = ImageIO.read(bis);
+        bis.close();
+        return bufferedImage;
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -102,6 +110,7 @@ public class MoviePanel extends javax.swing.JPanel {
         imageContainerPanel = new javax.swing.JPanel();
         moviePosterLabel = new javax.swing.JLabel();
         jFilePathText = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -262,6 +271,8 @@ public class MoviePanel extends javax.swing.JPanel {
         jFilePathText.setEditable(false);
         jFilePathText.setToolTipText("");
 
+        jLabel1.setText("File location:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -313,17 +324,20 @@ public class MoviePanel extends javax.swing.JPanel {
                                 .addGap(149, 149, 149)
                                 .addComponent(chooseImageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(95, 95, 95)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jFilePathText))
-                .addGap(25, 25, 25))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jFilePathText))
+                        .addGap(25, 25, 25))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,7 +348,10 @@ public class MoviePanel extends javax.swing.JPanel {
                         .addComponent(jMovieLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addComponent(imageContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(imageContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(chooseImageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -391,6 +408,7 @@ public class MoviePanel extends javax.swing.JPanel {
 	jGenreText.setText("");
 	jDurationText.setText("");
         jFilePathText.setText("");
+        moviePosterLabel.setIcon(null);
     }//GEN-LAST:event_jClearButtonActionPerformed
 
     private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
@@ -402,18 +420,18 @@ public class MoviePanel extends javax.swing.JPanel {
             String rating = jRatingText.getText();
             int released = Integer.parseInt((jReleaseDateText.getText()));
             String genre = jGenreText.getText();
-            int duration = Integer.parseInt(jDurationText.getText()); 
-        
-        try {
+            int duration = Integer.parseInt(jDurationText.getText());
+            String imagePath = jFilePathText.getText();
+            
+            try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
             
             int selectedRow = jMovieTable.getSelectedRow();
 	    int movie_id_column = 0;
-
  	    int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
 
-	    String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ? WHERE movie_id = ?";
+	    String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ?, image = ? WHERE movie_id = ?";
 	    PreparedStatement prepStmt = con.prepareStatement(query);
             
 	    prepStmt.setString(1, title);
@@ -421,10 +439,18 @@ public class MoviePanel extends javax.swing.JPanel {
             prepStmt.setInt(3, released);
             prepStmt.setString(4, genre);
             prepStmt.setInt(5, duration);
-            prepStmt.setInt(6, movie_id);
+            
+            InputStream in;
+            try {
+                in = new FileInputStream(imagePath);
+                prepStmt.setBlob(6, in);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            prepStmt.setInt(7, movie_id);
             
             prepStmt.executeUpdate();
-
 	    
 	    } catch (SQLException e) {
             System.out.println(e);
@@ -436,6 +462,7 @@ public class MoviePanel extends javax.swing.JPanel {
 	jGenreText.setText("");
 	jDurationText.setText("");
         jFilePathText.setText("");
+        moviePosterLabel.setIcon(null);
         
         refreshTable();
     }//GEN-LAST:event_jUpdateButtonActionPerformed
@@ -487,6 +514,7 @@ public class MoviePanel extends javax.swing.JPanel {
 	jGenreText.setText("");
 	jDurationText.setText("");
         jFilePathText.setText("");
+        moviePosterLabel.setIcon(null);
         
         refreshTable();
     }//GEN-LAST:event_jAddButtonActionPerformed
@@ -575,7 +603,7 @@ public class MoviePanel extends javax.swing.JPanel {
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         // TODO add your handling code here:
         
-        //Delete//
+        //DELETE//
 	
 	try {
 
@@ -603,7 +631,12 @@ public class MoviePanel extends javax.swing.JPanel {
 
     private void jMovieTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseReleased
         // TODO add your handling code here:
-        int selectedRow = jMovieTable.getSelectedRow();
+        
+        //Table row clicked//
+        
+        moviePosterLabel.setIcon(null);
+        
+            int selectedRow = jMovieTable.getSelectedRow();
 	    int movie_id_column = 0;
 	    int title_column = 1;
 	    int rating_column = 2;
@@ -619,10 +652,39 @@ public class MoviePanel extends javax.swing.JPanel {
 	    jReleaseDateText.setText(jMovieTable.getModel().getValueAt(selectedRow, release_date_column).toString());
 	    jGenreText.setText(jMovieTable.getModel().getValueAt(selectedRow, genre_column).toString());
 	    jDurationText.setText(jMovieTable.getModel().getValueAt(selectedRow, duration_column).toString());
+            
+            try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+
+            String query = "SELECT image FROM movies WHERE movie_id = ?";
+
+                    PreparedStatement pstmt = con.prepareStatement(query);
+                    pstmt.setString(1, movie_id);
+                    ResultSet resultSet = pstmt.executeQuery();
+
+                    while (resultSet.next()) {
+                    byte[] blobImage = resultSet.getBytes("image");
+                    Image image = convertBlobToImage(blobImage);
+                    image = image.getScaledInstance(150,225,Image.SCALE_DEFAULT);
+                    
+                    ImageIcon icon = new ImageIcon(image);
+                    moviePosterLabel.setIcon(icon);
+                    }
+
+            } catch (SQLException e) {
+              System.out.println(e);
+            }   catch (IOException ex) {
+                    Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
         }
     }//GEN-LAST:event_jMovieTableMouseReleased
 
     private void chooseImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseImageButtonActionPerformed
+        
+        //Choose Image//
+        
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
         fileChooser.setFileFilter(filter);
@@ -637,6 +699,7 @@ public class MoviePanel extends javax.swing.JPanel {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            
             ImageIcon icon = new ImageIcon(image);
             moviePosterLabel.setIcon(icon);
             jFilePathText.setText(filepath);
@@ -657,6 +720,7 @@ public class MoviePanel extends javax.swing.JPanel {
     private javax.swing.JTextField jFilePathText;
     private javax.swing.JLabel jGenreLabel;
     private javax.swing.JTextField jGenreText;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jMovieLabel;
     private javax.swing.JTable jMovieTable;
     private javax.swing.JLabel jRatingLabel;
