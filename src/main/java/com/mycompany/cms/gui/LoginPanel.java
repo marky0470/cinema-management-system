@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -88,25 +89,25 @@ public class LoginPanel extends javax.swing.JPanel {
                             .addComponent(jPasswordPasswordField))))
                 .addGap(109, 109, 109))
             .addGroup(layout.createSequentialGroup()
-                .addGap(162, 162, 162)
+                .addGap(158, 158, 158)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap(43, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jEmailLabel)
-                    .addComponent(jEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordLabel)
-                    .addComponent(jPasswordPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jEmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLoginButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -130,16 +131,30 @@ public class LoginPanel extends javax.swing.JPanel {
 
             ResultSet resultSet = prepStmt.executeQuery();
             resultSet.next();
-
+            
+            if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please provide an email", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please provide a password", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (resultSet == null) {
-                System.out.println("No user exists");
+                JOptionPane.showMessageDialog(this, "No user exists", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String hashedPassword = resultSet.getString("password");
-            if (!BCrypt.checkpw(password, hashedPassword)) {
-                System.out.println("Wrong password");
+            try {
+                String hashedPassword = resultSet.getString("password");
+                if (!BCrypt.checkpw(password, hashedPassword)) {
+                    JOptionPane.showMessageDialog(this, "Wrong password", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Unknown email and password", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             System.out.println("Authenticated Successfully");
             boolean isAdmin = resultSet.getBoolean("is_admin");
             if (isAdmin) {
@@ -149,7 +164,8 @@ public class LoginPanel extends javax.swing.JPanel {
             
 
         } catch (SQLException e) {
-            System.out.println(e);
+            //System.out.println(e.toString());
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jLoginButtonActionPerformed
 
