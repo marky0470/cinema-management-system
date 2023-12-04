@@ -689,8 +689,9 @@ private void applyFilter() {
         if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")|| JPF1.getText().equals("") || JPF2.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Missing Information");
         }else{
-        
-            String FirstName = jTextField1.getText();
+            
+         if(JPF1.getText().equals(JPF2.getText())){
+             String FirstName = jTextField1.getText();
         String LastName = jTextField2.getText();
         String Email = jTextField3.getText();
         String Password = JPF1.getText();
@@ -722,7 +723,13 @@ private void applyFilter() {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        }
+         }
+         else{
+         JOptionPane.showMessageDialog(this, "Passwords do not Match!");}
+         
+         }
+        
+        
         
     }//GEN-LAST:event_add_buttonActionPerformed
 
