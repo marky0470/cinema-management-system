@@ -6,9 +6,11 @@ package com.mycompany.cms.gui;
 
 import com.mycompany.cms.gui.movies.MoviesPanel;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.mycompany.cms.gui.bookings.BookingsPanel;
 import com.mycompany.cms.gui.bookings.BookingsTabbedPanel;
 import com.mycompany.cms.gui.cinemas.CinemasPanel;
 import com.mycompany.cms.gui.movies.MoviePanel;
+import com.mycompany.cms.gui.screenings.ScreeningsPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -22,27 +24,24 @@ import javax.swing.SwingUtilities;
  *
  * @author marks
  */
-public final class MainForm extends javax.swing.JFrame {
+public final class MainFormStaff extends javax.swing.JFrame {
 
     static private JLabel previousActive = null;
     
     /**
      * Creates new form JLoginFrame
      */
-    public MainForm() {
+    public MainFormStaff() {
         initComponents();
         
         this.setLocationRelativeTo(null);
         
-        jAccountButton.addMouseListener(getMouseAdapter(jAccountButton));
-        jMoviesButton.addMouseListener(getMouseAdapter(jMoviesButton));
         jBookingsButton.addMouseListener(getMouseAdapter(jBookingsButton));
-        jTicketButton.addMouseListener(getMouseAdapter(jTicketButton));
-        jCinemaButton.addMouseListener(getMouseAdapter(jCinemaButton));
+        jScreeningsButton.addMouseListener(getMouseAdapter(jScreeningsButton));
         jLogOutButton.addMouseListener(getMouseAdapter(jLogOutButton));
         
-        MoviesPanel moviesPanel = new MoviesPanel();
-        showPanel(moviesPanel, jMoviesButton);
+        BookingsTabbedPanel bookingsPanel = new BookingsTabbedPanel();
+        showPanel(bookingsPanel, jBookingsButton);
     }
 
     /**
@@ -59,16 +58,13 @@ public final class MainForm extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jBookingsButton = new javax.swing.JLabel();
-        jMoviesButton = new javax.swing.JLabel();
-        jTicketButton = new javax.swing.JLabel();
-        jCinemaButton = new javax.swing.JLabel();
-        jAccountButton = new javax.swing.JLabel();
+        jScreeningsButton = new javax.swing.JLabel();
+        jScreeningsButton1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLogOutButton = new javax.swing.JLabel();
         jContentPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1440, 800));
         setResizable(false);
         setSize(new java.awt.Dimension(1440, 800));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -136,65 +132,36 @@ public final class MainForm extends javax.swing.JFrame {
         });
         jNavbarPanel.add(jBookingsButton);
 
-        jMoviesButton.setBackground(new java.awt.Color(239, 124, 18));
-        jMoviesButton.setForeground(new java.awt.Color(255, 255, 255));
-        jMoviesButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jMoviesButton.setText("Movies");
-        jMoviesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMoviesButton.setOpaque(true);
-        jMoviesButton.setPreferredSize(new java.awt.Dimension(300, 45));
-        jMoviesButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        jScreeningsButton.setBackground(new java.awt.Color(239, 124, 18));
+        jScreeningsButton.setForeground(new java.awt.Color(255, 255, 255));
+        jScreeningsButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jScreeningsButton.setText("Screenings");
+        jScreeningsButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScreeningsButton.setOpaque(true);
+        jScreeningsButton.setPreferredSize(new java.awt.Dimension(300, 45));
+        jScreeningsButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMoviesButtonMouseClicked(evt);
+                jScreeningsButtonMouseClicked(evt);
             }
         });
-        jNavbarPanel.add(jMoviesButton);
+        jNavbarPanel.add(jScreeningsButton);
 
-        jTicketButton.setBackground(new java.awt.Color(239, 124, 18));
-        jTicketButton.setForeground(new java.awt.Color(255, 255, 255));
-        jTicketButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jTicketButton.setText("Tickets");
-        jTicketButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTicketButton.setOpaque(true);
-        jTicketButton.setPreferredSize(new java.awt.Dimension(300, 45));
-        jTicketButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        jScreeningsButton1.setBackground(new java.awt.Color(239, 124, 18));
+        jScreeningsButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jScreeningsButton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jScreeningsButton1.setText("Settings");
+        jScreeningsButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScreeningsButton1.setOpaque(true);
+        jScreeningsButton1.setPreferredSize(new java.awt.Dimension(300, 45));
+        jScreeningsButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTicketButtonMouseClicked(evt);
+                jScreeningsButton1MouseClicked(evt);
             }
         });
-        jNavbarPanel.add(jTicketButton);
-
-        jCinemaButton.setBackground(new java.awt.Color(239, 124, 18));
-        jCinemaButton.setForeground(new java.awt.Color(255, 255, 255));
-        jCinemaButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jCinemaButton.setText("Cinemas");
-        jCinemaButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jCinemaButton.setOpaque(true);
-        jCinemaButton.setPreferredSize(new java.awt.Dimension(300, 45));
-        jCinemaButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jCinemaButtonMouseClicked(evt);
-            }
-        });
-        jNavbarPanel.add(jCinemaButton);
-
-        jAccountButton.setBackground(new java.awt.Color(239, 124, 18));
-        jAccountButton.setForeground(new java.awt.Color(255, 255, 255));
-        jAccountButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jAccountButton.setText("Accounts");
-        jAccountButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jAccountButton.setOpaque(true);
-        jAccountButton.setPreferredSize(new java.awt.Dimension(300, 45));
-        jAccountButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jAccountButtonMouseClicked(evt);
-            }
-        });
-        jNavbarPanel.add(jAccountButton);
+        jNavbarPanel.add(jScreeningsButton1);
 
         jPanel1.setBackground(new java.awt.Color(239, 124, 18));
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 250));
-        jPanel1.setSize(new java.awt.Dimension(300, 250));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 430));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -204,7 +171,7 @@ public final class MainForm extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 430, Short.MAX_VALUE)
         );
 
         jNavbarPanel.add(jPanel1);
@@ -217,7 +184,11 @@ public final class MainForm extends javax.swing.JFrame {
         jLogOutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLogOutButton.setOpaque(true);
         jLogOutButton.setPreferredSize(new java.awt.Dimension(300, 45));
-        jLogOutButton.setSize(new java.awt.Dimension(300, 45));
+        jLogOutButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLogOutButtonMouseClicked(evt);
+            }
+        });
         jNavbarPanel.add(jLogOutButton);
 
         getContentPane().add(jNavbarPanel, java.awt.BorderLayout.WEST);
@@ -241,25 +212,18 @@ public final class MainForm extends javax.swing.JFrame {
         showPanel(bookingsPanel, jBookingsButton);
     }//GEN-LAST:event_jBookingsButtonMouseClicked
 
-    private void jMoviesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMoviesButtonMouseClicked
-        MoviePanel moviePanel = new MoviePanel();
-        showPanel(moviePanel, jMoviesButton);
-    }//GEN-LAST:event_jMoviesButtonMouseClicked
+    private void jScreeningsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScreeningsButtonMouseClicked
+        ScreeningsPanel screeningsPanel = new ScreeningsPanel();
+        showPanel(screeningsPanel, jScreeningsButton);
+    }//GEN-LAST:event_jScreeningsButtonMouseClicked
 
-    private void jTicketButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTicketButtonMouseClicked
-        AdminScreening adminScreening = new AdminScreening();
-        showPanel(adminScreening, jTicketButton);
-    }//GEN-LAST:event_jTicketButtonMouseClicked
+    private void jScreeningsButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScreeningsButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScreeningsButton1MouseClicked
 
-    private void jCinemaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCinemaButtonMouseClicked
-        CinemasPanel cinemasPanel = new CinemasPanel();
-        showPanel(cinemasPanel, jCinemaButton);
-    }//GEN-LAST:event_jCinemaButtonMouseClicked
-
-    private void jAccountButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jAccountButtonMouseClicked
-        StaffPanel staffPanel = new StaffPanel();
-        showPanel(staffPanel, jAccountButton);
-    }//GEN-LAST:event_jAccountButtonMouseClicked
+    private void jLogOutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLogOutButtonMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_jLogOutButtonMouseClicked
 
     private static MouseAdapter getMouseAdapter(JLabel label) {
         return new MouseAdapter() {
@@ -292,7 +256,7 @@ public final class MainForm extends javax.swing.JFrame {
         }
         SwingUtilities.invokeLater(() -> {
             
-            MainForm mainWindow = new MainForm();
+            MainFormStaff mainWindow = new MainFormStaff();
             
             mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             mainWindow.pack();
@@ -322,17 +286,15 @@ public final class MainForm extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jAccountButton;
     private javax.swing.JLabel jBookingsButton;
-    private javax.swing.JLabel jCinemaButton;
     private javax.swing.JPanel jContentPanel;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLogOutButton;
-    private javax.swing.JLabel jMoviesButton;
     private javax.swing.JPanel jNavbarPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel jTicketButton;
+    private javax.swing.JLabel jScreeningsButton;
+    private javax.swing.JLabel jScreeningsButton1;
     // End of variables declaration//GEN-END:variables
 }
