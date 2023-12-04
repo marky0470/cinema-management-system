@@ -29,7 +29,6 @@ public class Main {
 
             loginWindow.pack();
             loginWindow.setVisible(true);
-            loginWindow.showLoginPanel();
         });
         
     };
