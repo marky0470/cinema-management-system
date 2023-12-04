@@ -95,6 +95,7 @@ public class StaffPanel extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
+        setForeground(new java.awt.Color(240, 240, 240));
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 formMouseDragged(evt);
@@ -213,6 +214,8 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
+        add_button.setBackground(new java.awt.Color(240, 240, 240));
+        add_button.setForeground(new java.awt.Color(24, 24, 24));
         add_button.setText("Save");
         buttonGroup1.add(add_button);
         add_button.addActionListener(new java.awt.event.ActionListener() {
@@ -221,6 +224,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        delete_button.setBackground(new java.awt.Color(240, 240, 240));
+        delete_button.setForeground(new java.awt.Color(24, 24, 24));
         delete_button.setText("Delete");
         buttonGroup1.add(delete_button);
         delete_button.addActionListener(new java.awt.event.ActionListener() {
@@ -229,6 +234,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        edit_button.setBackground(new java.awt.Color(240, 240, 240));
+        edit_button.setForeground(new java.awt.Color(24, 24, 24));
         edit_button.setText("Update");
         buttonGroup1.add(edit_button);
         edit_button.addActionListener(new java.awt.event.ActionListener() {
@@ -237,6 +244,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        view_button.setBackground(new java.awt.Color(240, 240, 240));
+        view_button.setForeground(new java.awt.Color(24, 24, 24));
         view_button.setText("Refresh");
         buttonGroup1.add(view_button);
         view_button.addActionListener(new java.awt.event.ActionListener() {
@@ -288,7 +297,9 @@ public class StaffPanel extends javax.swing.JPanel {
 
         JBC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        search_btn.setText("jButton1");
+        search_btn.setBackground(new java.awt.Color(239, 124, 18));
+        search_btn.setForeground(new java.awt.Color(255, 255, 255));
+        search_btn.setText("Search");
 
         jCheckBox2.setText("hide/unhide");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -302,7 +313,7 @@ public class StaffPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel6)
@@ -337,15 +348,15 @@ public class StaffPanel extends javax.swing.JPanel {
                                 .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(JBC1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE))
-                        .addContainerGap(30, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE))
+                        .addContainerGap(50, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
+                        .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(jLabel2)))
