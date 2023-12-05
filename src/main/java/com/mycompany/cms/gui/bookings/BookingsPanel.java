@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -138,45 +139,72 @@ public class BookingsPanel extends javax.swing.JPanel {
     
     private void displayScreenings(ResultSet res) {
         try {
-            try {
-                jMoviesPanel.removeAll();
-                jMoviesPanel.setLayout(new BoxLayout(jMoviesPanel, BoxLayout.Y_AXIS));
-                jMoviesPanel.setBackground(Color.WHITE);
+            jMoviesPanel.removeAll();
+            jMoviesPanel.setLayout(new BoxLayout(jMoviesPanel, BoxLayout.Y_AXIS));
+            jMoviesPanel.setBackground(Color.WHITE);
 
-                int index = 0;
-                JPanel panel = new JPanel();
-                panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+            int index = 0;
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
 
-                while (res.next()) {
-                    String title = res.getString("title");
-                    int movieId = res.getInt("movie_id");
-                    BufferedImage im = ImageIO.read(res.getBinaryStream("image"));
+            while (res.next()) {
+                String title = res.getString("title");
+                int movieId = res.getInt("movie_id");
+                InputStream inputStream = res.getBinaryStream("image");
+
+                if (inputStream == null) {
+                    JPanel card = createCardPanelNoImage(movieId, title);
+                    panel.add(card);
+                } else {
+                    BufferedImage im = ImageIO.read(inputStream);
                     JPanel card = createCardPanel(movieId, title, im);
                     panel.add(card);
-
-                    index++;
-
-                    if (index == 5) {
-                        jMoviesPanel.add(panel);
-                        index = 0;
-                        panel = new JPanel();
-                        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
-                    }
                 }
 
-                jMoviesPanel.add(panel);
-
-                jMoviesPanel.revalidate();
-                jMoviesPanel.repaint();
-
-                revalidate();
-                repaint();
-            } catch (SQLException e) {
-                System.out.println(e.toString());
+                index++;
+                if (index == 5) {
+                    jMoviesPanel.add(panel);
+                    index = 0;
+                    panel = new JPanel();
+                    panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+                }
             }
-        } catch (IOException ioException) {
-            System.out.println(ioException.toString());
+
+            jMoviesPanel.add(panel);
+
+            jMoviesPanel.revalidate();
+            jMoviesPanel.repaint();
+
+            revalidate();
+            repaint();
+        } catch (SQLException | IOException e) {
+            System.out.println(e.toString());
         }
+    }
+    
+    private JPanel createCardPanelNoImage(int movieId, String title) {
+        JPanel cardPanel = new JPanel();
+        
+        cardPanel.setBorder(new CompoundBorder(
+            new LineBorder(new Color(45, 45, 45, 50), 1, true),
+            new EmptyBorder(1, 1, 1, 1)
+        ));
+        cardPanel.setPreferredSize(new Dimension(200, 350));
+        cardPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+        
+        JPanel card = new JPanel();
+        card.setPreferredSize(new Dimension(180, 300));
+        JLabel poster = new JLabel("No Image");
+        card.add(poster);
+        cardPanel.add(card);
+        
+        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        titleLabel.setPreferredSize(new Dimension(180, 20));
+        cardPanel.add(titleLabel);
+        
+        cardPanel.addMouseListener(getMouseListenerNoImage(movieId, title, cardPanel));
+
+        return cardPanel;
     }
     
     private JPanel createCardPanel(int movieId, String title, BufferedImage image) {
@@ -213,6 +241,35 @@ public class BookingsPanel extends javax.swing.JPanel {
         return (ChangeEvent e) -> {
             changeDateLabel();
             getScreenings();
+        };
+    }
+    
+    private MouseAdapter getMouseListenerNoImage(int id, String title, JPanel card) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                BookingsPanel.this.panel.setSelectedMovieId(id);
+                BookingsPanel.this.panel.setMovieTitle(title);
+                BookingsPanel.this.panel.setMoviePoster(null);
+                BookingsPanel.this.panel.setScreeningDate(getSelectedDate());
+                BookingsPanel.this.panel.openSchedulesTab();
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                card.setBorder(new CompoundBorder(
+                    new LineBorder(new Color(45, 45, 45, 70), 1, true),
+                    new EmptyBorder(1, 1, 1, 1)
+                ));
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                card.setBorder(new CompoundBorder(
+                    new LineBorder(new Color(45, 45, 45, 50), 1, true),
+                    new EmptyBorder(1, 1, 1, 1)
+                ));
+            }
         };
     }
     
