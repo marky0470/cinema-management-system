@@ -110,6 +110,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        jClearButton.setBackground(new java.awt.Color(242, 242, 242));
         jClearButton.setText("Clear");
         jClearButton.setPreferredSize(null);
         jClearButton.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +119,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        jUpdateButton.setBackground(new java.awt.Color(242, 242, 242));
         jUpdateButton.setText("Update");
         jUpdateButton.setPreferredSize(null);
         jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -126,7 +128,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
-        jAddButton.setBackground(new java.awt.Color(153, 0, 255));
+        jAddButton.setBackground(new java.awt.Color(239, 124, 18));
         jAddButton.setForeground(new java.awt.Color(255, 255, 255));
         jAddButton.setText("Add");
         jAddButton.setPreferredSize(null);
@@ -154,7 +156,7 @@ public class MoviePanel extends javax.swing.JPanel {
 
         jGenreLabel.setText("Genre");
 
-        jSearchButton.setBackground(new java.awt.Color(204, 0, 255));
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
         jSearchButton.setPreferredSize(null);
@@ -206,6 +208,7 @@ public class MoviePanel extends javax.swing.JPanel {
 
         jDurationText.setPreferredSize(null);
 
+        jButton1.setBackground(new java.awt.Color(242, 242, 242));
         jButton1.setText("Refresh");
         jButton1.setPreferredSize(null);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -214,6 +217,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        jDeleteButton.setBackground(new java.awt.Color(242, 242, 242));
         jDeleteButton.setText("Delete");
         jDeleteButton.setPreferredSize(null);
         jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -222,6 +226,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        chooseImageButton.setBackground(new java.awt.Color(242, 242, 242));
         chooseImageButton.setText("Choose image");
         chooseImageButton.setPreferredSize(new java.awt.Dimension(85, 30));
         chooseImageButton.addActionListener(new java.awt.event.ActionListener() {
@@ -319,9 +324,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
