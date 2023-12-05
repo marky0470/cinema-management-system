@@ -15,15 +15,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.mindrot.jbcrypt.BCrypt;
 
-/**
- *
- * @author marks
- */
+
 public class StaffPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form StaffPanel
-     */
+   
     public StaffPanel() {
         initComponents();
         
@@ -215,6 +210,8 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
+        add_button.setBackground(new java.awt.Color(255, 153, 0));
+        add_button.setForeground(new java.awt.Color(255, 255, 255));
         add_button.setText("Save");
         buttonGroup1.add(add_button);
         add_button.addActionListener(new java.awt.event.ActionListener() {
@@ -223,6 +220,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        delete_button.setBackground(new java.awt.Color(255, 153, 0));
+        delete_button.setForeground(new java.awt.Color(255, 255, 255));
         delete_button.setText("Delete");
         buttonGroup1.add(delete_button);
         delete_button.addActionListener(new java.awt.event.ActionListener() {
@@ -231,6 +230,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        edit_button.setBackground(new java.awt.Color(255, 153, 0));
+        edit_button.setForeground(new java.awt.Color(255, 255, 255));
         edit_button.setText("Update");
         buttonGroup1.add(edit_button);
         edit_button.addActionListener(new java.awt.event.ActionListener() {
@@ -239,6 +240,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        view_button.setBackground(new java.awt.Color(255, 153, 0));
+        view_button.setForeground(new java.awt.Color(255, 255, 255));
         view_button.setText("Refresh");
         buttonGroup1.add(view_button);
         view_button.addActionListener(new java.awt.event.ActionListener() {
@@ -410,7 +413,7 @@ public class StaffPanel extends javax.swing.JPanel {
   int selectedRow = jtable1.getSelectedRow();
 
         if (selectedRow == -1) {
-            // no row selected
+            
             return;
         }
 
@@ -421,7 +424,7 @@ public class StaffPanel extends javax.swing.JPanel {
         
         boolean isAdmin = (boolean) jtable1.getValueAt(selectedRow, 4);
 
-        // Now you can use the retrieved data as needed
+        
         jTextField1.setText(firstName);
         jTextField2.setText(lastName);
         jTextField3.setText(email);
@@ -547,7 +550,11 @@ private void applyFilter() {
  
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-
+        if (jTextField5.getText().equals("")){
+             refreshTable();   
+        }
+        String search =jTextField5.getText();
+        applyFilter(search);
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -603,7 +610,7 @@ private void applyFilter() {
             return ;
         }
 
-        // Validate input fields
+        
         if (!validateFields()) {
             JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -646,7 +653,7 @@ private void applyFilter() {
             String email = jTextField3.getText();
             
 
-            // You can add more specific validation logic as needed
+          
             return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty();
     }//GEN-LAST:event_edit_buttonActionPerformed
 
