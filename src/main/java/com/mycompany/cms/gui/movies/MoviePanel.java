@@ -43,6 +43,9 @@ public class MoviePanel extends javax.swing.JPanel {
     }
     
     private void refreshTable() {       
+        
+        //A function that refreshes the table//
+        
         try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
@@ -79,6 +82,9 @@ public class MoviePanel extends javax.swing.JPanel {
     }
     
     private void clearEverything(){
+        
+        // A Function that clears everything//
+        
         jTitleText.setText("");
 	jRatingComboBox.setSelectedIndex(0);
 	jReleasedComboBox.setSelectedIndex(0);
@@ -115,7 +121,7 @@ public class MoviePanel extends javax.swing.JPanel {
         jMovieTable = new javax.swing.JTable();
         jTitleText = new javax.swing.JTextField();
         jDurationText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
         jDeleteButton = new javax.swing.JButton();
         chooseImageButton = new javax.swing.JButton();
         imageContainerPanel = new javax.swing.JPanel();
@@ -241,13 +247,13 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(242, 242, 242));
-        jButton1.setText("Refresh");
-        jButton1.setBorderPainted(false);
-        jButton1.setPreferredSize(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jRefreshButton.setBackground(new java.awt.Color(242, 242, 242));
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorderPainted(false);
+        jRefreshButton.setPreferredSize(null);
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jRefreshButtonActionPerformed(evt);
             }
         });
 
@@ -373,7 +379,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addGap(57, 57, 57))
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -425,7 +431,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jScrollPane1)))
             .addGap(39, 39, 39)
@@ -455,6 +461,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
         
         //UPDATE//
+        //Updates both the database and the table//
 
             String title = jTitleText.getText();
             String rating = (String) jRatingComboBox.getSelectedItem();
@@ -509,6 +516,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
         
         //ADD//
+        //Adds an entry into both the database and the table//
         
             String title = jTitleText.getText();
             String rating =  (String) jRatingComboBox.getSelectedItem();
@@ -570,6 +578,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
         
         //SEARCH//
+        //Scours the dattabase for the inputed movie title and shows results in the table//
         
         String searchInput = jSearchText.getText();
         
@@ -608,8 +617,11 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
     }//GEN-LAST:event_jSearchTextActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
         // TODO add your handling code here:     
+        
+        //REFRESH//
+        //Refreshes/resets the table//
         
         try {
                  Connector connector = new Connector();
@@ -637,7 +649,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
              } catch (SQLException e) {
                  System.out.println(e);
              }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
         // TODO add your handling code here:     
@@ -647,6 +659,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         // TODO add your handling code here:
         
         //DELETE//
+        //Deletes the entry selected on the table//
         
         int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this entry?");  
         
@@ -682,6 +695,9 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
 
     private void jMovieTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseReleased
         // TODO add your handling code here:
+        
+        //TABLE IS CLICKED//
+        //Provides the needed variables when a row is selected on the table//
         
             int selectedRow = jMovieTable.getSelectedRow();
 	    int movie_id_column = 0;
@@ -730,7 +746,8 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
 
     private void chooseImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseImageButtonActionPerformed
         
-        //Choose Image//
+        //CHOOSE IMAGE//
+        //Opens the file chooser to select an image//
         
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
@@ -767,7 +784,6 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JButton chooseImageButton;
     private javax.swing.JPanel imageContainerPanel;
     private javax.swing.JButton jAddButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jClearButton;
     private javax.swing.JLabel jDateLabel;
     private javax.swing.JButton jDeleteButton;
@@ -781,6 +797,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
     private javax.swing.JTable jMovieTable;
     private javax.swing.JComboBox<String> jRatingComboBox;
     private javax.swing.JLabel jRatingLabel;
+    private javax.swing.JButton jRefreshButton;
     private javax.swing.JComboBox<String> jReleasedComboBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jSearchButton;
