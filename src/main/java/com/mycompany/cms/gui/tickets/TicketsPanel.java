@@ -225,6 +225,11 @@ public class TicketsPanel extends javax.swing.JPanel {
     
     private void refreshTableModel() {
         tableModel = new DefaultTableModel(new String[]{"Ticket ID", "Movie", "Time", "Date", "Seat", "Price"}, 0);
+        
+        for (int i=0; i<tableModel.getColumnCount(); i++) {
+            Class<?> c = tableModel.getColumnClass(i);
+            jTable1.setDefaultEditor(c, null);
+        }
     }
     
     private void getTicketsBySearch() {
