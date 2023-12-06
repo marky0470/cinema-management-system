@@ -40,6 +40,7 @@ public final class MainFormStaff extends javax.swing.JFrame {
         jBookingsButton.addMouseListener(getMouseAdapter(jBookingsButton));
         jScreeningsButton.addMouseListener(getMouseAdapter(jScreeningsButton));
         jLogOutButton.addMouseListener(getMouseAdapter(jLogOutButton));
+        jTicketsButton.addMouseListener(getMouseAdapter(jTicketsButton));
         
         BookingsTabbedPanel bookingsPanel = new BookingsTabbedPanel();
         showPanel(bookingsPanel, jBookingsButton);
@@ -61,7 +62,6 @@ public final class MainFormStaff extends javax.swing.JFrame {
         jBookingsButton = new javax.swing.JLabel();
         jScreeningsButton = new javax.swing.JLabel();
         jTicketsButton = new javax.swing.JLabel();
-        jScreeningsButton1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLogOutButton = new javax.swing.JLabel();
         jContentPanel = new javax.swing.JPanel();
@@ -162,22 +162,8 @@ public final class MainFormStaff extends javax.swing.JFrame {
         });
         jNavbarPanel.add(jTicketsButton);
 
-        jScreeningsButton1.setBackground(new java.awt.Color(239, 124, 18));
-        jScreeningsButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jScreeningsButton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jScreeningsButton1.setText("Settings");
-        jScreeningsButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jScreeningsButton1.setOpaque(true);
-        jScreeningsButton1.setPreferredSize(new java.awt.Dimension(300, 45));
-        jScreeningsButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jScreeningsButton1MouseClicked(evt);
-            }
-        });
-        jNavbarPanel.add(jScreeningsButton1);
-
         jPanel1.setBackground(new java.awt.Color(239, 124, 18));
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 390));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 430));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -187,7 +173,7 @@ public final class MainFormStaff extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 430, Short.MAX_VALUE)
         );
 
         jNavbarPanel.add(jPanel1);
@@ -232,10 +218,6 @@ public final class MainFormStaff extends javax.swing.JFrame {
         ScreeningsPanel screeningsPanel = new ScreeningsPanel();
         showPanel(screeningsPanel, jScreeningsButton);
     }//GEN-LAST:event_jScreeningsButtonMouseClicked
-
-    private void jScreeningsButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScreeningsButton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jScreeningsButton1MouseClicked
 
     private void jLogOutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLogOutButtonMouseClicked
         LoginForm loginForm = new LoginForm();
@@ -318,7 +300,6 @@ public final class MainFormStaff extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel jScreeningsButton;
-    private javax.swing.JLabel jScreeningsButton1;
     private javax.swing.JLabel jTicketsButton;
     // End of variables declaration//GEN-END:variables
 }
