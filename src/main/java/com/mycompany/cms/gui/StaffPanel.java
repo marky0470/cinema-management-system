@@ -616,56 +616,57 @@ private void applyFilter() {
     }//GEN-LAST:event_REFRESH_BTNActionPerformed
 
     private void EDIT_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDIT_BTNActionPerformed
-   int selectedRow = jtable1.getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-  
-            }else{
-             if(JPF1.getText().equals("") == false){
-            JOptionPane.showMessageDialog(this, "Use Change Password button to update password"); 
-             }
-             else{
-             if (JTF_FN.getText().equals("")|| JTF_LN.getText().equals("")|| JTF_EMAIL.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
-            
-            }
+  int selectedRow = jtable1.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else {
+        if (!JPF1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
+        } else {
+            if (JTF_FN.getText().isEmpty() || JTF_LN.getText().isEmpty() || JTF_EMAIL.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if (!validateFields()) {
+                    JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String email = JTF_EMAIL.getText();
 
-            if (!validateFields()) {
-                JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                    if (isEmailDuplicate(email)) {
+                        JOptionPane.showMessageDialog(this, "Duplicate email found!");
+                    } else {
+                        int userId = (int) jtable1.getValueAt(selectedRow, 0);
+                        String firstName = JTF_FN.getText();
+                        String lastName = JTF_LN.getText();
+                        boolean admin = JTB1_BTN.isSelected();
 
-            int userId = (int) jtable1.getValueAt(selectedRow, 0);
-            String firstName = JTF_FN.getText();
-            String lastName = JTF_LN.getText();
-            String email = JTF_EMAIL.getText();
-            boolean admin = JTB1_BTN.isSelected();
+                        String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
 
-            String query = "UPDATE users SET first_name=?, last_name=?, email=?,is_admin=? WHERE user_id=?";
+                        try {
+                            Connector connector = new Connector();
+                            Connection con = connector.getConnection();
 
-            try {
-                Connector connector = new Connector();
-                Connection con = connector.getConnection();
+                            try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                                pstmt.setString(1, firstName);
+                                pstmt.setString(2, lastName);
+                                pstmt.setString(3, email);
+                                pstmt.setBoolean(4, admin);
+                                pstmt.setInt(5, userId);
 
-                try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                    pstmt.setString(1, firstName);
-                    pstmt.setString(2, lastName);
-                    pstmt.setString(3, email);
-                    pstmt.setBoolean(4, admin);
-                    pstmt.setInt(5, userId);
-
-                    pstmt.executeUpdate();
-                    refreshTable();
+                                pstmt.executeUpdate();
+                                refreshTable();
+                                JOptionPane.showMessageDialog(this, "Sucessfully Updated");
+                                
+                            }
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            System.out.println(e);
+                        }
+                    }
                 }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                System.out.println(e);
             }
         }
-   
-      
-        }
+    }
     }//GEN-LAST:event_EDIT_BTNActionPerformed
         private boolean validateFields() {
 
