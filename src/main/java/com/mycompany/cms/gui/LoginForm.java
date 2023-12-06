@@ -250,6 +250,7 @@ public class LoginForm extends javax.swing.JFrame {
             mainForm.pack();
             mainForm.setVisible(true);
         }
+        this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
