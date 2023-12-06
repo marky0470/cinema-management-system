@@ -67,6 +67,8 @@ public class BookingsSchedulesPanel extends javax.swing.JPanel {
             jTitleLabel.setText(title);
             jDateTextField.setText(screeningDate.toString());
         }
+        if (title != null) jTitleLabel.setText(title);
+        if (screeningDate != null) jDateTextField.setText(screeningDate.toString());
     }
     
     private void getMovieScreenings(int id) {

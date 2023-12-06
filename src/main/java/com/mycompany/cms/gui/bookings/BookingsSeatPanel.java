@@ -112,6 +112,11 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
     
     private void displayMovieDetails() {
         BufferedImage image = this.panel.getMoviePoster();
+        String title = this.panel.getMovieTitle();
+        int ticketQuantity = this.panel.getTicketQuantity();
+        Date screeningDate = this.panel.getScreeningDate();
+        Time timeStart = this.panel.getScreeningTimeStart();
+        Time timeEnd = this.panel.getScreeningTimeEnd();
         
         System.out.println(image);
         
@@ -126,13 +131,18 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
 
             jPosterPanel.removeAll();
             jPosterPanel.add(poster, BorderLayout.CENTER);
-            jMovieTitle.setText(this.panel.getMovieTitle());
-            jQuantityTextField.setText(String.valueOf(this.panel.getTicketQuantity()));
-            jDateTextField.setText(this.panel.getScreeningDate().toString());
-            jTimeStartTextField.setText(this.panel.getScreeningTimeStart().toString());
-            jTimeEndTextField.setText(this.panel.getScreeningTimeEnd().toString());
+//            jMovieTitle.setText(this.panel.getMovieTitle());
+//            jQuantityTextField.setText(String.valueOf(this.panel.getTicketQuantity()));
+//            jDateTextField.setText(this.panel.getScreeningDate().toString());
+//            jTimeStartTextField.setText(this.panel.getScreeningTimeStart().toString());
+//            jTimeEndTextField.setText(this.panel.getScreeningTimeEnd().toString());
         }
         
+        if (title != null) jMovieTitle.setText(title);
+        if (screeningDate != null) jDateTextField.setText(screeningDate.toString());
+        if (timeStart != null) jTimeStartTextField.setText(timeStart.toString());
+        if (timeEnd != null) jTimeEndTextField.setText(timeEnd.toString());
+        jQuantityTextField.setText(String.valueOf(ticketQuantity));
     }
     
     private void getAvailableSeats() {
