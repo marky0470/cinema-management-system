@@ -463,52 +463,67 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         //UPDATE//
         //Updates both the database and the table//
 
+        if(!jMovieTable.getSelectionModel().isSelectionEmpty()){
+        
             String title = jTitleText.getText();
             String rating = (String) jRatingComboBox.getSelectedItem();
-            int released = (int) jReleasedComboBox.getSelectedItem();
+            String released = (String) jReleasedComboBox.getSelectedItem();
             String genre = (String) jGenreComboBox.getSelectedItem();
-            int duration = Integer.parseInt(jDurationText.getText());
+            String duration = jDurationText.getText();
             String imagePath = jFilePathText.getText();
+            
+            int selectedRow = jMovieTable.getSelectedRow();
+            int movie_id_column = 0;
+            int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
             
             String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ?, image = ? WHERE movie_id = ?";          
         
-        try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
             
-            int selectedRow = jMovieTable.getSelectedRow();
-	    int movie_id_column = 0;
- 	    int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
+                
+                try {
+                    Connector connector = new Connector();
+                    Connection con = connector.getConnection();
 
-	    PreparedStatement prepStmt = con.prepareStatement(query);
-            
-	    prepStmt.setString(1, title);
-            prepStmt.setString(2, rating);
-            prepStmt.setInt(3, released);
-            prepStmt.setString(4, genre);
-            prepStmt.setInt(5, duration);
-            
-            InputStream in;
-            try {
-                in = new FileInputStream(imagePath);
-                prepStmt.setBlob(6, in);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    int releasedInt = Integer.parseInt(released);
+                    int durationInt = Integer.parseInt(jDurationText.getText());
+
+                    PreparedStatement prepStmt = con.prepareStatement(query);
+
+                    prepStmt.setString(1, title);
+                    prepStmt.setString(2, rating);
+                    prepStmt.setInt(3, releasedInt);
+                    prepStmt.setString(4, genre);
+                    prepStmt.setInt(5, durationInt);
+
+                    InputStream in;
+                    try {
+                        in = new FileInputStream(imagePath);
+                        prepStmt.setBlob(6, in);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    prepStmt.setInt(7, movie_id);
+
+                    prepStmt.executeUpdate();
+
+
+                    } catch (SQLException e) {
+                    System.out.println(e);
+                    }
+
+                    clearEverything();
+                    
+                    JOptionPane.showMessageDialog(this, "Your changes have been applied!");
+                    
             }
             
-            prepStmt.setInt(7, movie_id);
-            
-            prepStmt.executeUpdate();
-
-	    
-	    } catch (SQLException e) {
-            System.out.println(e);
-	    }
+            else{
+                    JOptionPane.showMessageDialog(this,"No table row was selected.","Alert",JOptionPane.WARNING_MESSAGE);
+            }
         
-            clearEverything();
+                refreshTable();
         
-        refreshTable();
-        JOptionPane.showMessageDialog(this, "Your changes have been applied!");
         
     }//GEN-LAST:event_jUpdateButtonActionPerformed
 
@@ -661,34 +676,40 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         //DELETE//
         //Deletes the entry selected on the table//
         
-        int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this entry?");  
+        if(!jMovieTable.getSelectionModel().isSelectionEmpty()){
         
-        if(confirmation==JOptionPane.YES_OPTION){ 
-            try {
+            int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this entry?");  
 
-                Connector connector = new Connector();
-                Connection con = connector.getConnection();
+            if(confirmation==JOptionPane.YES_OPTION){ 
+                try {
 
-                int selectedRow = jMovieTable.getSelectedRow();
-                int movieid_column = 0;
-                int movie_table_id = (int) jMovieTable.getModel().getValueAt(selectedRow, movieid_column);
+                    Connector connector = new Connector();
+                    Connection con = connector.getConnection();
+
+                    int selectedRow = jMovieTable.getSelectedRow();
+                    int movieid_column = 0;
+                    int movie_table_id = (int) jMovieTable.getModel().getValueAt(selectedRow, movieid_column);
 
 
-                String query = "DELETE FROM movies WHERE movie_id = ?";
+                    String query = "DELETE FROM movies WHERE movie_id = ?";
 
-                PreparedStatement prepStmt = con.prepareStatement(query);
-                prepStmt.setInt(1, movie_table_id);
+                    PreparedStatement prepStmt = con.prepareStatement(query);
+                    prepStmt.setInt(1, movie_table_id);
 
-                prepStmt.executeUpdate();
-                
-                JOptionPane.showMessageDialog(this, "Entry has been deleted!");
+                    prepStmt.executeUpdate();
 
-            } catch (SQLException e) {
-            System.out.println(e);
+                    JOptionPane.showMessageDialog(this, "Entry has been deleted!");
+
+                } catch (SQLException e) {
+                System.out.println(e);
+                }
+
+                clearEverything();
             }
-
-            clearEverything();
-            
+        }
+        
+        else{
+                    JOptionPane.showMessageDialog(this,"No table row was selected.","Alert",JOptionPane.WARNING_MESSAGE);
             }
 	
     }//GEN-LAST:event_jDeleteButtonActionPerformed
