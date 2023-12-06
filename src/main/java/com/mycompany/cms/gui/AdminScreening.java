@@ -10,6 +10,8 @@ import com.mycompany.cms.gui.movies.DateTimePanel;
 import com.mycompany.cms.models.Cinema;
 import com.mycompany.cms.util.Connector;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,10 +21,15 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,35 +52,147 @@ public class AdminScreening extends javax.swing.JPanel {
         initComponents();
         refreshTable();
         
-        jEditButton.setVisible(false);
-        jEditButton.setEnabled(false);
-        jDeleteButton.setVisible(false);
-        jDeleteButton.setEnabled(false);
-        
-        jUpdatePanel.setVisible(false);
-        jUpdateButton.setVisible(false);
-        jUpdateButton.setEnabled(false);
-        jCancelButton.setVisible(false);
-        jCancelButton.setEnabled(false);
-        
         getMovieList();
         getCinemasList();
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(12);
         //Populate movie selector with movies
-        String[] movieList;
-        movieList = getMovieTitles();
+        String[] movieList = getMovieTitles();
         jMovieDropDown.setModel(new javax.swing.DefaultComboBoxModel<>( movieList));
-        jMovieUpdate.setModel(new javax.swing.DefaultComboBoxModel<>(movieList));
-        
-        String[] cinemaList;
-        cinemaList = getCinemaNames();
+        String[] cinemaList = getCinemaNames();
         jScreenDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(cinemaList));
-        jScreenUpdate.setModel(new javax.swing.DefaultComboBoxModel<>(cinemaList));
+        jCinemaSelector.setModel(new javax.swing.DefaultComboBoxModel<>(cinemaList));
         
+        jCinemaSelector.addActionListener(cinemaSelectActionListener());
+        
+        jDateSelector.addChangeListener(dateSelectChangeListener());
+
+    }
+    
+    private ActionListener cinemaSelectActionListener() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
+                
+                try {
+                    int selectedCinema = getCinemaByName((String) jCinemaSelector.getSelectedItem()).getId();
+
+                    String query = """
+                        SELECT 
+                            s.screening_id, 
+                            s.movie_id, 
+                            m.title AS movie_title,
+                            s.cinema_id, 
+                            c.name AS cinema_name,
+                            s.time_start, 
+                            s.time_end, 
+                            s.date, 
+                            s.price 
+                        FROM 
+                            screening s 
+                        JOIN 
+                            movies m ON s.movie_id = m.movie_id 
+                        JOIN 
+                            cinemas c ON s.cinema_id = c.cinema_id
+                        WHERE
+                            s.cinema_id = ?""";
+
+                    PreparedStatement pstmt = con.prepareStatement(query);
+                    pstmt.setInt(1, selectedCinema);
+                    ResultSet rs = pstmt.executeQuery();
+                    
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+                    
+                    while (rs.next()) {
+                        int screeningId = rs.getInt("screening_id");
+                        int movieId = rs.getInt("movie_id");
+                        String movieTitle = rs.getString("movie_title");
+                        int cinemaId = rs.getInt("cinema_id");
+                        String cinemaName = rs.getString("cinema_name");
+                        Time timeStart = rs.getTime("time_start");
+                        Time timeEnd = rs.getTime("time_end");
+                        Date date = rs.getDate("date");
+                        int price = rs.getInt("price");
+
+                        model.addRow(new Object[]{screeningId, movieId, movieTitle, cinemaId, cinemaName, timeStart, timeEnd, date, price});
+                    }
+                    
+                    
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                revalidate();
+                repaint();
+                
+            }
+        };
+    }
+    
+    private ChangeListener dateSelectChangeListener() {
+        return new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
+                
+                try {
+                    Date selectedDate = (Date) jDateSelector.getValue();
+
+                    String query = """
+                        SELECT 
+                            s.screening_id, 
+                            s.movie_id, 
+                            m.title AS movie_title,
+                            s.cinema_id, 
+                            c.name AS cinema_name,
+                            s.time_start, 
+                            s.time_end, 
+                            s.date, 
+                            s.price 
+                        FROM 
+                            screening s 
+                        JOIN 
+                            movies m ON s.movie_id = m.movie_id 
+                        JOIN 
+                            cinemas c ON s.cinema_id = c.cinema_id
+                        WHERE
+                            s.date = ?""";
+
+                    PreparedStatement pstmt = con.prepareStatement(query);
+                    pstmt.setObject(1, selectedDate);
+                    ResultSet rs = pstmt.executeQuery();
+                    
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+                    
+                    while (rs.next()) {
+                        int screeningId = rs.getInt("screening_id");
+                        int movieId = rs.getInt("movie_id");
+                        String movieTitle = rs.getString("movie_title");
+                        int cinemaId = rs.getInt("cinema_id");
+                        String cinemaName = rs.getString("cinema_name");
+                        Time timeStart = rs.getTime("time_start");
+                        Time timeEnd = rs.getTime("time_end");
+                        Date date = rs.getDate("date");
+                        int price = rs.getInt("price");
+
+                        model.addRow(new Object[]{screeningId, movieId, movieTitle, cinemaId, cinemaName, timeStart, timeEnd, date, price});
+                    }
+                    
+                    
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                revalidate();
+                repaint();
+            }
+        };
     }
     
     private String[] getMovieTitles() {
         ArrayList<String> movies = new ArrayList<String>();
-        for (Movie m : this.movies) {
+        ArrayList<Movie> arrangedMovies = arrangeByMovieId();
+        for (Movie m : arrangedMovies) {
             movies.add(m.getTitle());
         }
         return movies.toArray(new String[(movies.size())]);
@@ -135,7 +254,7 @@ public class AdminScreening extends javax.swing.JPanel {
         return names.toArray(new String[(names.size())]);
     }
     
-    private void refreshTable() {
+    public void refreshTable() {
         try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
@@ -194,50 +313,31 @@ public class AdminScreening extends javax.swing.JPanel {
 
         jMovieLabel = new javax.swing.JLabel();
         jScreenLabel = new javax.swing.JLabel();
-        jAddDateButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jMovieTable = new javax.swing.JTable();
         jSearchField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
         jClearAllButton = new javax.swing.JButton();
         jAddShowtimeButton = new javax.swing.JButton();
-        jCinemaDateLabel = new javax.swing.JLabel();
         jMovieDropDown = new javax.swing.JComboBox<>();
         jScreenDropDown = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollContPanel = new javax.swing.JPanel();
         jEditButton = new javax.swing.JButton();
         jDeleteButton = new javax.swing.JButton();
-        jUpdatePanel = new javax.swing.JPanel();
-        jMovieUpdate = new javax.swing.JComboBox<>();
-        jScreenUpdate = new javax.swing.JComboBox<>();
-        jShowDateUpdate = new javax.swing.JSpinner();
-        jEndtime8 = new javax.swing.JLabel();
-        jMovieLabelUpdate = new javax.swing.JLabel();
-        jScreenLabelUpdate = new javax.swing.JLabel();
-        jShowDateLabelUpdate = new javax.swing.JLabel();
-        jTimeUpdate = new javax.swing.JLabel();
-        jPriceUpdate = new javax.swing.JTextField();
-        jPriceLabelUpdate = new javax.swing.JLabel();
-        jShowDate7 = new javax.swing.JSpinner();
-        jUpdateButton = new javax.swing.JButton();
-        jCancelButton = new javax.swing.JButton();
         jPriceTextField = new javax.swing.JTextField();
         jScreenLabel1 = new javax.swing.JLabel();
+        jAddDateButton = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jCinemaSelector = new javax.swing.JComboBox<>();
+        jMovieLabel1 = new javax.swing.JLabel();
+        jMovieLabel2 = new javax.swing.JLabel();
+        jDateSelector = new javax.swing.JSpinner();
 
         jMovieLabel.setText("Movie");
 
-        jScreenLabel.setText("Screen");
-
-        jAddDateButton.setBackground(new java.awt.Color(239, 124, 18));
-        jAddDateButton.setForeground(new java.awt.Color(255, 255, 255));
-        jAddDateButton.setText("Add Date");
-        jAddDateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jAddDateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jAddDateButtonActionPerformed(evt);
-            }
-        });
+        jScreenLabel.setText("Cinema");
 
         jMovieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -307,6 +407,7 @@ public class AdminScreening extends javax.swing.JPanel {
         jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
+        jSearchButton.setPreferredSize(new java.awt.Dimension(72, 30));
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSearchButtonActionPerformed(evt);
@@ -330,12 +431,6 @@ public class AdminScreening extends javax.swing.JPanel {
             }
         });
 
-        jCinemaDateLabel.setBackground(new java.awt.Color(255, 255, 255));
-        jCinemaDateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jCinemaDateLabel.setText("Cinema:    C                  Date:     29/11/2023");
-        jCinemaDateLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jCinemaDateLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
         jMovieDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Movie", "Transformer", "9", "CJ7", "Avengers" }));
         jMovieDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -353,7 +448,7 @@ public class AdminScreening extends javax.swing.JPanel {
         );
         jScrollContPanelLayout.setVerticalGroup(
             jScrollContPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 272, Short.MAX_VALUE)
+            .addGap(0, 510, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jScrollContPanel);
@@ -375,233 +470,157 @@ public class AdminScreening extends javax.swing.JPanel {
             }
         });
 
-        jMovieUpdate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Movie", "Transformer", "9", "CJ7", "Avengers" }));
-
-        jScreenUpdate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Screen", "1", "2", "3", "4" }));
-
-        jShowDateUpdate.setModel(new javax.swing.SpinnerDateModel());
-        jShowDateUpdate.setEditor(new javax.swing.JSpinner.DateEditor(jShowDateUpdate, "MM/dd/yyyy"));
-
-        jEndtime8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jEndtime8.setText("6:48 PM");
-        jEndtime8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jEndtime8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        jMovieLabelUpdate.setText("Movie");
-
-        jScreenLabelUpdate.setText("Screen");
-
-        jShowDateLabelUpdate.setText("Show Date");
-
-        jTimeUpdate.setText("Time");
-
-        jPriceLabelUpdate.setText("Price");
-
-        jShowDate7.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.AM_PM));
-        jShowDate7.setEditor(new javax.swing.JSpinner.DateEditor(jShowDate7, "hh:mm aa"));
-
-        javax.swing.GroupLayout jUpdatePanelLayout = new javax.swing.GroupLayout(jUpdatePanel);
-        jUpdatePanel.setLayout(jUpdatePanelLayout);
-        jUpdatePanelLayout.setHorizontalGroup(
-            jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jUpdatePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jUpdatePanelLayout.createSequentialGroup()
-                        .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jMovieLabelUpdate)
-                            .addComponent(jScreenLabelUpdate))
-                        .addGap(76, 76, 76)
-                        .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScreenUpdate, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jMovieUpdate, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(2, 2, 2))
-                    .addGroup(jUpdatePanelLayout.createSequentialGroup()
-                        .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jShowDateLabelUpdate)
-                            .addComponent(jTimeUpdate)
-                            .addComponent(jPriceLabelUpdate))
-                        .addGap(55, 55, 55)
-                        .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPriceUpdate)
-                            .addGroup(jUpdatePanelLayout.createSequentialGroup()
-                                .addComponent(jShowDate7, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jEndtime8, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jShowDateUpdate)))))
-        );
-        jUpdatePanelLayout.setVerticalGroup(
-            jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jUpdatePanelLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jMovieUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jMovieLabelUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jScreenUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScreenLabelUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jShowDateUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jShowDateLabelUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jShowDate7, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                        .addComponent(jTimeUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jEndtime8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPriceUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPriceLabelUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jUpdateButton.setBackground(new java.awt.Color(239, 124, 18));
-        jUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
-        jUpdateButton.setText("Update");
-        jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jUpdateButtonActionPerformed(evt);
-            }
-        });
-
-        jCancelButton.setBackground(new java.awt.Color(247, 196, 149));
-        jCancelButton.setText("Cancel");
-        jCancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCancelButtonActionPerformed(evt);
-            }
-        });
+        jPriceTextField.setPreferredSize(new java.awt.Dimension(64, 30));
 
         jScreenLabel1.setText("Price");
+
+        jAddDateButton.setBackground(new java.awt.Color(239, 124, 18));
+        jAddDateButton.setForeground(new java.awt.Color(255, 255, 255));
+        jAddDateButton.setText("Add Date");
+        jAddDateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jAddDateButton.setPreferredSize(new java.awt.Dimension(79, 30));
+        jAddDateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddDateButtonActionPerformed(evt);
+            }
+        });
+
+        jRefreshButton.setBackground(new java.awt.Color(247, 196, 149));
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRefreshButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel1.setText("Screenings");
+
+        jCinemaSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCinemaSelector.setPreferredSize(new java.awt.Dimension(72, 30));
+
+        jMovieLabel1.setText("Cinema");
+
+        jMovieLabel2.setText("Date");
+
+        jDateSelector.setModel(new javax.swing.SpinnerDateModel());
+        jDateSelector.setEditor(new javax.swing.JSpinner.DateEditor(jDateSelector, "MM/dd/yyyy"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jScreenLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jMovieLabel)
-                                    .addGap(59, 59, 59)
-                                    .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScreenLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(36, 36, 36)
-                                    .addComponent(jAddDateButton))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jClearAllButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jAddShowtimeButton)
-                        .addGap(56, 56, 56)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jEditButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(jDeleteButton))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jUpdateButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCancelButton)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                        .addComponent(jUpdatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(118, Short.MAX_VALUE))
+                        .addComponent(jEditButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(jDeleteButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(31, 31, 31)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScreenLabel)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(10, 10, 10)
+                                                .addComponent(jAddDateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jMovieLabel)
+                                                .addGap(242, 242, 242))
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScreenLabel1)
+                                .addComponent(jPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jClearAllButton)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jAddShowtimeButton))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSearchButton))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jCinemaDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(340, 340, 340))
+                                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCinemaSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jMovieLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jMovieLabel2)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jRefreshButton)))))))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jMovieLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jMovieLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jMovieLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCinemaSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addComponent(jScreenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jMovieDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jMovieLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jAddDateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jScreenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScreenDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jAddDateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPriceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                            .addComponent(jScreenLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(21, 21, 21)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScreenLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jAddShowtimeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jClearAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jCinemaDateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jEditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(120, 120, 120)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jUpdatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(177, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jEditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jAddDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddDateButtonActionPerformed
-        // TODO add your handling code here:
-        DateTimePanel dateTimePanel = new DateTimePanel();
-        jScrollContPanel.setLayout(new BoxLayout(jScrollContPanel, BoxLayout.Y_AXIS));
-        jScrollContPanel.add(dateTimePanel);
-        jScrollContPanel.repaint();
-        jScrollContPanel.revalidate();
-        
-        repaint();
-        revalidate();
-        
-    }//GEN-LAST:event_jAddDateButtonActionPerformed
-
     private void jClearAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearAllButtonActionPerformed
         // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear the entry field?", "Confirm", JOptionPane.YES_NO_OPTION);
         
+        if (confirm == JOptionPane.NO_OPTION) {
+            return;
+        }
+        
+
         jMovieDropDown.setSelectedIndex(0);
 	jScreenDropDown.setSelectedIndex(0);
 	
@@ -624,7 +643,7 @@ public class AdminScreening extends javax.swing.JPanel {
         return 0;
     }
     
-    private Movie getMovieByTitle(String title) {
+    public Movie getMovieByTitle(String title) {
         for (Movie m : this.movies) {
             if (m.getTitle().equals(title)) {
                 return m;
@@ -642,7 +661,7 @@ public class AdminScreening extends javax.swing.JPanel {
         return null;
     }
     
-    private Cinema getCinemaByName(String name) {
+    public Cinema getCinemaByName(String name) {
         for (Cinema c : this.cinemas) {
             if (c.getName().equals(name)) {
                 return c;
@@ -660,7 +679,21 @@ public class AdminScreening extends javax.swing.JPanel {
         return null;
     }
     
+    public ArrayList<Movie> arrangeByMovieId() {
+        ArrayList<Movie> arrangedMovies = new ArrayList<>(movies);
+
+        Collections.sort(arrangedMovies, Comparator.comparingInt(Movie::getId).reversed());
+
+        return arrangedMovies;
+    }
+    
     private void jAddShowtimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddShowtimeButtonActionPerformed
+        
+        if (jPriceTextField.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter a price", "Confirm", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         Component[] panels = jScrollContPanel.getComponents();
         for (Component p : panels) { //go thru every panel in scroll pane (each panel is one screening to be added)
             Component[] innerComponents = ((JPanel) p).getComponents();
@@ -717,6 +750,11 @@ public class AdminScreening extends javax.swing.JPanel {
 
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this entry?", "Confirm", JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == JOptionPane.NO_OPTION) {
+            return;
+        }
         
         try {
 
@@ -755,29 +793,44 @@ public class AdminScreening extends javax.swing.JPanel {
     }//GEN-LAST:event_jMovieTableMouseClicked
 
     private void jEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEditButtonActionPerformed
-        // TODO add your handling code here:
-        jUpdatePanel.setVisible(true);
-        jUpdateButton.setVisible(true);
-        jUpdateButton.setEnabled(true);
-        jCancelButton.setVisible(true);
-        jCancelButton.setEnabled(true);
+
+
+        String[] movieList = getMovieTitles();
+        String[] cinemaList = getCinemaNames();
         
         int selectedRow = jMovieTable.getSelectedRow(); 
-        Movie mov = getMovieById((int) jMovieTable.getValueAt(selectedRow, 1));
-        Cinema cin = getCinemaById((int) jMovieTable.getValueAt(selectedRow, 3));
         
-        jMovieUpdate.setSelectedItem(mov.getTitle());
-        jScreenUpdate.setSelectedItem(cin.getName());
-        jShowDateUpdate.setValue(jMovieTable.getValueAt(selectedRow, 7));
-        jShowDate7.setValue(jMovieTable.getValueAt(selectedRow, 5));
-        jPriceUpdate.setText(String.valueOf(jMovieTable.getValueAt(selectedRow, 8)));
+        String selectedMovie = getMovieById((int) jMovieTable.getValueAt(selectedRow, 1)).getTitle();
+
+        String selectedCinema = getCinemaById((int) jMovieTable.getValueAt(selectedRow, 3)).getName();
+        UpdateScreeningForm updateScreening = new UpdateScreeningForm(this, movieList, cinemaList, selectedMovie, selectedCinema);
+        updateScreening.setVisible(true);
     }//GEN-LAST:event_jEditButtonActionPerformed
 
+    public Object getScreeningTime() {
+        int selectedRow = jMovieTable.getSelectedRow(); 
+        return jMovieTable.getValueAt(selectedRow, 5);
+    }
+    
+    public Object getScreeningDate() {
+        int selectedRow = jMovieTable.getSelectedRow(); 
+        return jMovieTable.getValueAt(selectedRow, 7);
+    }
+    
+    public int getScreeningId() {
+        int selectedRow = jMovieTable.getSelectedRow(); 
+        return (int) jMovieTable.getValueAt(selectedRow, 0);
+    }
+    
+    public String getPrice() {
+        int selectedRow = jMovieTable.getSelectedRow(); 
+        return String.valueOf(jMovieTable.getValueAt(selectedRow, 8));
+    }
+    
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
         // TODO add your handling code here:
         
         String searchInput = jSearchField.getText();
-        
         
         try {
             Connector connector = new Connector();
@@ -809,94 +862,52 @@ public class AdminScreening extends javax.swing.JPanel {
             }
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
-    private void jCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCancelButtonActionPerformed
-        // TODO add your handling code here:
-        jMovieUpdate.setSelectedIndex(0);
-	jScreenUpdate.setSelectedIndex(0);
-        jUpdatePanel.setVisible(false);
-        jUpdateButton.setVisible(false);
-        jUpdateButton.setEnabled(false);
-        jCancelButton.setVisible(false);
-        jCancelButton.setEnabled(false);
-    }//GEN-LAST:event_jCancelButtonActionPerformed
-
-    private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
-        // TODO add your handling code here:
-        
-        Movie mov = getMovieByTitle((String) jMovieUpdate.getSelectedItem());
-        Cinema cin = getCinemaByName((String) jScreenDropDown.getSelectedItem());
-        int movieId = mov.getId();
-        int cinemaId = cin.getId();
-        int price = Integer.parseInt(jPriceUpdate.getText());
-        LocalDate screeningDate = ((Date) jShowDateUpdate.getValue()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-        LocalTime screeningTime = ((Date) jShowDate7.getValue()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime();
-        LocalTime endTime = screeningTime.plusSeconds(mov.getDuration());
-        
-        int selectedRow = jMovieTable.getSelectedRow();
-	int screening_id_column = 0;
- 	int screeningID = (int)jMovieTable.getModel().getValueAt(selectedRow, screening_id_column);
-        
-        try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
-
-            String query = "UPDATE screening SET movie_id = ?, cinema_id = ?, time_start = ?, time_end = ?, date = ?, price = ? WHERE screening_id = ?";
-                    
-                PreparedStatement prepStmt = con.prepareStatement(query);
-
-                prepStmt.setInt(1, movieId);
-                prepStmt.setInt(2, cinemaId);
-                prepStmt.setTime(3, Time.valueOf(screeningTime));
-                prepStmt.setTime(4, Time.valueOf(endTime));
-                prepStmt.setObject(5, screeningDate);
-                prepStmt.setInt(6, price);
-                prepStmt.setInt(7, screeningID);
-                
-                prepStmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        refreshTable();
-    }//GEN-LAST:event_jUpdateButtonActionPerformed
-
     private void jMovieDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMovieDropDownActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMovieDropDownActionPerformed
+
+    private void jAddDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddDateButtonActionPerformed
+        // TODO add your handling code here:
+        DateTimePanel dateTimePanel = new DateTimePanel();
+        jScrollContPanel.setLayout(new BoxLayout(jScrollContPanel, BoxLayout.Y_AXIS));
+        jScrollContPanel.add(dateTimePanel);
+        jScrollContPanel.repaint();
+        jScrollContPanel.revalidate();
+
+        repaint();
+        revalidate();
+
+    }//GEN-LAST:event_jAddDateButtonActionPerformed
+
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
+        // TODO add your handling code here:
+        refreshTable();
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jAddDateButton;
     private javax.swing.JButton jAddShowtimeButton;
-    private javax.swing.JButton jCancelButton;
-    private javax.swing.JLabel jCinemaDateLabel;
+    private javax.swing.JComboBox<String> jCinemaSelector;
     private javax.swing.JButton jClearAllButton;
+    private javax.swing.JSpinner jDateSelector;
     private javax.swing.JButton jDeleteButton;
     private javax.swing.JButton jEditButton;
-    private javax.swing.JLabel jEndtime8;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JComboBox<String> jMovieDropDown;
     private javax.swing.JLabel jMovieLabel;
-    private javax.swing.JLabel jMovieLabelUpdate;
+    private javax.swing.JLabel jMovieLabel1;
+    private javax.swing.JLabel jMovieLabel2;
     private javax.swing.JTable jMovieTable;
-    private javax.swing.JComboBox<String> jMovieUpdate;
-    private javax.swing.JLabel jPriceLabelUpdate;
     private javax.swing.JTextField jPriceTextField;
-    private javax.swing.JTextField jPriceUpdate;
+    private javax.swing.JButton jRefreshButton;
     private javax.swing.JComboBox<String> jScreenDropDown;
     private javax.swing.JLabel jScreenLabel;
     private javax.swing.JLabel jScreenLabel1;
-    private javax.swing.JLabel jScreenLabelUpdate;
-    private javax.swing.JComboBox<String> jScreenUpdate;
     private javax.swing.JPanel jScrollContPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchField;
-    private javax.swing.JSpinner jShowDate7;
-    private javax.swing.JLabel jShowDateLabelUpdate;
-    private javax.swing.JSpinner jShowDateUpdate;
-    private javax.swing.JLabel jTimeUpdate;
-    private javax.swing.JButton jUpdateButton;
-    private javax.swing.JPanel jUpdatePanel;
     // End of variables declaration//GEN-END:variables
 }
