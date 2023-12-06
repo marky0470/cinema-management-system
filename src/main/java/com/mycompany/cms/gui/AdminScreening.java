@@ -45,8 +45,6 @@ public class AdminScreening extends javax.swing.JPanel {
         initComponents();
         refreshTable();
         
-//        jPanel3.setVisible(false);
-//        jPanel3.setEnabled(false);
         jEditButton.setVisible(false);
         jEditButton.setEnabled(false);
         jDeleteButton.setVisible(false);
@@ -231,6 +229,8 @@ public class AdminScreening extends javax.swing.JPanel {
 
         jScreenLabel.setText("Screen");
 
+        jAddDateButton.setBackground(new java.awt.Color(239, 124, 18));
+        jAddDateButton.setForeground(new java.awt.Color(255, 255, 255));
         jAddDateButton.setText("Add Date");
         jAddDateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jAddDateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -304,6 +304,8 @@ public class AdminScreening extends javax.swing.JPanel {
             jMovieTable.getColumnModel().getColumn(8).setResizable(false);
         }
 
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
+        jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,6 +313,7 @@ public class AdminScreening extends javax.swing.JPanel {
             }
         });
 
+        jClearAllButton.setBackground(new java.awt.Color(247, 196, 149));
         jClearAllButton.setText("Clear All");
         jClearAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,6 +321,8 @@ public class AdminScreening extends javax.swing.JPanel {
             }
         });
 
+        jAddShowtimeButton.setBackground(new java.awt.Color(239, 124, 18));
+        jAddShowtimeButton.setForeground(new java.awt.Color(255, 255, 255));
         jAddShowtimeButton.setText("Add Showtime");
         jAddShowtimeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -353,6 +358,8 @@ public class AdminScreening extends javax.swing.JPanel {
 
         jScrollPane2.setViewportView(jScrollContPanel);
 
+        jEditButton.setBackground(new java.awt.Color(239, 124, 18));
+        jEditButton.setForeground(new java.awt.Color(255, 255, 255));
         jEditButton.setText("Edit");
         jEditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,6 +367,7 @@ public class AdminScreening extends javax.swing.JPanel {
             }
         });
 
+        jDeleteButton.setBackground(new java.awt.Color(247, 196, 149));
         jDeleteButton.setText("Delete");
         jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -397,7 +405,7 @@ public class AdminScreening extends javax.swing.JPanel {
         jUpdatePanelLayout.setHorizontalGroup(
             jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jUpdatePanelLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jUpdatePanelLayout.createSequentialGroup()
                         .addGroup(jUpdatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,6 +458,8 @@ public class AdminScreening extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jUpdateButton.setBackground(new java.awt.Color(239, 124, 18));
+        jUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
         jUpdateButton.setText("Update");
         jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,6 +467,7 @@ public class AdminScreening extends javax.swing.JPanel {
             }
         });
 
+        jCancelButton.setBackground(new java.awt.Color(247, 196, 149));
         jCancelButton.setText("Cancel");
         jCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

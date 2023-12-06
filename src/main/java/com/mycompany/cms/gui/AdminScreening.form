@@ -31,6 +31,7 @@
                                   <Component id="jMovieLabel" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                                   <Component id="jMovieDropDown" min="-2" pref="130" max="-2" attributes="0"/>
+
                               </Group>
                           </Group>
                           <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
@@ -167,6 +168,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jAddDateButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="12" green="7c" red="ef" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Add Date"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -268,6 +275,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jSearchButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="12" green="7c" red="ef" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
       <Events>
@@ -276,6 +289,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jClearAllButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="95" green="c4" red="f7" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Clear All"/>
       </Properties>
       <Events>
@@ -284,6 +300,12 @@
     </Component>
     <Component class="javax.swing.JButton" name="jAddShowtimeButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="12" green="7c" red="ef" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Add Showtime"/>
       </Properties>
       <Events>
@@ -363,6 +385,12 @@
     </Container>
     <Component class="javax.swing.JButton" name="jEditButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="12" green="7c" red="ef" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Edit"/>
       </Properties>
       <Events>
@@ -371,6 +399,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jDeleteButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="95" green="c4" red="f7" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
       <Events>
@@ -383,7 +414,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -550,6 +581,12 @@
     </Container>
     <Component class="javax.swing.JButton" name="jUpdateButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="12" green="7c" red="ef" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Update"/>
       </Properties>
       <Events>
@@ -558,6 +595,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jCancelButton">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="95" green="c4" red="f7" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
       <Events>

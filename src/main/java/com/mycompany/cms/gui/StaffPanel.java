@@ -14,17 +14,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.mindrot.jbcrypt.BCrypt;
-/**
- *
- * @author marks
- */
+
+
 public class StaffPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form StaffPanel
-     */
+   
     public StaffPanel() {
         initComponents();
+        
         refreshTable();
         jtable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -66,12 +63,13 @@ public class StaffPanel extends javax.swing.JPanel {
         delete_button = new javax.swing.JButton();
         edit_button = new javax.swing.JButton();
         view_button = new javax.swing.JButton();
+        cp_btn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         JPF1 = new javax.swing.JPasswordField();
         JPF2 = new javax.swing.JPasswordField();
         JBC1 = new javax.swing.JComboBox<>();
         search_btn = new javax.swing.JButton();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        JTB1 = new javax.swing.JToggleButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -149,20 +147,20 @@ public class StaffPanel extends javax.swing.JPanel {
 
         jtable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "First Name", "Last Name", "Email", "Password", "Admin"
+                "ID", "First Name", "Last Name", "Email", "Admin"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -180,7 +178,6 @@ public class StaffPanel extends javax.swing.JPanel {
             jtable1.getColumnModel().getColumn(2).setResizable(false);
             jtable1.getColumnModel().getColumn(3).setResizable(false);
             jtable1.getColumnModel().getColumn(4).setResizable(false);
-            jtable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jCheckBox1.setText("Admin*");
@@ -213,6 +210,8 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
+        add_button.setBackground(new java.awt.Color(255, 153, 0));
+        add_button.setForeground(new java.awt.Color(255, 255, 255));
         add_button.setText("Save");
         buttonGroup1.add(add_button);
         add_button.addActionListener(new java.awt.event.ActionListener() {
@@ -221,6 +220,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        delete_button.setBackground(new java.awt.Color(255, 153, 0));
+        delete_button.setForeground(new java.awt.Color(255, 255, 255));
         delete_button.setText("Delete");
         buttonGroup1.add(delete_button);
         delete_button.addActionListener(new java.awt.event.ActionListener() {
@@ -229,6 +230,8 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        edit_button.setBackground(new java.awt.Color(255, 153, 0));
+        edit_button.setForeground(new java.awt.Color(255, 255, 255));
         edit_button.setText("Update");
         buttonGroup1.add(edit_button);
         edit_button.addActionListener(new java.awt.event.ActionListener() {
@@ -237,11 +240,20 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
+        view_button.setBackground(new java.awt.Color(255, 153, 0));
+        view_button.setForeground(new java.awt.Color(255, 255, 255));
         view_button.setText("Refresh");
         buttonGroup1.add(view_button);
         view_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 view_buttonActionPerformed(evt);
+            }
+        });
+
+        cp_btn.setText("Change Password");
+        cp_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cp_btnActionPerformed(evt);
             }
         });
 
@@ -260,6 +272,7 @@ public class StaffPanel extends javax.swing.JPanel {
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(view_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addComponent(cp_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,7 +284,9 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(view_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(cp_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jLabel6.setLabelFor(jLabel4);
@@ -286,14 +301,24 @@ public class StaffPanel extends javax.swing.JPanel {
 
         JPF2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        JBC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        search_btn.setText("jButton1");
-
-        jCheckBox2.setText("hide/unhide");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+        JBC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Admin" }));
+        JBC1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
+                JBC1ActionPerformed(evt);
+            }
+        });
+
+        search_btn.setText("Search");
+        search_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_btnActionPerformed(evt);
+            }
+        });
+
+        JTB1.setText("Show");
+        JTB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTB1ActionPerformed(evt);
             }
         });
 
@@ -323,7 +348,7 @@ public class StaffPanel extends javax.swing.JPanel {
                                 .addComponent(jTextField2))))
                     .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2))
+                    .addComponent(JTB1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -373,8 +398,8 @@ public class StaffPanel extends javax.swing.JPanel {
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JPF2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox2)
+                        .addGap(9, 9, 9)
+                        .addComponent(JTB1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -388,7 +413,7 @@ public class StaffPanel extends javax.swing.JPanel {
   int selectedRow = jtable1.getSelectedRow();
 
         if (selectedRow == -1) {
-            // no row selected
+            
             return;
         }
 
@@ -396,15 +421,13 @@ public class StaffPanel extends javax.swing.JPanel {
         String firstName = (String) jtable1.getValueAt(selectedRow, 1);
         String lastName = (String) jtable1.getValueAt(selectedRow, 2);
         String email = (String) jtable1.getValueAt(selectedRow, 3);
-        String password = (String) jtable1.getValueAt(selectedRow, 4);
-        boolean isAdmin = (boolean) jtable1.getValueAt(selectedRow, 5);
+        
+        boolean isAdmin = (boolean) jtable1.getValueAt(selectedRow, 4);
 
-        // Now you can use the retrieved data as needed
+        
         jTextField1.setText(firstName);
         jTextField2.setText(lastName);
         jTextField3.setText(email);
-        JPF1.setText(password);
-        JPF2.setText(password);
         jCheckBox1.setSelected(isAdmin);
     
     }
@@ -433,10 +456,9 @@ public class StaffPanel extends javax.swing.JPanel {
                     String firstName = resultSet.getString("first_name");
                     String lastName = resultSet.getString("last_name");
                     String email = resultSet.getString("email");
-                    String password = resultSet.getString("password");
                     boolean isAdmin = resultSet.getBoolean("is_admin");
 
-                    model.addRow(new Object[]{userId, firstName, lastName, email, password, isAdmin});
+                    model.addRow(new Object[]{userId, firstName, lastName, email, isAdmin});
                 }
             }
         } catch (SQLException e) {
@@ -466,10 +488,9 @@ private void applyFilter(String filterText) {
                     String firstName = resultSet.getString("first_name");
                     String lastName = resultSet.getString("last_name");
                     String email = resultSet.getString("email");
-                    String password = resultSet.getString("password");
                     boolean isAdmin = resultSet.getBoolean("is_admin");
                      
-                    model.addRow(new Object[]{userId, firstName, lastName, email, password, isAdmin});
+                    model.addRow(new Object[]{userId, firstName, lastName, email, isAdmin});
                 }
             }
         }
@@ -477,6 +498,47 @@ private void applyFilter(String filterText) {
         System.out.println(e);
     }
 }
+
+
+
+
+
+private void applyFilter() {
+    String filterOption = (String) JBC1.getSelectedItem();
+
+    try {
+        Connector connector = new Connector();
+        Connection con = connector.getConnection();
+
+        String query;
+        if ("All".equals(filterOption)) {
+            query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users";
+        } else {
+            query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE is_admin = 1";
+        }
+
+        try (PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet resultSet = pstmt.executeQuery()) {
+
+            DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String email = resultSet.getString("email");
+                boolean isAdmin = resultSet.getBoolean("is_admin");
+
+                model.addRow(new Object[]{userId, firstName, lastName, email, isAdmin});
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    }
+}
+
+
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
@@ -488,8 +550,11 @@ private void applyFilter(String filterText) {
  
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-            String filterText = jTextField5.getText();
-            applyFilter(filterText);
+        if (jTextField5.getText().equals("")){
+             refreshTable();   
+        }
+        String search =jTextField5.getText();
+        applyFilter(search);
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -533,22 +598,19 @@ private void applyFilter(String filterText) {
     }//GEN-LAST:event_view_buttonActionPerformed
 
     private void edit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_buttonActionPerformed
-        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")|| JPF1.getText().equals("")|| JPF2.getText().equals("")){
+        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Missing Information");
         }
         else{
         
-        if (JPF1.getText().equals(JPF2.getText() ) == false){
-            JOptionPane.showMessageDialog(this, "Password is not the Same");
-        }
- else{
+    
              int selectedRow = jtable1.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
             return ;
         }
 
-        // Validate input fields
+        
         if (!validateFields()) {
             JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -558,11 +620,10 @@ private void applyFilter(String filterText) {
         String firstName = jTextField1.getText();
         String lastName = jTextField2.getText();
         String email = jTextField3.getText();
-        String password = JPF1.getText();
         boolean admin = jCheckBox1.isSelected();
         
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        String query = "UPDATE users SET first_name=?, last_name=?, email=?, password=?, is_admin=? WHERE user_id=?";
+        
+        String query = "UPDATE users SET first_name=?, last_name=?, email=?,is_admin=? WHERE user_id=?";
 
         try {
             Connector connector = new Connector();
@@ -572,9 +633,8 @@ private void applyFilter(String filterText) {
                 pstmt.setString(1, firstName);
                 pstmt.setString(2, lastName);
                 pstmt.setString(3, email);
-                pstmt.setString(4, hashedPassword);
-                pstmt.setBoolean(5, admin);
-                pstmt.setInt(6, userId);
+                pstmt.setBoolean(4, admin);
+                pstmt.setInt(5, userId);
 
                 pstmt.executeUpdate();
                 refreshTable();
@@ -583,7 +643,6 @@ private void applyFilter(String filterText) {
             JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
- }
         }
         }
 
@@ -592,10 +651,10 @@ private void applyFilter(String filterText) {
             String firstName = jTextField1.getText();
             String lastName = jTextField2.getText();
             String email = jTextField3.getText();
-            String password = JPF1.getText();
+            
 
-            // You can add more specific validation logic as needed
-            return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() && !password.isEmpty();
+          
+            return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty();
     }//GEN-LAST:event_edit_buttonActionPerformed
 
     private void delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttonActionPerformed
@@ -634,15 +693,12 @@ private void applyFilter(String filterText) {
     }//GEN-LAST:event_delete_buttonActionPerformed
 
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
-        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")|| JPF1.getText().equals("")|| JPF2.getText().equals("")){
+        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")|| JPF1.getText().equals("") || JPF2.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Missing Information");
         }else{
-        
-        if (JPF1.getText().equals(JPF2.getText() ) == false){
-            JOptionPane.showMessageDialog(this, "Password is not the Same");
-        }
-        else{
-            String FirstName = jTextField1.getText();
+            
+         if(JPF1.getText().equals(JPF2.getText())){
+             String FirstName = jTextField1.getText();
         String LastName = jTextField2.getText();
         String Email = jTextField3.getText();
         String Password = JPF1.getText();
@@ -652,7 +708,7 @@ private void applyFilter(String filterText) {
             Admin = 1;
         }
         String hashedPassword = BCrypt.hashpw(Password, BCrypt.gensalt());
-        String query = "INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (first_name, last_name, email,password, is_admin) VALUES (?, ?, ?, ?,?)";
 
         try {
             Connector connector = new Connector();
@@ -674,8 +730,12 @@ private void applyFilter(String filterText) {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        }
-        }
+         }
+         else{
+         JOptionPane.showMessageDialog(this, "Passwords do not Match!");}
+         
+         }
+        
         
         
     }//GEN-LAST:event_add_buttonActionPerformed
@@ -688,21 +748,76 @@ private void applyFilter(String filterText) {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
+        String filterText = jTextField5.getText();
+            applyFilter(filterText);
+    }//GEN-LAST:event_search_btnActionPerformed
+
+    private void JBC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBC1ActionPerformed
+
+            applyFilter();
+            
+    }//GEN-LAST:event_JBC1ActionPerformed
+
+    private void cp_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cp_btnActionPerformed
+        if (JPF2.getText().equals("")|| JPF1.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Missing Information");
+        }
+        else{
+             int selectedRow = jtable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a user to change password", "Error", JOptionPane.ERROR_MESSAGE);
+            return ;
+        }
+
+        String password = JPF1.getText();
+       
+        
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        String query = "UPDATE users SET password=?";
+
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+
+            try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setString(1, hashedPassword);
+                pstmt.executeUpdate();
+                refreshTable();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
+        }
+        
+
+        
+    }//GEN-LAST:event_cp_btnActionPerformed
+
+    private void JTB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTB1ActionPerformed
+        if(JTB1.isSelected()){
+        JPF1.setEchoChar((char)0);
+        JPF2.setEchoChar((char)0);
+        }
+        else{
+        JPF1.setEchoChar('\u25cf');
+        JPF2.setEchoChar('\u25cf');
+        }
+    }//GEN-LAST:event_JTB1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> JBC1;
     private javax.swing.JPasswordField JPF1;
     private javax.swing.JPasswordField JPF2;
+    private javax.swing.JToggleButton JTB1;
     private javax.swing.JButton add_button;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton cp_btn;
     private javax.swing.JButton delete_button;
     private javax.swing.JButton edit_button;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;

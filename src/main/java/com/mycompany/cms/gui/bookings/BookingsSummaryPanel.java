@@ -5,8 +5,15 @@
 package com.mycompany.cms.gui.bookings;
 
 import com.mycompany.cms.models.Ticket;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -23,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author francisjamestolentino
  */
-public class BookingsSummaryPanel extends javax.swing.JPanel {
+public class BookingsSummaryPanel extends javax.swing.JPanel implements Printable {
 
     private float total = 0;
     private Connection conn;
@@ -340,8 +347,9 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
                 return;
             }
         }
-        
+        printTicket();
         JOptionPane.showMessageDialog(this, "Tickets successfully punched!", "Tickets Ordered", JOptionPane.INFORMATION_MESSAGE);
+        total = 0;
         this.panel.openMoviesTab();
     }//GEN-LAST:event_jContinueButtonActionPerformed
 
@@ -371,4 +379,59 @@ public class BookingsSummaryPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jTitleLabel;
     private javax.swing.JLabel jTotalLabel;
     // End of variables declaration//GEN-END:variables
+
+    private void printTicket() {
+        PrinterJob printerJob = PrinterJob.getPrinterJob();
+        printerJob.setPrintable(this);
+        if (printerJob.printDialog()) {
+            try {
+                printerJob.print();
+            } catch (PrinterException ex) {
+                JOptionPane.showMessageDialog(this, "No Available Printer", "Printer Error", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No Available Printer", "Printer Error", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
+    
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        if (pageIndex > 0) {
+            return Printable.NO_SUCH_PAGE;
+        }
+
+        Graphics2D g2d = (Graphics2D) graphics;
+        g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+        // Your ticket content drawing goes here
+        drawTicketContent(g2d);
+
+        return Printable.PAGE_EXISTS;
+    }
+    
+    private void drawTicketContent(Graphics2D graphics) {
+        graphics.setFont(new Font("Arial", Font.PLAIN, 12));
+        ArrayList<Ticket> tickets = this.panel.getTickets();
+        
+        int spacing = 150;
+        for (int i=0; i<tickets.size(); i++) {
+            Ticket ticket = tickets.get(i);
+            graphics.drawString("DHVSU Cinema Management System", 20, 20 + spacing*i);
+            graphics.drawString("Elective Java", 20, 30 + spacing*i);
+            Date dateToday = new Date();
+            graphics.drawString("Date: " + dateToday.toString(), 20, 40+spacing*i);
+            graphics.drawString("-------------------------------------------------------------", 20, 50+spacing*i);
+            graphics.drawRect(250, 60+spacing*i, 50, 20);
+            graphics.setFont(new Font("Arial", Font.BOLD, 18));
+            graphics.drawString(ticket.getSeat(), 265, 80 + spacing*i);
+            graphics.setFont(new Font("Arial", Font.PLAIN, 12));
+            graphics.drawString("Movie: " + this.panel.getMovieTitle(), 20, 90 + spacing*i);
+            graphics.drawString("Screening Date: " + ticket.getDate().toString(), 20, 100 + spacing*i);
+            graphics.drawString("Time: " + ticket.getTime().toString(), 20, 110 + spacing*i);
+            graphics.drawString("Quantity: 1", 20, 120 + spacing*i);
+            graphics.drawString("Price: " + ticket.getPrice(), 20, 130 + spacing*i);
+            graphics.drawString("-------------------------------------------------------------", 20, 140+spacing*i);
+        }
+    }
 }
