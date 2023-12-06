@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
@@ -18,10 +19,17 @@ import org.mindrot.jbcrypt.BCrypt;
 
 
 public class StaffPanel extends javax.swing.JPanel {
+    
+    private int selectedAction = 0;
 
    
     public StaffPanel() {
         initComponents();
+        
+        jCancelButton.setEnabled(false);
+        jSaveButton.setEnabled(false);
+        
+        
         // @ open refreshes the table to show data
         refreshTable();
         jtable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -47,30 +55,38 @@ public class StaffPanel extends javax.swing.JPanel {
         jFrame1 = new javax.swing.JFrame();
         jFrame2 = new javax.swing.JFrame();
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtable1 = new javax.swing.JTable();
+        jSearchTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jSearchButton = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
+        jFilterComboBox = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        JTF_FN = new javax.swing.JTextField();
-        JTF_LN = new javax.swing.JTextField();
-        JTF_EMAIL = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtable1 = new javax.swing.JTable();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        JTF_SEARCH = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        jFirstNameTextField = new javax.swing.JTextField();
+        jLastNameTextField = new javax.swing.JTextField();
+        jEmailTextField = new javax.swing.JTextField();
+        jShowPasswordCheckBox = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
-        JPF1 = new javax.swing.JPasswordField();
-        JPF2 = new javax.swing.JPasswordField();
-        CHX_ADMINFILTER = new javax.swing.JComboBox<>();
-        SEARCH_BTN = new javax.swing.JButton();
-        JTB1_BTN = new javax.swing.JToggleButton();
-        ADD_BTN = new javax.swing.JButton();
-        EDIT_BTN = new javax.swing.JButton();
-        REFRESH_BTN = new javax.swing.JButton();
-        DELETE_BTN = new javax.swing.JButton();
-        CP_BTN = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        jPasswordTextField = new javax.swing.JPasswordField();
+        jConfirmPasswordTextField = new javax.swing.JPasswordField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanel3 = new javax.swing.JPanel();
+        jChangePasswordButton = new javax.swing.JButton();
+        jDeleteButton = new javax.swing.JButton();
+        jUpdateButton = new javax.swing.JButton();
+        jAddButton = new javax.swing.JButton();
+        jAdminCheckboxPanel = new javax.swing.JPanel();
+        jAdminCheckBox = new javax.swing.JCheckBox();
+        jLabel8 = new javax.swing.JLabel();
+        jSaveButton = new javax.swing.JButton();
+        jCancelButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -112,37 +128,12 @@ public class StaffPanel extends javax.swing.JPanel {
                 formComponentShown(evt);
             }
         });
+        setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setLabelFor(JTF_FN);
-        jLabel1.setText("First Name");
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 300));
 
-        jLabel2.setLabelFor(JTF_LN);
-        jLabel2.setText("Last Name");
-
-        jLabel3.setLabelFor(JTF_EMAIL);
-        jLabel3.setText("Email");
-
-        jLabel4.setLabelFor(jLabel4);
-        jLabel4.setText("Password");
-
-        JTF_FN.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        JTF_FN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTF_FNActionPerformed(evt);
-            }
-        });
-
-        JTF_LN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTF_LNActionPerformed(evt);
-            }
-        });
-
-        JTF_EMAIL.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTF_EMAILActionPerformed(evt);
-            }
-        });
+        jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel5.setText("Accounts");
 
         jtable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -179,221 +170,362 @@ public class StaffPanel extends javax.swing.JPanel {
             jtable1.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jCheckBox1.setText("Show");
-        jCheckBox1.setToolTipText("");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        JTF_SEARCH.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        JTF_SEARCH.addMouseListener(new java.awt.event.MouseAdapter() {
+        jSearchTextField.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jSearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JTF_SEARCHMouseClicked(evt);
+                jSearchTextFieldMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                JTF_SEARCHMouseEntered(evt);
+                jSearchTextFieldMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                JTF_SEARCHMouseExited(evt);
+                jSearchTextFieldMouseExited(evt);
             }
         });
-        JTF_SEARCH.addActionListener(new java.awt.event.ActionListener() {
+        jSearchTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTF_SEARCHActionPerformed(evt);
+                jSearchTextFieldActionPerformed(evt);
             }
         });
 
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
-        jLabel6.setLabelFor(jLabel4);
-        jLabel6.setText("Confirm Password");
-
-        JPF1.addActionListener(new java.awt.event.ActionListener() {
+        jSearchButton.setBackground(new java.awt.Color(255, 153, 0));
+        jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
+        jSearchButton.setText("Search");
+        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JPF1ActionPerformed(evt);
+                jSearchButtonActionPerformed(evt);
             }
         });
 
-        CHX_ADMINFILTER.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Admin" }));
-        CHX_ADMINFILTER.addActionListener(new java.awt.event.ActionListener() {
+        jRefreshButton.setBackground(new java.awt.Color(247, 222, 200));
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(247, 222, 200)));
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CHX_ADMINFILTERActionPerformed(evt);
+                jRefreshButtonActionPerformed(evt);
             }
         });
 
-        SEARCH_BTN.setText("Search");
-        SEARCH_BTN.addActionListener(new java.awt.event.ActionListener() {
+        jFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Admin" }));
+        jFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SEARCH_BTNActionPerformed(evt);
+                jFilterComboBoxActionPerformed(evt);
             }
         });
 
-        JTB1_BTN.setBackground(new java.awt.Color(247, 222, 200));
-        JTB1_BTN.setText("Admin");
-        JTB1_BTN.setActionCommand("");
-        JTB1_BTN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(247, 222, 200)));
-        JTB1_BTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTB1_BTNActionPerformed(evt);
-            }
-        });
-
-        ADD_BTN.setBackground(new java.awt.Color(255, 153, 0));
-        ADD_BTN.setForeground(new java.awt.Color(255, 255, 255));
-        ADD_BTN.setText("Save");
-        ADD_BTN.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
-        buttonGroup1.add(ADD_BTN);
-        ADD_BTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ADD_BTNActionPerformed(evt);
-            }
-        });
-
-        EDIT_BTN.setBackground(new java.awt.Color(255, 153, 0));
-        EDIT_BTN.setForeground(new java.awt.Color(255, 255, 255));
-        EDIT_BTN.setText("Update");
-        EDIT_BTN.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
-        EDIT_BTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EDIT_BTNActionPerformed(evt);
-            }
-        });
-
-        REFRESH_BTN.setText("Refresh");
-        REFRESH_BTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                REFRESH_BTNActionPerformed(evt);
-            }
-        });
-
-        DELETE_BTN.setBackground(new java.awt.Color(255, 153, 0));
-        DELETE_BTN.setForeground(new java.awt.Color(255, 255, 255));
-        DELETE_BTN.setText("Delete");
-        DELETE_BTN.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
-        DELETE_BTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DELETE_BTNActionPerformed(evt);
-            }
-        });
-
-        CP_BTN.setBackground(new java.awt.Color(255, 153, 0));
-        CP_BTN.setForeground(new java.awt.Color(255, 255, 255));
-        CP_BTN.setText("Change Password");
-        CP_BTN.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
-        CP_BTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CP_BTNActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setText("Accounts");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6)
-                    .addComponent(JPF1)
-                    .addComponent(JTF_EMAIL)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JPF2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JTF_FN, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JTF_LN, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jCheckBox1)
-                    .addComponent(JTB1_BTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(0, 0, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(EDIT_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CP_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(ADD_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(DELETE_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(JTF_SEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SEARCH_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addComponent(REFRESH_BTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(CHX_ADMINFILTER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(235, 235, 235))
+                        .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addGap(0, 540, Short.MAX_VALUE)))
+                .addGap(25, 25, 25))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JTF_SEARCH, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SEARCH_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CHX_ADMINFILTER, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(REFRESH_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(JTF_LN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(JTF_FN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JTF_EMAIL, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JPF1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JPF2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
-                        .addComponent(jCheckBox1)
-                        .addGap(18, 18, 18)
-                        .addComponent(JTB1_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ADD_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DELETE_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EDIT_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CP_BTN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        add(jPanel1, java.awt.BorderLayout.WEST);
+
+        jPanel2.setBackground(new java.awt.Color(253, 253, 253));
+        jPanel2.setPreferredSize(new java.awt.Dimension(2148, 300));
+
+        jLabel1.setLabelFor(jFirstNameTextField);
+        jLabel1.setText("First Name");
+
+        jLabel2.setLabelFor(jLastNameTextField);
+        jLabel2.setText("Last Name");
+
+        jLabel3.setLabelFor(jEmailTextField);
+        jLabel3.setText("Email");
+
+        jLabel4.setLabelFor(jLabel4);
+        jLabel4.setText("Password");
+
+        jFirstNameTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jFirstNameTextField.setEnabled(false);
+        jFirstNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFirstNameTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLastNameTextField.setEnabled(false);
+        jLastNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jLastNameTextFieldActionPerformed(evt);
+            }
+        });
+
+        jEmailTextField.setEnabled(false);
+        jEmailTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEmailTextFieldActionPerformed(evt);
+            }
+        });
+
+        jShowPasswordCheckBox.setText("Show Password");
+        jShowPasswordCheckBox.setToolTipText("");
+        jShowPasswordCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jShowPasswordCheckBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setLabelFor(jLabel4);
+        jLabel6.setText("Confirm Password");
+
+        jPasswordTextField.setEnabled(false);
+        jPasswordTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordTextFieldActionPerformed(evt);
+            }
+        });
+
+        jConfirmPasswordTextField.setEnabled(false);
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jPanel3.setBackground(new java.awt.Color(253, 253, 253));
+
+        jChangePasswordButton.setBackground(new java.awt.Color(240, 240, 240));
+        jChangePasswordButton.setForeground(new java.awt.Color(255, 153, 0));
+        jChangePasswordButton.setText("Change Password");
+        jChangePasswordButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        jChangePasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChangePasswordButtonActionPerformed(evt);
+            }
+        });
+
+        jDeleteButton.setBackground(new java.awt.Color(240, 240, 240));
+        jDeleteButton.setForeground(new java.awt.Color(255, 153, 0));
+        jDeleteButton.setText("Delete");
+        jDeleteButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteButtonActionPerformed(evt);
+            }
+        });
+
+        jUpdateButton.setBackground(new java.awt.Color(240, 240, 240));
+        jUpdateButton.setForeground(new java.awt.Color(255, 153, 0));
+        jUpdateButton.setText("Update");
+        jUpdateButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        jAddButton.setBackground(new java.awt.Color(240, 240, 240));
+        jAddButton.setForeground(new java.awt.Color(255, 153, 0));
+        jAddButton.setText("Add");
+        jAddButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        buttonGroup1.add(jAddButton);
+        jAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jChangePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jChangePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        jAdminCheckboxPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(220, 220, 220), 1, true));
+
+        jAdminCheckBox.setText("Admin Account");
+        jAdminCheckBox.setEnabled(false);
+        jAdminCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAdminCheckBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jAdminCheckboxPanelLayout = new javax.swing.GroupLayout(jAdminCheckboxPanel);
+        jAdminCheckboxPanel.setLayout(jAdminCheckboxPanelLayout);
+        jAdminCheckboxPanelLayout.setHorizontalGroup(
+            jAdminCheckboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jAdminCheckboxPanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jAdminCheckBox)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jAdminCheckboxPanelLayout.setVerticalGroup(
+            jAdminCheckboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jAdminCheckboxPanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jAdminCheckBox)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        jLabel8.setFont(new java.awt.Font("Helvetica Neue", 2, 10)); // NOI18N
+        jLabel8.setText("*Check if account should be admin");
+
+        jSaveButton.setBackground(new java.awt.Color(255, 153, 0));
+        jSaveButton.setForeground(new java.awt.Color(255, 255, 255));
+        jSaveButton.setText("Save");
+        jSaveButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        jSaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSaveButtonActionPerformed(evt);
+            }
+        });
+
+        jCancelButton.setBackground(new java.awt.Color(253, 253, 253));
+        jCancelButton.setForeground(new java.awt.Color(255, 153, 0));
+        jCancelButton.setText("Cancel");
+        jCancelButton.setBorder(null);
+        jCancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCancelButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jAdminCheckboxPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jShowPasswordCheckBox)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jConfirmPasswordTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel6)
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(jLabel4))
+                                                        .addGap(0, 0, Short.MAX_VALUE))
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(0, 0, Short.MAX_VALUE))
+                                                            .addComponent(jFirstNameTextField))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(jLastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(jPasswordTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(115, 115, 115)
+                                .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jConfirmPasswordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jShowPasswordCheckBox)
+                .addGap(18, 18, 18)
+                .addComponent(jAdminCheckboxPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addGap(49, 49, 49)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
   // Function that allows you to get data from the table
@@ -413,23 +545,30 @@ public class StaffPanel extends javax.swing.JPanel {
         boolean isAdmin = (boolean) jtable1.getValueAt(selectedRow, 4);
 
         
-        JTF_FN.setText(firstName);
-        JTF_LN.setText(lastName);
-        JTF_EMAIL.setText(email);
-        jCheckBox1.setSelected(isAdmin);
-    
+        jFirstNameTextField.setText(firstName);
+        jLastNameTextField.setText(lastName);
+        jEmailTextField.setText(email);
+        jAdminCheckBox.setSelected(isAdmin);
+        
+        if (jAdminCheckBox.isSelected()){
+            jAdminCheckboxPanel.setBackground(new Color(247,222,200));
+            jAdminCheckboxPanel.setBorder(BorderFactory.createLineBorder(new Color(255,153,0)));
+        }else{
+            jAdminCheckboxPanel.setBackground(new Color(242,242,242));
+            jAdminCheckboxPanel.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
+        }
     }
   // Shows the content of the table
     private void refreshTable() {       
    try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
-            JTF_FN.setText("");
-            JTF_LN.setText("");
-            JTF_EMAIL.setText("");
-            JTF_SEARCH.setText("");
-            JPF1.setText("");
-            JPF2.setText("");
+            jFirstNameTextField.setText("");
+            jLastNameTextField.setText("");
+            jEmailTextField.setText("");
+            jSearchTextField.setText("");
+            jPasswordTextField.setText("");
+            jConfirmPasswordTextField.setText("");
 
             String query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users";
 
@@ -487,12 +626,10 @@ private void applyFilter(String filterText) {
     }
 }
 
-
-
 // Filter for Checkbox admin
 
 private void applyFilter() {
-    String filterOption = (String) CHX_ADMINFILTER.getSelectedItem();
+    String filterOption = (String) jFilterComboBox.getSelectedItem();
 
     try {
         Connector connector = new Connector();
@@ -528,22 +665,22 @@ private void applyFilter() {
 
 
 
-    private void JTF_LNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_LNActionPerformed
+    private void jLastNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLastNameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_JTF_LNActionPerformed
+    }//GEN-LAST:event_jLastNameTextFieldActionPerformed
 
-    private void JTF_SEARCHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_SEARCHActionPerformed
+    private void jSearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchTextFieldActionPerformed
        //Search bar for the table 
-        if (JTF_SEARCH.getText().equals("")){
+        if (jSearchTextField.getText().equals("")){
              refreshTable();   
         }
-        String search =JTF_SEARCH.getText();
+        String search =jSearchTextField.getText();
         applyFilter(search);
-    }//GEN-LAST:event_JTF_SEARCHActionPerformed
+    }//GEN-LAST:event_jSearchTextFieldActionPerformed
 
-    private void JTF_EMAILActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_EMAILActionPerformed
+    private void jEmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEmailTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_JTF_EMAILActionPerformed
+    }//GEN-LAST:event_jEmailTextFieldActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
 
@@ -557,126 +694,186 @@ private void applyFilter() {
 
     }//GEN-LAST:event_formMouseMoved
 
-    private void JTF_FNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTF_FNActionPerformed
+    private void jFirstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFirstNameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_JTF_FNActionPerformed
+    }//GEN-LAST:event_jFirstNameTextFieldActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
        getDataFromSelectedRow();
     }//GEN-LAST:event_formMouseClicked
 
-    private void JTF_SEARCHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTF_SEARCHMouseClicked
+    private void jSearchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSearchTextFieldMouseClicked
        // TODO add your handling code here:
-    }//GEN-LAST:event_JTF_SEARCHMouseClicked
+    }//GEN-LAST:event_jSearchTextFieldMouseClicked
 
-    private void JTF_SEARCHMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTF_SEARCHMouseEntered
+    private void jSearchTextFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSearchTextFieldMouseEntered
     
-    }//GEN-LAST:event_JTF_SEARCHMouseEntered
+    }//GEN-LAST:event_jSearchTextFieldMouseEntered
 
-    private void JTF_SEARCHMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTF_SEARCHMouseExited
+    private void jSearchTextFieldMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSearchTextFieldMouseExited
 
-    }//GEN-LAST:event_JTF_SEARCHMouseExited
+    }//GEN-LAST:event_jSearchTextFieldMouseExited
 
-    private void JPF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JPF1ActionPerformed
+    private void jPasswordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_JPF1ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if(jCheckBox1.isSelected()){
-        JPF1.setEchoChar((char)0);
-        JPF2.setEchoChar((char)0);
+    }//GEN-LAST:event_jPasswordTextFieldActionPerformed
+    
+    private void jShowPasswordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jShowPasswordCheckBoxActionPerformed
+        if(jShowPasswordCheckBox.isSelected()){
+        jPasswordTextField.setEchoChar((char)0);
+        jConfirmPasswordTextField.setEchoChar((char)0);
         }
         else{
-        JPF1.setEchoChar('\u25cf');
-        JPF2.setEchoChar('\u25cf');
+        jPasswordTextField.setEchoChar('\u25cf');
+        jConfirmPasswordTextField.setEchoChar('\u25cf');
         }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_jShowPasswordCheckBoxActionPerformed
 
-    private void SEARCH_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SEARCH_BTNActionPerformed
-        String filterText = JTF_SEARCH.getText();
+    private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+        String filterText = jSearchTextField.getText();
             applyFilter(filterText);
-    }//GEN-LAST:event_SEARCH_BTNActionPerformed
+    }//GEN-LAST:event_jSearchButtonActionPerformed
 
-    private void CHX_ADMINFILTERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CHX_ADMINFILTERActionPerformed
+    private void jFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFilterComboBoxActionPerformed
             applyFilter();            
-    }//GEN-LAST:event_CHX_ADMINFILTERActionPerformed
+    }//GEN-LAST:event_jFilterComboBoxActionPerformed
 
-    private void JTB1_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTB1_BTNActionPerformed
-        if (JTB1_BTN.isSelected()){
-            JTB1_BTN.setBackground(new Color(247,222,200));
-        }else{
-             JTB1_BTN.setBackground(new Color(247,222,200));
-        }
-        
-        
-    }//GEN-LAST:event_JTB1_BTNActionPerformed
-
-    private void REFRESH_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_REFRESH_BTNActionPerformed
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
         refreshTable();
-    }//GEN-LAST:event_REFRESH_BTNActionPerformed
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
 
-    private void EDIT_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDIT_BTNActionPerformed
-  int selectedRow = jtable1.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    } else {
-        if (!JPF1.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
+    private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
+        selectedAction = 2;
+        jCancelButton.setEnabled(true);
+        jSaveButton.setEnabled(true);
+        refreshActionButtons();        
+        jFirstNameTextField.setEnabled(true);
+        jLastNameTextField.setEnabled(true);
+        jEmailTextField.setEnabled(true);
+        jPasswordTextField.setEnabled(false);
+        jConfirmPasswordTextField.setEnabled(false);
+        jAdminCheckBox.setEnabled(true);
+    }//GEN-LAST:event_jUpdateButtonActionPerformed
+    
+    private boolean validateFields() {
+        String firstName = jFirstNameTextField.getText();
+        String lastName = jLastNameTextField.getText();
+        String email = jEmailTextField.getText();
+
+        return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty();
+    }
+    
+    private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
+        selectedAction = 3;
+        refreshActionButtons();
+        deleteAccounts();
+    }//GEN-LAST:event_jDeleteButtonActionPerformed
+
+    private void addAccount() {
+        if (jFirstNameTextField.getText().equals("") || jLastNameTextField.getText().equals("") || jEmailTextField.getText().equals("") || jPasswordTextField.getText().equals("") || jConfirmPasswordTextField.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Missing Credentials", "Missing Credentials", JOptionPane.WARNING_MESSAGE);
         } else {
-            if (JTF_FN.getText().isEmpty() || JTF_LN.getText().isEmpty() || JTF_EMAIL.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
+            String email = jEmailTextField.getText();
+
+            // Check for duplicate email
+            if (isEmailDuplicate(email)) {
+                JOptionPane.showMessageDialog(this, "Duplicate email found!","Duplicate Email", JOptionPane.WARNING_MESSAGE);
             } else {
-                if (!validateFields()) {
-                    JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
+                if (jPasswordTextField.getText().equals(jConfirmPasswordTextField.getText())) {
+                    String FirstName = jFirstNameTextField.getText();
+                    String LastName = jLastNameTextField.getText();
+                    String Email = jEmailTextField.getText();
+                    String Password = jPasswordTextField.getText();
+
+                    int Admin = 0;
+                    if (jAdminCheckBox.isSelected()) {
+                        Admin = 1;
+                    }
+                    String hashedPassword = BCrypt.hashpw(Password, BCrypt.gensalt());
+                    String query = "INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)";
+
+                    try {
+                        Connector connector = new Connector();
+                        Connection con = connector.getConnection();
+
+                        // Create a PreparedStatement with the given query
+                        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                            // Set values for the placeholders in the query
+                            pstmt.setString(1, FirstName);
+                            pstmt.setString(2, LastName);
+                            pstmt.setString(3, Email);
+                            pstmt.setString(4, hashedPassword);
+                            pstmt.setInt(5, Admin);
+
+                            // Execute the query
+                            pstmt.executeUpdate();
+                            refreshTable();
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e);
+                    }
                 } else {
-                    String email = JTF_EMAIL.getText();
-
-                    if (isEmailDuplicate(email)) {
-                        JOptionPane.showMessageDialog(this, "Duplicate email found!");
+                    JOptionPane.showMessageDialog(this, "Passwords do not Match!");
+                }
+            }
+        }
+    }
+    
+    private void updateAccount() {
+        int selectedRow = jtable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            if (!jPasswordTextField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
+            } else {
+                if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    if (!validateFields()) {
+                        JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        int userId = (int) jtable1.getValueAt(selectedRow, 0);
-                        String firstName = JTF_FN.getText();
-                        String lastName = JTF_LN.getText();
-                        boolean admin = JTB1_BTN.isSelected();
+                        String email = jEmailTextField.getText();
 
-                        String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
+                        if (isEmailDuplicate(email)) {
+                            JOptionPane.showMessageDialog(this, "Duplicate email found!");
+                        } else {
+                            int userId = (int) jtable1.getValueAt(selectedRow, 0);
+                            String firstName = jFirstNameTextField.getText();
+                            String lastName = jLastNameTextField.getText();
+                            boolean admin = jAdminCheckBox.isSelected();
 
-                        try {
-                            Connector connector = new Connector();
-                            Connection con = connector.getConnection();
+                            String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
 
-                            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                                pstmt.setString(1, firstName);
-                                pstmt.setString(2, lastName);
-                                pstmt.setString(3, email);
-                                pstmt.setBoolean(4, admin);
-                                pstmt.setInt(5, userId);
+                            try {
+                                Connector connector = new Connector();
+                                Connection con = connector.getConnection();
 
-                                pstmt.executeUpdate();
-                                refreshTable();
-                                JOptionPane.showMessageDialog(this, "Sucessfully Updated");
-                                
+                                try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                                    pstmt.setString(1, firstName);
+                                    pstmt.setString(2, lastName);
+                                    pstmt.setString(3, email);
+                                    pstmt.setBoolean(4, admin);
+                                    pstmt.setInt(5, userId);
+
+                                    pstmt.executeUpdate();
+                                    refreshTable();
+                                    JOptionPane.showMessageDialog(this, "Sucessfully Updated");
+
+                                }
+                            } catch (SQLException e) {
+                                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                System.out.println(e);
                             }
-                        } catch (SQLException e) {
-                            JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                            System.out.println(e);
                         }
                     }
                 }
             }
         }
     }
-    }//GEN-LAST:event_EDIT_BTNActionPerformed
-        private boolean validateFields() {
-
-            String firstName = JTF_FN.getText();
-            String lastName = JTF_LN.getText();
-            String email = JTF_EMAIL.getText();
-
-            return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty();
-        }
-    private void DELETE_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DELETE_BTNActionPerformed
+    
+    private void deleteAccounts() {
         int[] selectedRows = jtable1.getSelectedRows();
 
         if (selectedRows.length == 0) {
@@ -709,72 +906,10 @@ private void applyFilter() {
                 System.out.println(e);
             }
         }
-    }//GEN-LAST:event_DELETE_BTNActionPerformed
-
-    private void ADD_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADD_BTNActionPerformed
-                                       
-    if (JTF_FN.getText().equals("") || JTF_LN.getText().equals("") || JTF_EMAIL.getText().equals("") || JPF1.getText().equals("") || JPF2.getText().equals("")) {
-        JOptionPane.showMessageDialog(this, "Missing Credentials", "Missing Credentials", JOptionPane.WARNING_MESSAGE);
-    } else {
-        String email = JTF_EMAIL.getText();
-
-        // Check for duplicate email
-        if (isEmailDuplicate(email)) {
-            JOptionPane.showMessageDialog(this, "Duplicate email found!","Duplicate Email", JOptionPane.WARNING_MESSAGE);
-        } else {
-            if (JPF1.getText().equals(JPF2.getText())) {
-                String FirstName = JTF_FN.getText();
-                String LastName = JTF_LN.getText();
-                String Email = JTF_EMAIL.getText();
-                String Password = JPF1.getText();
-
-                int Admin = 0;
-                if (JTB1_BTN.isSelected()) {
-                    Admin = 1;
-                }
-                String hashedPassword = BCrypt.hashpw(Password, BCrypt.gensalt());
-                String query = "INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)";
-
-                try {
-                    Connector connector = new Connector();
-                    Connection con = connector.getConnection();
-
-                    // Create a PreparedStatement with the given query
-                    try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                        // Set values for the placeholders in the query
-                        pstmt.setString(1, FirstName);
-                        pstmt.setString(2, LastName);
-                        pstmt.setString(3, Email);
-                        pstmt.setString(4, hashedPassword);
-                        pstmt.setInt(5, Admin);
-
-                        // Execute the query
-                        pstmt.executeUpdate();
-                        refreshTable();
-                    }
-                } catch (SQLException e) {
-                    System.out.println(e);
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Passwords do not Match!");
-            }
-        }
     }
-    }//GEN-LAST:event_ADD_BTNActionPerformed
-private boolean isEmailDuplicate(String email) {
-    DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
-    int rowCount = model.getRowCount();
-    for (int i = 0; i < rowCount; i++) {
-        if (email.equals(model.getValueAt(i, 3))) { // Assuming email is in the fourth column
-            return true; // Duplicate found
-        }
-    }
-    return false; // No duplicate found
-}
-             
-       
-    private void CP_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CP_BTNActionPerformed
-        if (JPF2.getText().equals("")|| JPF1.getText().equals("")){
+    
+    private void changeAccountPassword() {
+        if (jConfirmPasswordTextField.getText().equals("")|| jPasswordTextField.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
         }
         else{
@@ -787,61 +922,134 @@ private boolean isEmailDuplicate(String email) {
             int option = JOptionPane.showConfirmDialog(this, "Confirm Update Password?", "Confirmation", JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION) {
                 
-                   String password = JPF1.getText();
+                   String password = jPasswordTextField.getText();
 
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
             String query = "UPDATE users SET password=?";
             
-            try {
-                Connector connector = new Connector();
-                Connection con = connector.getConnection();
-                  
-                try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                    pstmt.setString(1, hashedPassword);
-                    pstmt.executeUpdate();
-                    refreshTable();
+                try {
+                    Connector connector = new Connector();
+                    Connection con = connector.getConnection();
+
+                    try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                        pstmt.setString(1, hashedPassword);
+                        pstmt.executeUpdate();
+                        refreshTable();
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println(e);
                 }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                System.out.println(e);
+            }   
+        }
+    }
+    
+    private void refreshActionButtons() {
+        jAddButton.setBackground(selectedAction == 1 ? new Color(247,222,200) : new Color(240,240,240));
+        jAddButton.setBorder(selectedAction == 1 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jAddButton.setForeground(selectedAction == 1 ? new Color(0,0,0) : new Color(255,153,0));
+        jUpdateButton.setBackground(selectedAction == 2 ? new Color(247,222,200) : new Color(240,240,240));
+        jUpdateButton.setBorder(selectedAction == 2 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jUpdateButton.setForeground(selectedAction == 2 ? new Color(0,0,0) : new Color(255,153,0));
+        jDeleteButton.setBackground(selectedAction == 3 ? new Color(247,222,200) : new Color(240,240,240));
+        jDeleteButton.setBorder(selectedAction == 3 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jDeleteButton.setForeground(selectedAction == 3 ? new Color(0,0,0) : new Color(255,153,0));
+        jChangePasswordButton.setBackground(selectedAction == 4 ? new Color(247,222,200) : new Color(240,240,240));
+        jChangePasswordButton.setBorder(selectedAction == 4 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jChangePasswordButton.setForeground(selectedAction == 4 ? new Color(0,0,0) : new Color(255,153,0));
+    }
+    
+    private void jAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddButtonActionPerformed
+        selectedAction = 1;
+        jCancelButton.setEnabled(true);
+        jSaveButton.setEnabled(true);
+        refreshActionButtons();
+        jFirstNameTextField.setEnabled(true);
+        jLastNameTextField.setEnabled(true);
+        jEmailTextField.setEnabled(true);
+        jPasswordTextField.setEnabled(true);
+        jConfirmPasswordTextField.setEnabled(true);
+        jAdminCheckBox.setEnabled(true);
+    }//GEN-LAST:event_jAddButtonActionPerformed
+    
+    private boolean isEmailDuplicate(String email) {
+        DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            if (email.equals(model.getValueAt(i, 3))) { // Assuming email is in the fourth column
+                return true; // Duplicate found
             }
-        }   
-   }
-        
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-         
-    }//GEN-LAST:event_CP_BTNActionPerformed
+        }
+        return false; // No duplicate found
+    }
+             
+       
+    private void jChangePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChangePasswordButtonActionPerformed
+        selectedAction = 4;
+        jCancelButton.setEnabled(true);
+        jSaveButton.setEnabled(true);
+        refreshActionButtons();
+        jFirstNameTextField.setEnabled(false);
+        jLastNameTextField.setEnabled(false);
+        jEmailTextField.setEnabled(false);
+        jPasswordTextField.setEnabled(true);
+        jConfirmPasswordTextField.setEnabled(true);
+        jAdminCheckBox.setEnabled(false);
+    }//GEN-LAST:event_jChangePasswordButtonActionPerformed
+
+    private void jAdminCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAdminCheckBoxActionPerformed
+        if (jAdminCheckBox.isSelected()){
+            jAdminCheckboxPanel.setBackground(new Color(247,222,200));
+            jAdminCheckboxPanel.setBorder(BorderFactory.createLineBorder(new Color(255,153,0)));
+        }else{
+            jAdminCheckboxPanel.setBackground(new Color(242,242,242));
+            jAdminCheckboxPanel.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
+        }
+    }//GEN-LAST:event_jAdminCheckBoxActionPerformed
+
+    private void jCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCancelButtonActionPerformed
+        selectedAction = 0;
+        refreshActionButtons();
+        jCancelButton.setEnabled(false);
+        jSaveButton.setEnabled(false);
+        jFirstNameTextField.setEnabled(false);
+        jLastNameTextField.setEnabled(false);
+        jEmailTextField.setEnabled(false);
+        jPasswordTextField.setEnabled(false);
+        jConfirmPasswordTextField.setEnabled(false);
+        jAdminCheckBox.setEnabled(false);
+    }//GEN-LAST:event_jCancelButtonActionPerformed
+
+    private void jSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSaveButtonActionPerformed
+        if (selectedAction == 1) addAccount();
+        if (selectedAction == 2) updateAccount();
+        if (selectedAction == 3) deleteAccounts();
+        if (selectedAction == 4) changeAccountPassword();
+        selectedAction = 0;
+        refreshActionButtons();
+        jCancelButton.setEnabled(false);
+        jSaveButton.setEnabled(false);
+        jFirstNameTextField.setEnabled(false);
+        jLastNameTextField.setEnabled(false);
+        jEmailTextField.setEnabled(false);
+        jPasswordTextField.setEnabled(false);
+        jConfirmPasswordTextField.setEnabled(false);
+        jAdminCheckBox.setEnabled(false);
+    }//GEN-LAST:event_jSaveButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ADD_BTN;
-    private javax.swing.JComboBox<String> CHX_ADMINFILTER;
-    private javax.swing.JButton CP_BTN;
-    private javax.swing.JButton DELETE_BTN;
-    private javax.swing.JButton EDIT_BTN;
-    private javax.swing.JPasswordField JPF1;
-    private javax.swing.JPasswordField JPF2;
-    private javax.swing.JToggleButton JTB1_BTN;
-    private javax.swing.JTextField JTF_EMAIL;
-    private javax.swing.JTextField JTF_FN;
-    private javax.swing.JTextField JTF_LN;
-    private javax.swing.JTextField JTF_SEARCH;
-    private javax.swing.JButton REFRESH_BTN;
-    private javax.swing.JButton SEARCH_BTN;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JButton jAddButton;
+    private javax.swing.JCheckBox jAdminCheckBox;
+    private javax.swing.JPanel jAdminCheckboxPanel;
+    private javax.swing.JButton jCancelButton;
+    private javax.swing.JButton jChangePasswordButton;
+    private javax.swing.JPasswordField jConfirmPasswordTextField;
+    private javax.swing.JButton jDeleteButton;
+    private javax.swing.JTextField jEmailTextField;
+    private javax.swing.JComboBox<String> jFilterComboBox;
+    private javax.swing.JTextField jFirstNameTextField;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLabel1;
@@ -851,7 +1059,20 @@ private boolean isEmailDuplicate(String email) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField jLastNameTextField;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPasswordField jPasswordTextField;
+    private javax.swing.JButton jRefreshButton;
+    private javax.swing.JButton jSaveButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jSearchButton;
+    private javax.swing.JTextField jSearchTextField;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JCheckBox jShowPasswordCheckBox;
+    private javax.swing.JButton jUpdateButton;
     private javax.swing.JTable jtable1;
     // End of variables declaration//GEN-END:variables
 }
