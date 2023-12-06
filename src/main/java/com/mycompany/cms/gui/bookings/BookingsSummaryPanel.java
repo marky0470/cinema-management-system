@@ -77,11 +77,16 @@ public class BookingsSummaryPanel extends javax.swing.JPanel implements Printabl
 
             jPosterPanel.removeAll();
             jPosterPanel.add(poster);
-            jTitleLabel.setText(title);
-            jDateTextField.setText(screeningDate.toString());
-            jTimeStartTextField.setText(timeStart.toString());
-            jTimeEndTextField.setText(timeEnd.toString());
+//            jTitleLabel.setText(title);
+//            jDateTextField.setText(screeningDate.toString());
+//            jTimeStartTextField.setText(timeStart.toString());
+//            jTimeEndTextField.setText(timeEnd.toString());
         }
+        
+        if (title != null) jTitleLabel.setText(title);
+        if (screeningDate != null) jDateTextField.setText(screeningDate.toString());
+        if (timeStart != null) jTimeStartTextField.setText(timeStart.toString());
+        if (timeEnd != null) jTimeEndTextField.setText(timeEnd.toString());
     }
     
     private void displayTickets() {
@@ -246,7 +251,7 @@ public class BookingsSummaryPanel extends javax.swing.JPanel implements Printabl
 
         jContinueButton.setBackground(new java.awt.Color(239, 124, 18));
         jContinueButton.setForeground(new java.awt.Color(242, 242, 242));
-        jContinueButton.setText("Continue");
+        jContinueButton.setText("Check Out");
         jContinueButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 124, 18), 1, true));
         jContinueButton.setPreferredSize(new java.awt.Dimension(150, 35));
         jContinueButton.addActionListener(new java.awt.event.ActionListener() {
