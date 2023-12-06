@@ -282,6 +282,14 @@ public class CinemasPanel extends javax.swing.JPanel {
     private void jAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddButtonActionPerformed
         // TODO add your handling code here:
         
+        if("".equals(jCinemaName)){
+            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
+        }
+        
+        else if("Select Type".equals(jCinemaType.getSelectedItem())){
+            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
+        }
+        
             String cinemaName = jCinemaName.getText();
             String cinemaType = (String) jCinemaType.getSelectedItem();
 
@@ -311,7 +319,7 @@ public class CinemasPanel extends javax.swing.JPanel {
                 }
                 
             } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
             }
             
             jCinemaName.setText("");
@@ -333,35 +341,40 @@ public class CinemasPanel extends javax.swing.JPanel {
 
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         // TODO add your handling code here:
-        int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this cinema?");
-            if(confirmation==JOptionPane.YES_OPTION){
+        if(!jCinemaTable.getSelectionModel().isSelectionEmpty()){
         
-                try {
+            int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this cinema?");
+                if(confirmation==JOptionPane.YES_OPTION){
 
-                    Connector connector = new Connector();
-                    Connection con = connector.getConnection();
+                    try {
 
-                    int selectedRow = jCinemaTable.getSelectedRow();
-                    int cinemaIDColumn = 0;
-                    int cinemaTableID = (int) jCinemaTable.getModel().getValueAt(selectedRow, cinemaIDColumn);
+                        Connector connector = new Connector();
+                        Connection con = connector.getConnection();
 
-                    String query = "DELETE FROM cinemas WHERE cinema_id = ?";
+                        int selectedRow = jCinemaTable.getSelectedRow();
+                        int cinemaIDColumn = 0;
+                        int cinemaTableID = (int) jCinemaTable.getModel().getValueAt(selectedRow, cinemaIDColumn);
+
+                        String query = "DELETE FROM cinemas WHERE cinema_id = ?";
 
 
-                    PreparedStatement prepStmt = con.prepareStatement(query);
-                    prepStmt.setInt(1, cinemaTableID);
+                        PreparedStatement prepStmt = con.prepareStatement(query);
+                        prepStmt.setInt(1, cinemaTableID);
 
-                    prepStmt.executeUpdate();
+                        prepStmt.executeUpdate();
 
-                } catch (SQLException e) {
-                System.out.println(e);
-                }
+                    } catch (SQLException e) {
+                    System.out.println(e);
+                    }
 
-                jCinemaName.setText("");
-                jCinemaType.setSelectedIndex(0);
-                jSearchbar.setText("");
-                refreshTable();
-                }
+                    jCinemaName.setText("");
+                    jCinemaType.setSelectedIndex(0);
+                    jSearchbar.setText("");
+                    refreshTable();
+                    }
+        }else {
+                JOptionPane.showMessageDialog(this,"Please select an item.","Alert!",JOptionPane.INFORMATION_MESSAGE);
+            }
     }//GEN-LAST:event_jDeleteButtonActionPerformed
 
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
@@ -396,53 +409,59 @@ public class CinemasPanel extends javax.swing.JPanel {
 
     private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
         // This updates the selected row in the table.
-        String cinemaName = jCinemaName.getText();
-        String cinemaType = (String) jCinemaType.getSelectedItem();
+        if(!jCinemaTable.getSelectionModel().isSelectionEmpty()){
+        
+            String cinemaName = jCinemaName.getText();
+            String cinemaType = (String) jCinemaType.getSelectedItem();
 
-        try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
+            try {
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
 
-            int selectedRow = jCinemaTable.getSelectedRow();
-            int cinemaIDColumn = 0;
-            int cinemaTableID = (int) jCinemaTable.getModel().getValueAt(selectedRow, cinemaIDColumn);
+                int selectedRow = jCinemaTable.getSelectedRow();
+                int cinemaIDColumn = 0;
+                int cinemaTableID = (int) jCinemaTable.getModel().getValueAt(selectedRow, cinemaIDColumn);
 
-            String query = "UPDATE cinemas SET name = ?, type = ? WHERE cinema_id = ?";
-            PreparedStatement prepStmt = con.prepareStatement(query);
-                    
-            //This if/else block will prevent data duplication in the database.
-            //At the same time it will normally update the selected row.
-            String dupliError = "select * from cinemas where name ="+cinemaName+"";
-            ResultSet result = prepStmt.executeQuery(dupliError);
-                    
-            if(result.next()){
-                JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" Already Exist.");
-                jCinemaName.setText("");
-                jCinemaType.setSelectedIndex(0);
-            }else{
-                        
-                    String cinemaUpdate = "UPDATE cinemas SET name = ?, type = ? WHERE cinema_id = ?";
-                        
-                    
+                String query = "UPDATE cinemas SET name = ?, type = ? WHERE cinema_id = ?";
+                PreparedStatement prepStmt = con.prepareStatement(query);
 
-                    JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" successfully updated!");
+                //This if/else block will prevent data duplication in the database.
+                //At the same time it will normally update the selected row.
+                String dupliError = "select * from cinemas where name ="+cinemaName+"";
+                ResultSet result = prepStmt.executeQuery(dupliError);
+
+                if(result.next()){
+                    JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" Already Exist.");
                     jCinemaName.setText("");
                     jCinemaType.setSelectedIndex(0);
-                        
-                    try (PreparedStatement prepStatement = con.prepareStatement(cinemaUpdate)) {
-                        prepStatement.setString(1, cinemaName);
-                        prepStatement.setString(2, cinemaType);
-                        prepStatement.setInt(3, cinemaTableID);
+                }else {
 
-                        prepStatement.executeUpdate();
-                        
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                        String cinemaUpdate = "UPDATE cinemas SET name = ?, type = ? WHERE cinema_id = ?";
+
+
+
+                        JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" successfully updated!");
+                        jCinemaName.setText("");
+                        jCinemaType.setSelectedIndex(0);
+
+                        try (PreparedStatement prepStatement = con.prepareStatement(cinemaUpdate)) {
+                            prepStatement.setString(1, cinemaName);
+                            prepStatement.setString(2, cinemaType);
+                            prepStatement.setInt(3, cinemaTableID);
+
+                            prepStatement.executeUpdate();
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-        } catch (SQLException e) {
-        System.out.println(e);
-        }
+
+            } catch (SQLException e) {
+            System.out.println(e);
+            }
+        }else {
+                JOptionPane.showMessageDialog(this,"Please select an item.","Alert!",JOptionPane.INFORMATION_MESSAGE);
+            }
         refreshTable();
     }//GEN-LAST:event_jUpdateButtonActionPerformed
 
