@@ -5,6 +5,7 @@
 package com.mycompany.cms.gui;
 
 import com.mycompany.cms.util.Connector;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,18 +59,18 @@ public class StaffPanel extends javax.swing.JPanel {
         jCheckBox1 = new javax.swing.JCheckBox();
         jTextField5 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        panel1 = new java.awt.Panel();
-        add_button = new javax.swing.JButton();
-        delete_button = new javax.swing.JButton();
-        edit_button = new javax.swing.JButton();
-        view_button = new javax.swing.JButton();
-        cp_btn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         JPF1 = new javax.swing.JPasswordField();
         JPF2 = new javax.swing.JPasswordField();
         JBC1 = new javax.swing.JComboBox<>();
         search_btn = new javax.swing.JButton();
         JTB1 = new javax.swing.JToggleButton();
+        add_button = new javax.swing.JButton();
+        edit_button = new javax.swing.JButton();
+        view_button = new javax.swing.JButton();
+        delete_button = new javax.swing.JButton();
+        cp_btn = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -124,21 +125,19 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel4.setLabelFor(jLabel4);
         jLabel4.setText("Password");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
 
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
 
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -180,7 +179,7 @@ public class StaffPanel extends javax.swing.JPanel {
             jtable1.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jCheckBox1.setText("Admin*");
+        jCheckBox1.setText("Show");
         jCheckBox1.setToolTipText("");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,7 +187,6 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
-        jTextField5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTextField5.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jTextField5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -210,96 +208,14 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
-        add_button.setBackground(new java.awt.Color(255, 153, 0));
-        add_button.setForeground(new java.awt.Color(255, 255, 255));
-        add_button.setText("Save");
-        buttonGroup1.add(add_button);
-        add_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add_buttonActionPerformed(evt);
-            }
-        });
-
-        delete_button.setBackground(new java.awt.Color(255, 153, 0));
-        delete_button.setForeground(new java.awt.Color(255, 255, 255));
-        delete_button.setText("Delete");
-        buttonGroup1.add(delete_button);
-        delete_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                delete_buttonActionPerformed(evt);
-            }
-        });
-
-        edit_button.setBackground(new java.awt.Color(255, 153, 0));
-        edit_button.setForeground(new java.awt.Color(255, 255, 255));
-        edit_button.setText("Update");
-        buttonGroup1.add(edit_button);
-        edit_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edit_buttonActionPerformed(evt);
-            }
-        });
-
-        view_button.setBackground(new java.awt.Color(255, 153, 0));
-        view_button.setForeground(new java.awt.Color(255, 255, 255));
-        view_button.setText("Refresh");
-        buttonGroup1.add(view_button);
-        view_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                view_buttonActionPerformed(evt);
-            }
-        });
-
-        cp_btn.setText("Change Password");
-        cp_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cp_btnActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
-        panel1.setLayout(panel1Layout);
-        panel1Layout.setHorizontalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(add_button, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                    .addComponent(delete_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(edit_button, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(view_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addComponent(cp_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        panel1Layout.setVerticalGroup(
-            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel1Layout.createSequentialGroup()
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edit_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(add_button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(view_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(cp_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
         jLabel6.setLabelFor(jLabel4);
         jLabel6.setText("Confirm Password");
 
-        JPF1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         JPF1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JPF1ActionPerformed(evt);
             }
         });
-
-        JPF2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         JBC1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Admin" }));
         JBC1.addActionListener(new java.awt.event.ActionListener() {
@@ -315,78 +231,144 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
-        JTB1.setText("Show");
+        JTB1.setBackground(new java.awt.Color(247, 222, 200));
+        JTB1.setText("Admin");
+        JTB1.setActionCommand("");
+        JTB1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(247, 222, 200)));
         JTB1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTB1ActionPerformed(evt);
             }
         });
 
+        add_button.setBackground(new java.awt.Color(255, 153, 0));
+        add_button.setForeground(new java.awt.Color(255, 255, 255));
+        add_button.setText("Save");
+        add_button.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        buttonGroup1.add(add_button);
+        add_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_buttonActionPerformed(evt);
+            }
+        });
+
+        edit_button.setBackground(new java.awt.Color(255, 153, 0));
+        edit_button.setForeground(new java.awt.Color(255, 255, 255));
+        edit_button.setText("Update");
+        edit_button.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        edit_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_buttonActionPerformed(evt);
+            }
+        });
+
+        view_button.setText("Refresh");
+        view_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                view_buttonActionPerformed(evt);
+            }
+        });
+
+        delete_button.setBackground(new java.awt.Color(255, 153, 0));
+        delete_button.setForeground(new java.awt.Color(255, 255, 255));
+        delete_button.setText("Delete");
+        delete_button.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        delete_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_buttonActionPerformed(evt);
+            }
+        });
+
+        cp_btn.setBackground(new java.awt.Color(255, 153, 0));
+        cp_btn.setForeground(new java.awt.Color(255, 255, 255));
+        cp_btn.setText("Change Password");
+        cp_btn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        cp_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cp_btnActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setText("Accounts");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel6)
-                        .addComponent(JPF1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(JPF2)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(1, 1, 1)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField2))))
-                    .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6)
+                    .addComponent(JPF1)
+                    .addComponent(jTextField3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JPF2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jCheckBox1)
-                    .addComponent(JTB1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76)
+                    .addComponent(JTB1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(JBC1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE))
-                        .addContainerGap(30, Short.MAX_VALUE))))
+                        .addComponent(edit_button, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cp_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(view_button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(JBC1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(235, 235, 235))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel2)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JBC1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(search_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(view_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -398,14 +380,19 @@ public class StaffPanel extends javax.swing.JPanel {
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JPF2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addComponent(JTB1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(16, 16, 16)
                         .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 77, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(JTB1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(edit_button, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cp_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -466,6 +453,9 @@ public class StaffPanel extends javax.swing.JPanel {
         }
 }
         
+    
+
+
 private void applyFilter(String filterText) {
      try {
         Connector connector = new Connector();
@@ -593,67 +583,101 @@ private void applyFilter() {
 
     }//GEN-LAST:event_jTextField5MouseExited
 
+    private void JPF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JPF1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JPF1ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        if(jCheckBox1.isSelected()){
+        JPF1.setEchoChar((char)0);
+        JPF2.setEchoChar((char)0);
+        }
+        else{
+        JPF1.setEchoChar('\u25cf');
+        JPF2.setEchoChar('\u25cf');
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
+        String filterText = jTextField5.getText();
+            applyFilter(filterText);
+    }//GEN-LAST:event_search_btnActionPerformed
+
+    private void JBC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBC1ActionPerformed
+            applyFilter();            
+    }//GEN-LAST:event_JBC1ActionPerformed
+
+    private void JTB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTB1ActionPerformed
+        if (JTB1.isSelected()){
+            JTB1.setBackground(new Color(247,222,200));
+        }else{
+             JTB1.setBackground(new Color(247,222,200));
+        }
+        
+        
+    }//GEN-LAST:event_JTB1ActionPerformed
+
     private void view_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_view_buttonActionPerformed
         refreshTable();
     }//GEN-LAST:event_view_buttonActionPerformed
 
     private void edit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_buttonActionPerformed
-        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Missing Information");
-        }
-        else{
-        
-    
-             int selectedRow = jtable1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
-            return ;
-        }
-
-        
-        if (!validateFields()) {
-            JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        int userId = (int) jtable1.getValueAt(selectedRow, 0);
-        String firstName = jTextField1.getText();
-        String lastName = jTextField2.getText();
-        String email = jTextField3.getText();
-        boolean admin = jCheckBox1.isSelected();
-        
-        
-        String query = "UPDATE users SET first_name=?, last_name=?, email=?,is_admin=? WHERE user_id=?";
-
-        try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
-
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, firstName);
-                pstmt.setString(2, lastName);
-                pstmt.setString(3, email);
-                pstmt.setBoolean(4, admin);
-                pstmt.setInt(5, userId);
-
-                pstmt.executeUpdate();
-                refreshTable();
+      int selectedRow = jtable1.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+  
+            }else{
+             if(JPF1.getText().equals("") == false){
+            JOptionPane.showMessageDialog(this, "Use Change Password button to update password"); 
+             }
+             else{
+             if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
+            
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e);
-        }
-        }
-        }
 
+            if (!validateFields()) {
+                JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int userId = (int) jtable1.getValueAt(selectedRow, 0);
+            String firstName = jTextField1.getText();
+            String lastName = jTextField2.getText();
+            String email = jTextField3.getText();
+            boolean admin = JTB1.isSelected();
+
+            String query = "UPDATE users SET first_name=?, last_name=?, email=?,is_admin=? WHERE user_id=?";
+
+            try {
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
+
+                try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                    pstmt.setString(1, firstName);
+                    pstmt.setString(2, lastName);
+                    pstmt.setString(3, email);
+                    pstmt.setBoolean(4, admin);
+                    pstmt.setInt(5, userId);
+
+                    pstmt.executeUpdate();
+                    refreshTable();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println(e);
+            }
+        }
+      
+        }
+        }
         private boolean validateFields() {
 
             String firstName = jTextField1.getText();
             String lastName = jTextField2.getText();
             String email = jTextField3.getText();
-            
 
-          
             return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty();
     }//GEN-LAST:event_edit_buttonActionPerformed
 
@@ -693,118 +717,117 @@ private void applyFilter() {
     }//GEN-LAST:event_delete_buttonActionPerformed
 
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
-        if (jTextField1.getText().equals("")|| jTextField2.getText().equals("")|| jTextField3.getText().equals("")|| JPF1.getText().equals("") || JPF2.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Missing Information");
-        }else{
-            
-         if(JPF1.getText().equals(JPF2.getText())){
-             String FirstName = jTextField1.getText();
-        String LastName = jTextField2.getText();
-        String Email = jTextField3.getText();
-        String Password = JPF1.getText();
+                                       
+    if (jTextField1.getText().equals("") || jTextField2.getText().equals("") || jTextField3.getText().equals("") || JPF1.getText().equals("") || JPF2.getText().equals("")) {
+        JOptionPane.showMessageDialog(this, "Missing Credentials", "Missing Credentials", JOptionPane.WARNING_MESSAGE);
+    } else {
+        String email = jTextField3.getText();
 
-        int Admin = 0;
-        if (jCheckBox1.isSelected()) {
-            Admin = 1;
-        }
-        String hashedPassword = BCrypt.hashpw(Password, BCrypt.gensalt());
-        String query = "INSERT INTO users (first_name, last_name, email,password, is_admin) VALUES (?, ?, ?, ?,?)";
+        // Check for duplicate email
+        if (isEmailDuplicate(email)) {
+            JOptionPane.showMessageDialog(this, "Duplicate email found!","Duplicate Email", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (JPF1.getText().equals(JPF2.getText())) {
+                String FirstName = jTextField1.getText();
+                String LastName = jTextField2.getText();
+                String Email = jTextField3.getText();
+                String Password = JPF1.getText();
 
-        try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
+                int Admin = 0;
+                if (JTB1.isSelected()) {
+                    Admin = 1;
+                }
+                String hashedPassword = BCrypt.hashpw(Password, BCrypt.gensalt());
+                String query = "INSERT INTO users (first_name, last_name, email, password, is_admin) VALUES (?, ?, ?, ?, ?)";
 
-            // Create a PreparedStatement with the given query
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                // Set values for the placeholders in the query
-                pstmt.setString(1, FirstName);
-                pstmt.setString(2, LastName);
-                pstmt.setString(3, Email);
-                pstmt.setString(4, hashedPassword);
-                pstmt.setInt(5, Admin);
+                try {
+                    Connector connector = new Connector();
+                    Connection con = connector.getConnection();
 
-                // Execute the query
-                pstmt.executeUpdate();
-                refreshTable();
+                    // Create a PreparedStatement with the given query
+                    try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                        // Set values for the placeholders in the query
+                        pstmt.setString(1, FirstName);
+                        pstmt.setString(2, LastName);
+                        pstmt.setString(3, Email);
+                        pstmt.setString(4, hashedPassword);
+                        pstmt.setInt(5, Admin);
+
+                        // Execute the query
+                        pstmt.executeUpdate();
+                        refreshTable();
+                    }
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Passwords do not Match!");
             }
-        } catch (SQLException e) {
-            System.out.println(e);
         }
-         }
-         else{
-         JOptionPane.showMessageDialog(this, "Passwords do not Match!");}
-         
-         }
-        
-        
-        
+    }
     }//GEN-LAST:event_add_buttonActionPerformed
-
-    private void JPF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JPF1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JPF1ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
-        String filterText = jTextField5.getText();
-            applyFilter(filterText);
-    }//GEN-LAST:event_search_btnActionPerformed
-
-    private void JBC1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBC1ActionPerformed
-
-            applyFilter();
-            
-    }//GEN-LAST:event_JBC1ActionPerformed
-
+private boolean isEmailDuplicate(String email) {
+    DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (email.equals(model.getValueAt(i, 3))) { // Assuming email is in the fourth column
+            return true; // Duplicate found
+        }
+    }
+    return false; // No duplicate found
+}
+             
+       
     private void cp_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cp_btnActionPerformed
         if (JPF2.getText().equals("")|| JPF1.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Missing Information");
+            JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
         }
         else{
-             int selectedRow = jtable1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a user to change password", "Error", JOptionPane.ERROR_MESSAGE);
-            return ;
-        }
-
-        String password = JPF1.getText();
-       
-        
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        String query = "UPDATE users SET password=?";
-
-        try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
-
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, hashedPassword);
-                pstmt.executeUpdate();
-                refreshTable();
+            int selectedRow = jtable1.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a user to change password", "Error", JOptionPane.ERROR_MESSAGE);
+                return ;
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e);
-        }
-        }
-        
 
+            int option = JOptionPane.showConfirmDialog(this, "Confirm Update Password?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                
+                   String password = JPF1.getText();
+
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            String query = "UPDATE users SET password=?";
+            
+            try {
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
+                  
+                try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                    pstmt.setString(1, hashedPassword);
+                    pstmt.executeUpdate();
+                    refreshTable();
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println(e);
+            }
+        }   
+   }
         
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+         
     }//GEN-LAST:event_cp_btnActionPerformed
-
-    private void JTB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTB1ActionPerformed
-        if(JTB1.isSelected()){
-        JPF1.setEchoChar((char)0);
-        JPF2.setEchoChar((char)0);
-        }
-        else{
-        JPF1.setEchoChar('\u25cf');
-        JPF2.setEchoChar('\u25cf');
-        }
-    }//GEN-LAST:event_JTB1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -824,6 +847,7 @@ private void applyFilter() {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
@@ -832,7 +856,6 @@ private void applyFilter() {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTable jtable1;
-    private java.awt.Panel panel1;
     private javax.swing.JButton search_btn;
     private javax.swing.JButton view_button;
     // End of variables declaration//GEN-END:variables
