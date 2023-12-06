@@ -4,6 +4,15 @@
  */
 package com.mycompany.cms.gui.screenings;
 
+import com.mycompany.cms.util.Connector;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author francisjamestolentino
@@ -15,6 +24,7 @@ public class ScreeningsPanel extends javax.swing.JPanel {
      */
     public ScreeningsPanel() {
         initComponents();
+        refreshTable();
     }
 
     /**
@@ -26,19 +36,215 @@ public class ScreeningsPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jSearchbar = new javax.swing.JTextField();
+        jSearchButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jMovieTable = new javax.swing.JTable();
+        jRefreshButton = new javax.swing.JButton();
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel1.setText("Screening");
+
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
+        jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
+        jSearchButton.setText("Search");
+        jSearchButton.setBorderPainted(false);
+        jSearchButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchButtonActionPerformed(evt);
+            }
+        });
+
+        jMovieTable.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jMovieTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Movie", "Cinema", "Start", "End", "Date", "Price"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jMovieTable.getTableHeader().setResizingAllowed(false);
+        jMovieTable.getTableHeader().setReorderingAllowed(false);
+        jMovieTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMovieTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jMovieTable);
+        if (jMovieTable.getColumnModel().getColumnCount() > 0) {
+            jMovieTable.getColumnModel().getColumn(0).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jMovieTable.getColumnModel().getColumn(1).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(1).setPreferredWidth(15);
+            jMovieTable.getColumnModel().getColumn(2).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(3).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jMovieTable.getColumnModel().getColumn(4).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+            jMovieTable.getColumnModel().getColumn(5).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(5).setPreferredWidth(75);
+            jMovieTable.getColumnModel().getColumn(6).setResizable(false);
+            jMovieTable.getColumnModel().getColumn(6).setPreferredWidth(20);
+        }
+
+        jRefreshButton.setBackground(new java.awt.Color(247, 196, 149));
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorderPainted(false);
+        jRefreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRefreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 927, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addGap(89, 89, 89)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jSearchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 636, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jSearchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void refreshTable() {
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+            
+            String query = "SELECT screening_id, movie_id, cinema_id, time_start, time_end, date, price FROM screening";
+            
+            try (PreparedStatement pstmt = con.prepareStatement(query);
+                    ResultSet resultSet = pstmt.executeQuery()) {
+
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+
+                    while (resultSet.next()) {
+                    int screeningId = resultSet.getInt("screening_id");
+                    int movieId = resultSet.getInt("movie_id");
+                    int cinemaId = resultSet.getInt("cinema_id");
+                    Time timeStart = resultSet.getTime("time_start");
+                    Time timeEnd = resultSet.getTime("time_end");
+                    Date date = resultSet.getDate("date");
+                    int price = resultSet.getInt("price");
+
+                    model.addRow(new Object[]{screeningId, movieId, cinemaId, timeStart, timeEnd, date, price});
+                    }
+                }
+        } catch (SQLException e) {
+              System.out.println(e);
+              }
+    }
+    
+    private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+        // TODO add your handling code here:
+        String searchInput = jSearchbar.getText();
+        
+        
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
+
+            String query = "SELECT screening_id, movie_id, cinema_id, time_start, time_end, date, price FROM screening WHERE screening_id LIKE ?";
+            
+                    PreparedStatement pstmt = con.prepareStatement(query);                    
+                    pstmt.setString(1, "%" + searchInput + "%");
+                    ResultSet resultSet = pstmt.executeQuery();
+
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    model.setRowCount(0);
+
+                    while (resultSet.next()) {
+                    int screeningId = resultSet.getInt("screening_id");
+                    int movieId = resultSet.getInt("movie_id");
+                    int cinemaId = resultSet.getInt("cinema_id");
+                    Time timeStart = resultSet.getTime("time_start");
+                    Time timeEnd = resultSet.getTime("time_end");
+                    Date date = resultSet.getDate("date");
+                    int price = resultSet.getInt("price");
+
+                    model.addRow(new Object[]{screeningId, movieId, cinemaId, timeStart, timeEnd, date, price});
+                    }
+
+            } catch (SQLException e) {
+              System.out.println(e);
+            }
+    }//GEN-LAST:event_jSearchButtonActionPerformed
+
+    private void jMovieTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMovieTableMouseClicked
+
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
+        // TODO add your handling code here:
+        refreshTable();
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTable jMovieTable;
+    private javax.swing.JButton jRefreshButton;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jSearchButton;
+    private javax.swing.JTextField jSearchbar;
     // End of variables declaration//GEN-END:variables
 }
