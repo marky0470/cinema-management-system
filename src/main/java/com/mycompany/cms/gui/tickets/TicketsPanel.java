@@ -4,17 +4,51 @@
  */
 package com.mycompany.cms.gui.tickets;
 
+import com.mycompany.cms.util.Connector;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author francisjamestolentino
  */
 public class TicketsPanel extends javax.swing.JPanel {
+    
+    Connection conn;
+    private final SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH);    
+    private DefaultTableModel tableModel;
 
     /**
      * Creates new form TicketsPanel
      */
     public TicketsPanel() {
         initComponents();
+        
+        Connector connector = new Connector();
+        conn = connector.getConnection();
+        
+        jDateSpinner.setModel(model);
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(jDateSpinner, "MM/dd/yyyy");
+        jDateSpinner.setEditor(editor);
+        jDateSpinner.addChangeListener(getDateSpinnerChangeListener());
+        
+        
+        refresh();
+    }
+    
+    private void refresh() {
+        refreshTableModel();
+        getTickets();
     }
 
     /**
@@ -26,30 +60,264 @@ public class TicketsPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDateLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jSearchTextField = new javax.swing.JTextField();
+        jSearchButton = new javax.swing.JButton();
+        jDateSpinner = new javax.swing.JSpinner();
+        jTodayButton = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
+        jDateLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
+        jDateLabel.setText("Date");
+
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel1.setText("Tickets");
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(1076, 50));
+
+        jSearchTextField.setPreferredSize(new java.awt.Dimension(200, 30));
+
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
+        jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
+        jSearchButton.setText("Search");
+        jSearchButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 124, 18), 1, true));
+        jSearchButton.setPreferredSize(new java.awt.Dimension(85, 30));
+        jSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSearchButtonActionPerformed(evt);
+            }
+        });
+
+        jDateSpinner.setPreferredSize(new java.awt.Dimension(100, 30));
+
+        jTodayButton.setBackground(new java.awt.Color(247, 222, 200));
+        jTodayButton.setText("Today");
+        jTodayButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 222, 200), 1, true));
+        jTodayButton.setPreferredSize(new java.awt.Dimension(100, 30));
+        jTodayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTodayButtonActionPerformed(evt);
+            }
+        });
+
+        jRefreshButton.setBackground(new java.awt.Color(247, 222, 200));
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 222, 200), 1, true));
+        jRefreshButton.setPreferredSize(new java.awt.Dimension(100, 30));
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRefreshButtonActionPerformed(evt);
+            }
+        });
+
+        jDateLabel1.setText("Date");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 447, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateLabel1)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTodayButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDateLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTodayButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(235, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(123, 123, 123))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1071, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel1)
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+        getTicketsBySearch();
+        jSearchTextField.setText("");
+    }//GEN-LAST:event_jSearchButtonActionPerformed
+
+    private void jTodayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTodayButtonActionPerformed
+        model.setValue(new Date());
+    }//GEN-LAST:event_jTodayButtonActionPerformed
+
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
+        getTickets();
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
+
+    private Date getSelectedDate() {
+        Date selectedDate = (Date) jDateSpinner.getValue();
+        return selectedDate;
+    }
+    
+    private void changeDateLabel() {
+        Date selectedDate = (Date) getSelectedDate();
+        jDateLabel.setText(selectedDate.toString());
+    }
+    
+    private ChangeListener getDateSpinnerChangeListener() {
+        return (ChangeEvent e) -> {
+            changeDateLabel();
+            getTickets();
+        };
+    }
+    
+    private void refreshTableModel() {
+        tableModel = new DefaultTableModel(new String[]{"Ticket ID", "Movie", "Time", "Date", "Seat", "Price"}, 0);
+        
+        for (int i=0; i<tableModel.getColumnCount(); i++) {
+            Class<?> c = tableModel.getColumnClass(i);
+            jTable1.setDefaultEditor(c, null);
+        }
+    }
+    
+    private void getTicketsBySearch() {
+        try {
+            refreshTableModel();
+            String query = jSearchTextField.getText();
+            String sql = """
+                        SELECT
+                            	tickets.ticket_id,
+                                movies.title,
+                                tickets.time,
+                                tickets.date,
+                                tickets.seat,
+                                tickets.price
+                            FROM
+                                `tickets`
+                            LEFT JOIN screening ON tickets.screening_id = screening.screening_id
+                            LEFT JOIN movies ON screening.movie_id = movies.movie_id
+                            WHERE
+                                movies.title LIKE ?;
+                         """;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, "%" + query + "%");
+            ResultSet result = st.executeQuery();
+            
+            while (result.next()) {
+                int ticketId = result.getInt("ticket_id");
+                String movie = result.getString("title");
+                Time time = result.getTime("time");
+                Date screeningDate = result.getDate("date");
+                String seat = result.getString("seat");
+                float price = result.getFloat("price");
+                
+                tableModel.addRow(new Object[]{ticketId, movie, time, screeningDate, seat, price} );
+            }
+            
+            jTable1.setModel(tableModel);
+        } catch  (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    private void getTickets() {
+        try {
+            refreshTableModel();
+            Date date = getSelectedDate();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            String sql = """
+                        SELECT
+                            	tickets.ticket_id,
+                                movies.title,
+                                tickets.time,
+                                tickets.date,
+                                tickets.seat,
+                                tickets.price
+                            FROM
+                                `tickets`
+                            LEFT JOIN screening ON tickets.screening_id = screening.screening_id
+                            LEFT JOIN movies ON screening.movie_id = movies.movie_id
+                            WHERE
+                                tickets.date = ?;
+                         """;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setDate(1, sqlDate);
+            ResultSet result = st.executeQuery();
+            
+            while (result.next()) {
+                int ticketId = result.getInt("ticket_id");
+                String movie = result.getString("title");
+                Time time = result.getTime("time");
+                Date screeningDate = result.getDate("date");
+                String seat = result.getString("seat");
+                float price = result.getFloat("price");
+                
+                tableModel.addRow(new Object[]{ticketId, movie, time, screeningDate, seat, price} );
+            }
+            
+            jTable1.setModel(tableModel);
+        } catch  (SQLException e) {
+            System.out.println(e);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jDateLabel;
+    private javax.swing.JLabel jDateLabel1;
+    private javax.swing.JSpinner jDateSpinner;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton jRefreshButton;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jSearchButton;
+    private javax.swing.JTextField jSearchTextField;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jTodayButton;
     // End of variables declaration//GEN-END:variables
 }

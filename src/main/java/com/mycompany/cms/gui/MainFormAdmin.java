@@ -8,6 +8,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.mycompany.cms.gui.bookings.BookingsTabbedPanel;
 import com.mycompany.cms.gui.cinemas.CinemasPanel;
 import com.mycompany.cms.gui.movies.MoviePanel;
+import com.mycompany.cms.gui.tickets.TicketsPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -39,6 +40,8 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         jScreeningsButton.addMouseListener(getMouseAdapter(jScreeningsButton));
         jCinemaButton.addMouseListener(getMouseAdapter(jCinemaButton));
         jLogOutButton.addMouseListener(getMouseAdapter(jLogOutButton));
+        jTicketsButton.addMouseListener(getMouseAdapter(jTicketsButton));
+        
         
         BookingsTabbedPanel bookingsPanel = new BookingsTabbedPanel();
         showPanel(bookingsPanel, jMoviesButton);
@@ -61,8 +64,8 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         jMoviesButton = new javax.swing.JLabel();
         jScreeningsButton = new javax.swing.JLabel();
         jCinemaButton = new javax.swing.JLabel();
+        jTicketsButton = new javax.swing.JLabel();
         jAccountButton = new javax.swing.JLabel();
-        jAccountButton1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLogOutButton = new javax.swing.JLabel();
         jContentPanel = new javax.swing.JPanel();
@@ -177,6 +180,20 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         });
         jNavbarPanel.add(jCinemaButton);
 
+        jTicketsButton.setBackground(new java.awt.Color(239, 124, 18));
+        jTicketsButton.setForeground(new java.awt.Color(255, 255, 255));
+        jTicketsButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTicketsButton.setText("Tickets");
+        jTicketsButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTicketsButton.setOpaque(true);
+        jTicketsButton.setPreferredSize(new java.awt.Dimension(300, 45));
+        jTicketsButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTicketsButtonMouseClicked(evt);
+            }
+        });
+        jNavbarPanel.add(jTicketsButton);
+
         jAccountButton.setBackground(new java.awt.Color(239, 124, 18));
         jAccountButton.setForeground(new java.awt.Color(255, 255, 255));
         jAccountButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -190,20 +207,6 @@ public final class MainFormAdmin extends javax.swing.JFrame {
             }
         });
         jNavbarPanel.add(jAccountButton);
-
-        jAccountButton1.setBackground(new java.awt.Color(239, 124, 18));
-        jAccountButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jAccountButton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jAccountButton1.setText("Settings");
-        jAccountButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jAccountButton1.setOpaque(true);
-        jAccountButton1.setPreferredSize(new java.awt.Dimension(300, 45));
-        jAccountButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jAccountButton1MouseClicked(evt);
-            }
-        });
-        jNavbarPanel.add(jAccountButton1);
 
         jPanel1.setBackground(new java.awt.Color(239, 124, 18));
         jPanel1.setPreferredSize(new java.awt.Dimension(300, 300));
@@ -277,13 +280,16 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         showPanel(staffPanel, jAccountButton);
     }//GEN-LAST:event_jAccountButtonMouseClicked
 
-    private void jAccountButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jAccountButton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jAccountButton1MouseClicked
-
     private void jLogOutButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLogOutButtonMouseClicked
+        LoginForm loginForm = new LoginForm();
+        loginForm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLogOutButtonMouseClicked
+
+    private void jTicketsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTicketsButtonMouseClicked
+        TicketsPanel ticketsPanel = new TicketsPanel();
+        showPanel(ticketsPanel, jTicketsButton);
+    }//GEN-LAST:event_jTicketsButtonMouseClicked
 
     private static MouseAdapter getMouseAdapter(JLabel label) {
         return new MouseAdapter() {
@@ -347,7 +353,6 @@ public final class MainFormAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jAccountButton;
-    private javax.swing.JLabel jAccountButton1;
     private javax.swing.JLabel jBookingsButton;
     private javax.swing.JLabel jCinemaButton;
     private javax.swing.JPanel jContentPanel;
@@ -359,5 +364,6 @@ public final class MainFormAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel jScreeningsButton;
+    private javax.swing.JLabel jTicketsButton;
     // End of variables declaration//GEN-END:variables
 }

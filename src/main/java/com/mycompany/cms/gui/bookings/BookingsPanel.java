@@ -8,6 +8,7 @@ import com.mycompany.cms.util.Connector;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -219,7 +220,9 @@ public class BookingsPanel extends javax.swing.JPanel {
         
         JPanel card = new JPanel();
         card.setPreferredSize(new Dimension(180, 300));
-        JLabel poster = new JLabel(new ImageIcon(image));
+        ImageIcon imageIcon = new ImageIcon(image);
+        Image scaledImage = imageIcon.getImage().getScaledInstance(180, 300, Image.SCALE_SMOOTH);
+        JLabel poster = new JLabel(new ImageIcon(scaledImage));
         card.add(poster);
         cardPanel.add(card);
         
@@ -287,7 +290,7 @@ public class BookingsPanel extends javax.swing.JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 card.setBorder(new CompoundBorder(
-                    new LineBorder(new Color(45, 45, 45, 70), 1, true),
+                    new LineBorder(new Color(45, 45, 45, 100), 1, true),
                     new EmptyBorder(1, 1, 1, 1)
                 ));
             }
@@ -315,14 +318,14 @@ public class BookingsPanel extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jDateLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jSearchTextField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
         jDateSpinner = new javax.swing.JSpinner();
         jTodayButton = new javax.swing.JButton();
         jRefreshButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jDateLabel = new javax.swing.JLabel();
         jScrollPane = new javax.swing.JScrollPane();
         jMoviesPanel = new javax.swing.JPanel();
 
@@ -332,23 +335,23 @@ public class BookingsPanel extends javax.swing.JPanel {
         setSize(new java.awt.Dimension(1140, 800));
         setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(1440, 100));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1440, 120));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1076, 50));
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING));
 
-        jPanel4.setPreferredSize(new java.awt.Dimension(20, 50));
+        jPanel4.setPreferredSize(new java.awt.Dimension(18, 45));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+            .addGap(0, 18, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 45, Short.MAX_VALUE)
         );
 
         jPanel2.add(jPanel4);
@@ -357,27 +360,9 @@ public class BookingsPanel extends javax.swing.JPanel {
         jLabel1.setText("Bookings");
         jPanel2.add(jLabel1);
 
-        jPanel7.setPreferredSize(new java.awt.Dimension(800, 30));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
-
-        jPanel2.add(jPanel7);
-
-        jDateLabel.setText("Date");
-        jPanel2.add(jDateLabel);
-
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(1076, 50));
+        jPanel3.setPreferredSize(new java.awt.Dimension(1076, 70));
 
         jSearchTextField.setPreferredSize(new java.awt.Dimension(200, 30));
 
@@ -414,34 +399,48 @@ public class BookingsPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setText("Search");
+
+        jDateLabel.setText("Date");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(25, Short.MAX_VALUE)
-                .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
                 .addGap(471, 471, 471)
-                .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTodayButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTodayButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateLabel))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jDateLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTodayButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
@@ -453,7 +452,7 @@ public class BookingsPanel extends javax.swing.JPanel {
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setToolTipText("");
 
-        jMoviesPanel.setPreferredSize(new java.awt.Dimension(1440, 800));
+        jMoviesPanel.setPreferredSize(new java.awt.Dimension(1440, 600));
         jMoviesPanel.setSize(new java.awt.Dimension(1440, 800));
 
         javax.swing.GroupLayout jMoviesPanelLayout = new javax.swing.GroupLayout(jMoviesPanel);
@@ -464,7 +463,7 @@ public class BookingsPanel extends javax.swing.JPanel {
         );
         jMoviesPanelLayout.setVerticalGroup(
             jMoviesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGap(0, 680, Short.MAX_VALUE)
         );
 
         jScrollPane.setViewportView(jMoviesPanel);
@@ -490,12 +489,12 @@ public class BookingsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jDateLabel;
     private javax.swing.JSpinner jDateSpinner;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jMoviesPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JButton jRefreshButton;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JButton jSearchButton;

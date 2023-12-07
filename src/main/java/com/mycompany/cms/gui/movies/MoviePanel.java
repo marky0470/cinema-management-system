@@ -3,15 +3,23 @@ package com.mycompany.cms.gui.movies;
 import com.mycompany.cms.util.Connector;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -35,6 +43,9 @@ public class MoviePanel extends javax.swing.JPanel {
     }
     
     private void refreshTable() {       
+        
+        //A function that refreshes the table//
+        
         try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
@@ -63,6 +74,28 @@ public class MoviePanel extends javax.swing.JPanel {
             }
     }
     
+    private Image convertBlobToImage(byte[] blobData) throws IOException {
+        ByteArrayInputStream bis = new ByteArrayInputStream(blobData);
+        BufferedImage bufferedImage = ImageIO.read(bis);
+        bis.close();
+        return bufferedImage;
+    }
+    
+    private void clearEverything(){
+        
+        // A Function that clears everything//
+        
+        jTitleText.setText("");
+	jRatingComboBox.setSelectedIndex(0);
+	jReleasedComboBox.setSelectedIndex(0);
+	jGenreComboBox.setSelectedIndex(0);
+	jDurationText.setText("");
+        jSearchText.setText("");
+        moviePosterLabel.setIcon(null);
+        jFilePathText.setText("");
+        refreshTable();
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,15 +120,17 @@ public class MoviePanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jMovieTable = new javax.swing.JTable();
         jTitleText = new javax.swing.JTextField();
-        jReleaseDateText = new javax.swing.JTextField();
         jDurationText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jRefreshButton = new javax.swing.JButton();
         jDeleteButton = new javax.swing.JButton();
         chooseImageButton = new javax.swing.JButton();
         imageContainerPanel = new javax.swing.JPanel();
         moviePosterLabel = new javax.swing.JLabel();
         jGenreComboBox = new javax.swing.JComboBox<>();
         jRatingComboBox = new javax.swing.JComboBox<>();
+        jFilePathText = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jReleasedComboBox = new javax.swing.JComboBox<>();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(780, 720));
@@ -107,7 +142,9 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        jClearButton.setBackground(new java.awt.Color(242, 242, 242));
         jClearButton.setText("Clear");
+        jClearButton.setBorderPainted(false);
         jClearButton.setPreferredSize(null);
         jClearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,7 +152,9 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        jUpdateButton.setBackground(new java.awt.Color(242, 242, 242));
         jUpdateButton.setText("Update");
+        jUpdateButton.setBorderPainted(false);
         jUpdateButton.setPreferredSize(null);
         jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,9 +162,10 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
-        jAddButton.setBackground(new java.awt.Color(153, 0, 255));
+        jAddButton.setBackground(new java.awt.Color(239, 124, 18));
         jAddButton.setForeground(new java.awt.Color(255, 255, 255));
         jAddButton.setText("Add");
+        jAddButton.setBorderPainted(false);
         jAddButton.setPreferredSize(null);
         jAddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +180,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        jMovieLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jMovieLabel.setText("Movies");
 
         jTitleLabel.setText("Title");
@@ -150,9 +191,10 @@ public class MoviePanel extends javax.swing.JPanel {
 
         jGenreLabel.setText("Genre");
 
-        jSearchButton.setBackground(new java.awt.Color(204, 0, 255));
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
+        jSearchButton.setBorderPainted(false);
         jSearchButton.setPreferredSize(null);
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,7 +202,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
-        jDurationLabel.setText("Duration");
+        jDurationLabel.setText("Duration (in seconds)");
 
         jMovieTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMovieTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -168,7 +210,7 @@ public class MoviePanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Title ", "Rating", "Release date", "Genre", "Duration"
+                "ID", "Title ", "Rating", "Release year", "Genre", "Duration"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -198,19 +240,26 @@ public class MoviePanel extends javax.swing.JPanel {
 
         jTitleText.setPreferredSize(null);
 
-        jReleaseDateText.setPreferredSize(null);
-
         jDurationText.setPreferredSize(null);
-
-        jButton1.setText("Refresh");
-        jButton1.setPreferredSize(null);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jDurationText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jDurationTextActionPerformed(evt);
             }
         });
 
+        jRefreshButton.setBackground(new java.awt.Color(242, 242, 242));
+        jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorderPainted(false);
+        jRefreshButton.setPreferredSize(null);
+        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRefreshButtonActionPerformed(evt);
+            }
+        });
+
+        jDeleteButton.setBackground(new java.awt.Color(242, 242, 242));
         jDeleteButton.setText("Delete");
+        jDeleteButton.setBorderPainted(false);
         jDeleteButton.setPreferredSize(null);
         jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,7 +267,9 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
+        chooseImageButton.setBackground(new java.awt.Color(242, 242, 242));
         chooseImageButton.setText("Choose image");
+        chooseImageButton.setBorderPainted(false);
         chooseImageButton.setPreferredSize(new java.awt.Dimension(85, 30));
         chooseImageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,112 +306,144 @@ public class MoviePanel extends javax.swing.JPanel {
 
 jRatingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "G", "PG", "R-13", "R-16", "R-18" }));
 
-javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-this.setLayout(layout);
-layout.setHorizontalGroup(
-    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTitleLabel)
-                .addGap(55, 55, 55)
-                .addComponent(jTitleText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateLabel)
-                    .addComponent(jGenreLabel)
-                    .addComponent(jDurationLabel)
-                    .addComponent(jRatingLabel))
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jReleaseDateText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDurationText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jGenreComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jRatingComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(317, 317, 317)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addComponent(jSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-        .addGap(25, 25, 25))
-    .addGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jMovieLabel)
-                .addGap(76, 76, 76)
-                .addComponent(imageContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addComponent(chooseImageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        .addContainerGap(501, Short.MAX_VALUE))
+jFilePathText.setEditable(false);
+jFilePathText.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jFilePathTextActionPerformed(evt);
+    }
+    });
+
+    jLabel1.setText("File path:");
+
+    jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959",
+        "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969",
+        "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979",
+        "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989",
+        "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999",
+        "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009",
+        "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019",
+        "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029",
+        "2030", "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039",
+        "2040", "2041", "2042", "2043", "2044", "2045", "2046", "2047", "2048", "2049",
+        "2050", "2051", "2052", "2053", "2054", "2055", "2056", "2057", "2058", "2059",
+        "2060", "2061", "2062", "2063", "2064", "2065", "2066", "2067", "2068", "2069",
+        "2070", "2071", "2072", "2073", "2074", "2075", "2076", "2077", "2078", "2079",
+        "2080", "2081", "2082", "2083", "2084", "2085", "2086", "2087", "2088", "2089",
+        "2090", "2091", "2092", "2093", "2094", "2095", "2096", "2097", "2098", "2099",
+        "2100"
+    }));
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addGap(75, 75, 75)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTitleLabel)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(85, 85, 85)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(imageContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(17, 17, 17)
+                                    .addComponent(chooseImageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGap(33, 33, 33))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jReleasedComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTitleText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jGenreComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRatingComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDurationText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jGenreLabel)
+                                .addComponent(jRatingLabel)
+                                .addComponent(jDateLabel)
+                                .addComponent(jDurationLabel))
+                            .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(120, 120, 120)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jFilePathText)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGap(57, 57, 57))
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(178, 178, 178))
+        .addGroup(layout.createSequentialGroup()
+            .addGap(26, 26, 26)
+            .addComponent(jMovieLabel)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(46, 46, 46)
+            .addComponent(jMovieLabel)
+            .addGap(39, 39, 39)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(32, 32, 32)
-                    .addComponent(jMovieLabel))
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(42, 42, 42)
-                    .addComponent(imageContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(chooseImageButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSearchText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(imageContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(chooseImageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(9, 9, 9)
                     .addComponent(jTitleLabel)
-                    .addComponent(jTitleText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jTitleText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(8, 8, 8)
+                    .addComponent(jRatingLabel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jRatingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(8, 8, 8)
+                    .addComponent(jDateLabel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jReleasedComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(8, 8, 8)
+                    .addComponent(jGenreLabel)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jDurationLabel)
+                    .addGap(8, 8, 8)
+                    .addComponent(jDurationText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createSequentialGroup()
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jFilePathText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRatingLabel)
-                        .addComponent(jRatingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jDateLabel)
-                        .addComponent(jReleaseDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jGenreLabel)
-                        .addComponent(jGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jDurationLabel)
-                        .addComponent(jDurationText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(35, 35, 35)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(186, 186, 186))
+                        .addComponent(jSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1)))
+            .addGap(39, 39, 39)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -369,75 +452,115 @@ layout.setHorizontalGroup(
         // TODO add your handling code here:
                 
         //CLEAR//
+        int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to clear everything?");
         
-        jTitleText.setText("");
-	jRatingComboBox.setSelectedIndex(0);
-	jReleaseDateText.setText("");
-	jGenreComboBox.setSelectedIndex(0);
-	jDurationText.setText("");
+        if(confirmation==JOptionPane.YES_OPTION){
+            clearEverything();
+        }
+        
     }//GEN-LAST:event_jClearButtonActionPerformed
 
     private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
         // TODO add your handling code here:
         
         //UPDATE//
+        //Updates both the database and the table//
 
+        if(!jMovieTable.getSelectionModel().isSelectionEmpty()){
+        
             String title = jTitleText.getText();
             String rating = (String) jRatingComboBox.getSelectedItem();
-            int released = Integer.parseInt((jReleaseDateText.getText()));
+            String released = (String) jReleasedComboBox.getSelectedItem();
             String genre = (String) jGenreComboBox.getSelectedItem();
-            int duration = Integer.parseInt(jDurationText.getText()); 
-        
-        try {
-            Connector connector = new Connector();
-            Connection con = connector.getConnection();
+            String duration = jDurationText.getText();
+            String imagePath = jFilePathText.getText();
             
             int selectedRow = jMovieTable.getSelectedRow();
-	    int movie_id_column = 0;
-
- 	    int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
-
-	    String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ? WHERE movie_id = ?";
-	    PreparedStatement prepStmt = con.prepareStatement(query);
+            int movie_id_column = 0;
+            int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
             
-	    prepStmt.setString(1, title);
-            prepStmt.setString(2, rating);
-            prepStmt.setInt(3, released);
-            prepStmt.setString(4, genre);
-            prepStmt.setInt(5, duration);
-            prepStmt.setInt(6, movie_id);
+            String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ?, image = ? WHERE movie_id = ?";          
+        
             
-            prepStmt.executeUpdate();
+                
+                try {
+                    Connector connector = new Connector();
+                    Connection con = connector.getConnection();
 
-	    
-	    } catch (SQLException e) {
-            System.out.println(e);
-	    }
+                    int releasedInt = Integer.parseInt(released);
+                    int durationInt = Integer.parseInt(jDurationText.getText());
+
+                    PreparedStatement prepStmt = con.prepareStatement(query);
+
+                    prepStmt.setString(1, title);
+                    prepStmt.setString(2, rating);
+                    prepStmt.setInt(3, releasedInt);
+                    prepStmt.setString(4, genre);
+                    prepStmt.setInt(5, durationInt);
+
+                    InputStream in;
+                    try {
+                        in = new FileInputStream(imagePath);
+                        prepStmt.setBlob(6, in);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    prepStmt.setInt(7, movie_id);
+
+                    prepStmt.executeUpdate();
+
+
+                    } catch (SQLException e) {
+                    System.out.println(e);
+                    }
+
+                    clearEverything();
+                    
+                    JOptionPane.showMessageDialog(this, "Your changes have been applied!");
+                    
+            }
+            
+            else{
+                    JOptionPane.showMessageDialog(this,"No table row was selected.","Alert",JOptionPane.WARNING_MESSAGE);
+            }
         
-        jTitleText.setText("");
-        jRatingComboBox.setSelectedIndex(0);
-	jReleaseDateText.setText("");
-	jGenreComboBox.setSelectedIndex(0);
-	jDurationText.setText("");
+                refreshTable();
         
-        refreshTable();
+        
     }//GEN-LAST:event_jUpdateButtonActionPerformed
 
     private void jAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddButtonActionPerformed
         // TODO add your handling code here:
         
         //ADD//
+        //Adds an entry into both the database and the table//
         
-        String title = jTitleText.getText();
-        String rating =  (String) jRatingComboBox.getSelectedItem();
-        int released = Integer.parseInt((jReleaseDateText.getText()));
-        String genre = (String) jGenreComboBox.getSelectedItem();
-        int duration = Integer.parseInt(jDurationText.getText());  
-//        Image image = moviePosterLabel
+            String title = jTitleText.getText();
+            String rating =  (String) jRatingComboBox.getSelectedItem();
+            String released = (String) jReleasedComboBox.getSelectedItem();
+            String genre = (String) jGenreComboBox.getSelectedItem();
+            String duration = jDurationText.getText();
+            String imagePath = jFilePathText.getText();
         
-        String query = "INSERT INTO movies (title, rating, released, genre, duration) VALUES (?, ?, ?, ?, ?)";
         
-        try {
+        if("".equals(title)){
+            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+        
+        else if("".equals(duration)){
+            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+            
+        else{
+            
+            int releasedInt = Integer.parseInt(released);
+            int durationInt = Integer.parseInt(jDurationText.getText());
+            
+            String query = "INSERT INTO movies (title, rating, released, genre, duration, image) VALUES (?, ?, ?, ?, ?, ?)";
+            
+            try{    
+
             Connector connector = new Connector();
             Connection con = connector.getConnection();
             
@@ -445,30 +568,35 @@ layout.setHorizontalGroup(
             
 	    prepStmt.setString(1, title);
             prepStmt.setString(2, rating);
-            prepStmt.setInt(3, released);
+            prepStmt.setInt(3, releasedInt);
             prepStmt.setString(4, genre);
-            prepStmt.setInt(5, duration);
-            
-            prepStmt.executeUpdate();
+            prepStmt.setInt(5, durationInt);
+            InputStream in;
+            try {
+                in = new FileInputStream(imagePath);
+                prepStmt.setBlob(6, in);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
+            prepStmt.executeUpdate();
 	    
 	    } catch (SQLException e) {
             System.out.println(e);
 	    }
-        
-        jTitleText.setText("");
-	jRatingComboBox.setSelectedIndex(0);
-	jReleaseDateText.setText("");
-	jGenreComboBox.setSelectedIndex(0);
-	jDurationText.setText("");
-        
-        refreshTable();
+            
+            clearEverything();
+            
+            JOptionPane.showMessageDialog(this, "Your entry has been added!");
+        }
+                
     }//GEN-LAST:event_jAddButtonActionPerformed
 
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
         // TODO add your handling code here:
         
         //SEARCH//
+        //Scours the dattabase for the inputed movie title and shows results in the table//
         
         String searchInput = jSearchText.getText();
         
@@ -507,8 +635,11 @@ layout.setHorizontalGroup(
         // TODO add your handling code here:
     }//GEN-LAST:event_jSearchTextActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
         // TODO add your handling code here:     
+        
+        //REFRESH//
+        //Refreshes/resets the table//
         
         try {
                  Connector connector = new Connector();
@@ -536,7 +667,7 @@ layout.setHorizontalGroup(
              } catch (SQLException e) {
                  System.out.println(e);
              }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jRefreshButtonActionPerformed
 
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
         // TODO add your handling code here:     
@@ -545,35 +676,54 @@ layout.setHorizontalGroup(
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         // TODO add your handling code here:
         
-        //Delete//
-	
-	try {
-
-	    Connector connector = new Connector();
-            Connection con = connector.getConnection();
-
-	    int selectedRow = jMovieTable.getSelectedRow();
-	    int movieid_column = 0;
- 	    int movie_table_id = (int) jMovieTable.getModel().getValueAt(selectedRow, movieid_column);
-
-            
-            String query = "DELETE FROM movies WHERE movie_id = ?";
-            
-            PreparedStatement prepStmt = con.prepareStatement(query);
-            prepStmt.setInt(1, movie_table_id);
-            
-            prepStmt.executeUpdate();
-
-	} catch (SQLException e) {
-        System.out.println(e);
-	}
+        //DELETE//
+        //Deletes the entry selected on the table//
         
-        refreshTable();
+        if(!jMovieTable.getSelectionModel().isSelectionEmpty()){
+        
+            int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this entry?");  
+
+            if(confirmation==JOptionPane.YES_OPTION){ 
+                try {
+
+                    Connector connector = new Connector();
+                    Connection con = connector.getConnection();
+
+                    int selectedRow = jMovieTable.getSelectedRow();
+                    int movieid_column = 0;
+                    int movie_table_id = (int) jMovieTable.getModel().getValueAt(selectedRow, movieid_column);
+
+
+                    String query = "DELETE FROM movies WHERE movie_id = ?";
+
+                    PreparedStatement prepStmt = con.prepareStatement(query);
+                    prepStmt.setInt(1, movie_table_id);
+
+                    prepStmt.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Entry has been deleted!");
+
+                } catch (SQLException e) {
+                System.out.println(e);
+                }
+
+                clearEverything();
+            }
+        }
+        
+        else{
+                    JOptionPane.showMessageDialog(this,"No table row was selected.","Alert",JOptionPane.WARNING_MESSAGE);
+            }
+	
     }//GEN-LAST:event_jDeleteButtonActionPerformed
 
     private void jMovieTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseReleased
         // TODO add your handling code here:
-        int selectedRow = jMovieTable.getSelectedRow();
+        
+        //TABLE IS CLICKED//
+        //Provides the needed variables when a row is selected on the table//
+        
+            int selectedRow = jMovieTable.getSelectedRow();
 	    int movie_id_column = 0;
 	    int title_column = 1;
 	    int rating_column = 2;
@@ -586,47 +736,93 @@ layout.setHorizontalGroup(
 
 	    jTitleText.setText(jMovieTable.getModel().getValueAt(selectedRow, title_column).toString());
 	    jRatingComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, rating_column).toString());
-	    jReleaseDateText.setText(jMovieTable.getModel().getValueAt(selectedRow, release_date_column).toString());
+	    jReleasedComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, release_date_column).toString());
 	    jGenreComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, genre_column).toString());
 	    jDurationText.setText(jMovieTable.getModel().getValueAt(selectedRow, duration_column).toString());
+            
+            try{
+                
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
+                
+                String query = "SELECT image FROM movies WHERE movie_id = ?";
+
+                    PreparedStatement pstmt = con.prepareStatement(query);
+                    pstmt.setString(1, movie_id);
+                    ResultSet resultSet = pstmt.executeQuery();
+
+                    while (resultSet.next()) {
+                    byte[] blobImage = resultSet.getBytes("image");
+                    Image image = convertBlobToImage(blobImage);
+                    image = image.getScaledInstance(150,225,Image.SCALE_DEFAULT);
+                    
+                    ImageIcon icon = new ImageIcon(image);
+                    moviePosterLabel.setIcon(icon);
+                    }
+                
+            } catch (SQLException e) {
+              System.out.println(e);
+            }   catch (IOException ex) {
+                    Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
     }//GEN-LAST:event_jMovieTableMouseReleased
 
     private void chooseImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseImageButtonActionPerformed
+        
+        //CHOOSE IMAGE//
+        //Opens the file chooser to select an image//
+        
         JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "png", "jpg");
+        fileChooser.setFileFilter(filter);
         int result = fileChooser.showOpenDialog(null);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
+            String filepath = fileChooser.getSelectedFile().getAbsolutePath();
             Image image = null;
             try {
                 image = ImageIO.read(selectedFile).getScaledInstance(150,225,Image.SCALE_DEFAULT);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            
             ImageIcon icon = new ImageIcon(image);
             moviePosterLabel.setIcon(icon);
+            jFilePathText.setText(filepath);
         }
+        
     }//GEN-LAST:event_chooseImageButtonActionPerformed
+
+    private void jFilePathTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFilePathTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFilePathTextActionPerformed
+
+    private void jDurationTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDurationTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDurationTextActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chooseImageButton;
     private javax.swing.JPanel imageContainerPanel;
     private javax.swing.JButton jAddButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jClearButton;
     private javax.swing.JLabel jDateLabel;
     private javax.swing.JButton jDeleteButton;
     private javax.swing.JLabel jDurationLabel;
     private javax.swing.JTextField jDurationText;
+    private javax.swing.JTextField jFilePathText;
     private javax.swing.JComboBox<String> jGenreComboBox;
     private javax.swing.JLabel jGenreLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jMovieLabel;
     private javax.swing.JTable jMovieTable;
     private javax.swing.JComboBox<String> jRatingComboBox;
     private javax.swing.JLabel jRatingLabel;
-    private javax.swing.JTextField jReleaseDateText;
+    private javax.swing.JButton jRefreshButton;
+    private javax.swing.JComboBox<String> jReleasedComboBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchText;

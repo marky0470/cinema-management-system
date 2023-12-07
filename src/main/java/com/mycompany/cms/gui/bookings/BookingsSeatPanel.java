@@ -112,6 +112,11 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
     
     private void displayMovieDetails() {
         BufferedImage image = this.panel.getMoviePoster();
+        String title = this.panel.getMovieTitle();
+        int ticketQuantity = this.panel.getTicketQuantity();
+        Date screeningDate = this.panel.getScreeningDate();
+        Time timeStart = this.panel.getScreeningTimeStart();
+        Time timeEnd = this.panel.getScreeningTimeEnd();
         
         System.out.println(image);
         
@@ -126,13 +131,18 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
 
             jPosterPanel.removeAll();
             jPosterPanel.add(poster, BorderLayout.CENTER);
-            jMovieTitle.setText(this.panel.getMovieTitle());
-            jQuantityTextField.setText(String.valueOf(this.panel.getTicketQuantity()));
-            jDateTextField.setText(this.panel.getScreeningDate().toString());
-            jTimeStartTextField.setText(this.panel.getScreeningTimeStart().toString());
-            jTimeEndTextField.setText(this.panel.getScreeningTimeEnd().toString());
+//            jMovieTitle.setText(this.panel.getMovieTitle());
+//            jQuantityTextField.setText(String.valueOf(this.panel.getTicketQuantity()));
+//            jDateTextField.setText(this.panel.getScreeningDate().toString());
+//            jTimeStartTextField.setText(this.panel.getScreeningTimeStart().toString());
+//            jTimeEndTextField.setText(this.panel.getScreeningTimeEnd().toString());
         }
         
+        if (title != null) jMovieTitle.setText(title);
+        if (screeningDate != null) jDateTextField.setText(screeningDate.toString());
+        if (timeStart != null) jTimeStartTextField.setText(timeStart.toString());
+        if (timeEnd != null) jTimeEndTextField.setText(timeEnd.toString());
+        jQuantityTextField.setText(String.valueOf(ticketQuantity));
     }
     
     private void getAvailableSeats() {
@@ -274,6 +284,7 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        jPanel2.setBackground(new java.awt.Color(253, 253, 253));
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 733));
 
         jPosterPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -626,12 +637,13 @@ public class BookingsSeatPanel extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 459, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 426, Short.MAX_VALUE)
                 .addComponent(jBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jContinueButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
