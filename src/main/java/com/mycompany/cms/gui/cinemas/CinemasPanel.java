@@ -5,10 +5,12 @@
 package com.mycompany.cms.gui.cinemas;
 
 import com.mycompany.cms.util.Connector;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
  * @author francisjamestolentino
  */
 public class CinemasPanel extends javax.swing.JPanel {
+    
+    private int selectedAction = 0;
 
     /**
      * Creates new form CinemasPanel
@@ -35,25 +39,186 @@ public class CinemasPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jCinemaTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jSearchbar = new javax.swing.JTextField();
         jCinemaType = new javax.swing.JComboBox<>();
-        jSearchButton = new javax.swing.JButton();
         jCinemaName = new javax.swing.JTextField();
-        jAddButton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         jClearButton = new javax.swing.JButton();
         jDeleteButton = new javax.swing.JButton();
         jUpdateButton = new javax.swing.JButton();
+        jAddButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jSaveButton = new javax.swing.JButton();
+        jCancelButton = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jCinemaTable = new javax.swing.JTable();
+        jSearchbar = new javax.swing.JTextField();
+        jSearchButton = new javax.swing.JButton();
         jRefreshButton = new javax.swing.JButton();
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBackground(new java.awt.Color(253, 253, 253));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel1.setText("Cinemas");
+
+        jLabel2.setText("Cinema");
+
+        jLabel3.setText("Type");
+
+        jCinemaType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Type", "Standard", "3D", "IMAX" }));
+        jCinemaType.setEnabled(false);
+
+        jCinemaName.setEnabled(false);
+
+        jPanel3.setBackground(new java.awt.Color(253, 253, 253));
+
+        jClearButton.setBackground(new java.awt.Color(247, 222, 200));
+        jClearButton.setText("Clear");
+        jClearButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 222, 200), 1, true));
+        jClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jClearButtonActionPerformed(evt);
+            }
+        });
+
+        jDeleteButton.setBackground(new java.awt.Color(240, 240, 240));
+        jDeleteButton.setForeground(new java.awt.Color(239, 124, 18));
+        jDeleteButton.setText("Delete");
+        jDeleteButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteButtonActionPerformed(evt);
+            }
+        });
+
+        jUpdateButton.setBackground(new java.awt.Color(240, 240, 240));
+        jUpdateButton.setForeground(new java.awt.Color(239, 124, 18));
+        jUpdateButton.setText("Update");
+        jUpdateButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        jAddButton.setBackground(new java.awt.Color(240, 240, 240));
+        jAddButton.setForeground(new java.awt.Color(239, 124, 18));
+        jAddButton.setText("Add");
+        jAddButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
+        jAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Actions (Select operation to enable inputs)");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addGap(7, 7, 7)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        jSaveButton.setBackground(new java.awt.Color(239, 124, 18));
+        jSaveButton.setForeground(new java.awt.Color(255, 255, 255));
+        jSaveButton.setText("Save");
+        jSaveButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        jSaveButton.setEnabled(false);
+        jSaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSaveButtonActionPerformed(evt);
+            }
+        });
+
+        jCancelButton.setBackground(new java.awt.Color(253, 253, 253));
+        jCancelButton.setForeground(new java.awt.Color(239, 124, 18));
+        jCancelButton.setText("Cancel");
+        jCancelButton.setBorder(null);
+        jCancelButton.setEnabled(false);
+        jCancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCancelButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2)
+                                .addComponent(jCinemaType, 0, 321, Short.MAX_VALUE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jCinemaName))
+                            .addComponent(jLabel1))))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCinemaName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCinemaType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(115, 115, 115)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(189, Short.MAX_VALUE))
+        );
+
+        add(jPanel1, java.awt.BorderLayout.WEST);
 
         jCinemaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,17 +269,10 @@ public class CinemasPanel extends javax.swing.JPanel {
             jCinemaTable.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        jLabel2.setText("Cinema");
-
-        jLabel3.setText("Type");
-
-        jCinemaType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Type", "Standard", "3D", "IMAX" }));
-
         jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
-        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jSearchButton.setBorderPainted(false);
+        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jSearchButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,51 +280,9 @@ public class CinemasPanel extends javax.swing.JPanel {
             }
         });
 
-        jAddButton.setBackground(new java.awt.Color(239, 124, 18));
-        jAddButton.setForeground(new java.awt.Color(255, 255, 255));
-        jAddButton.setText("Add");
-        jAddButton.setBorderPainted(false);
-        jAddButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jAddButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jAddButtonActionPerformed(evt);
-            }
-        });
-
-        jClearButton.setBackground(new java.awt.Color(247, 196, 149));
-        jClearButton.setText("Clear");
-        jClearButton.setBorderPainted(false);
-        jClearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jClearButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jClearButtonActionPerformed(evt);
-            }
-        });
-
-        jDeleteButton.setBackground(new java.awt.Color(247, 196, 149));
-        jDeleteButton.setText("Delete");
-        jDeleteButton.setBorderPainted(false);
-        jDeleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jDeleteButtonActionPerformed(evt);
-            }
-        });
-
-        jUpdateButton.setBackground(new java.awt.Color(239, 124, 18));
-        jUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
-        jUpdateButton.setText("Update");
-        jUpdateButton.setBorderPainted(false);
-        jUpdateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jUpdateButtonActionPerformed(evt);
-            }
-        });
-
-        jRefreshButton.setBackground(new java.awt.Color(247, 196, 149));
+        jRefreshButton.setBackground(new java.awt.Color(247, 222, 200));
         jRefreshButton.setText("Refresh");
-        jRefreshButton.setBorderPainted(false);
+        jRefreshButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(247, 222, 200), 1, true));
         jRefreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,28 +290,14 @@ public class CinemasPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCinemaName)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jCinemaType, javax.swing.GroupLayout.Alignment.TRAILING, 0, 360, Short.MAX_VALUE))
-                        .addGap(88, 88, 88))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(103, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jSearchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,51 +305,22 @@ public class CinemasPanel extends javax.swing.JPanel {
                         .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDeleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(151, 151, 151))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jSearchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCinemaName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCinemaType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(69, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSearchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void refreshTable() {
@@ -277,36 +350,36 @@ public class CinemasPanel extends javax.swing.JPanel {
               }
     }
     
-    private void jAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddButtonActionPerformed
-        // TODO add your handling code here:
-        
+    private void addCinema() {
         if("".equals(jCinemaName)){
             JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
+            return;
         }
         
         else if("Select Type".equals(jCinemaType.getSelectedItem())){
             JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
+            return;
         }
         
-            String cinemaName = jCinemaName.getText();
-            String cinemaType = (String) jCinemaType.getSelectedItem();
+        String cinemaName = jCinemaName.getText();
+        String cinemaType = (String) jCinemaType.getSelectedItem();
 
-            String query = "INSERT INTO cinemas (name, type) VALUES (?, ?)";
+        String query = "INSERT INTO cinemas (name, type) VALUES (?, ?)";
 
-            try {
-                Connector connector = new Connector();
-                Connection con = connector.getConnection();
+        try {
+            Connector connector = new Connector();
+            Connection con = connector.getConnection();
 
-                PreparedStatement prepStmt = con.prepareStatement(query);
+            PreparedStatement prepStmt = con.prepareStatement(query);
 
-                String dupliError = "select * from cinemas where name ="+cinemaName+"";
-                ResultSet result = prepStmt.executeQuery(dupliError);
+            String dupliError = "select * from cinemas where name ="+cinemaName+"";
+            ResultSet result = prepStmt.executeQuery(dupliError);
 
-                if (result.next()) {
-                    JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" Already Exist.");
-                    jCinemaName.setText("");
-                    jCinemaType.setSelectedIndex(0);
-                }else{
+            if (result.next()) {
+                JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" Already Exist.");
+                jCinemaName.setText("");
+                jCinemaType.setSelectedIndex(0);
+            } else {
 
                 String cinemaAdd = "INSERT INTO cinemas VALUES (cinema_id, "+cinemaName+", '"+cinemaType+"')";
                 prepStmt.executeUpdate(cinemaAdd);
@@ -314,31 +387,19 @@ public class CinemasPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" successfully added!");
                 jCinemaName.setText("");
                 jCinemaType.setSelectedIndex(0);
-                }
-                
-            } catch (SQLException e) {
-            e.printStackTrace();
             }
-            
-            jCinemaName.setText("");
-            jCinemaType.setSelectedIndex(0);
-            jSearchbar.setText("");
-            refreshTable();
-    }//GEN-LAST:event_jAddButtonActionPerformed
 
-    private void jClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearButtonActionPerformed
-        // TODO add your handling code here:
-        int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to clear your inputs?");
-            if(confirmation==JOptionPane.YES_OPTION){
-            jCinemaName.setText("");
-            jCinemaType.setSelectedIndex(0);
-            jSearchbar.setText("");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        refreshTable();
-    }//GEN-LAST:event_jClearButtonActionPerformed
 
-    private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
-        // TODO add your handling code here:
+        jCinemaName.setText("");
+        jCinemaType.setSelectedIndex(0);
+        jSearchbar.setText("");
+        refreshTable();
+    }
+    
+    private void deleteCinema() {
         if(!jCinemaTable.getSelectionModel().isSelectionEmpty()){
         
             int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this cinema?");
@@ -372,9 +433,9 @@ public class CinemasPanel extends javax.swing.JPanel {
                     }
         }else {
                 JOptionPane.showMessageDialog(this,"Please select an item.","Alert!",JOptionPane.INFORMATION_MESSAGE);
-            }
-    }//GEN-LAST:event_jDeleteButtonActionPerformed
-
+        }
+    }
+    
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
         // This block will help to search data on the table.
         String searchInput = jSearchbar.getText();
@@ -405,8 +466,7 @@ public class CinemasPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
-    private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
-        // This updates the selected row in the table.
+    private void updateCinema() {
         if(!jCinemaTable.getSelectionModel().isSelectionEmpty()){
         
             String cinemaName = jCinemaName.getText();
@@ -461,8 +521,8 @@ public class CinemasPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this,"Please select an item.","Alert!",JOptionPane.INFORMATION_MESSAGE);
             }
         refreshTable();
-    }//GEN-LAST:event_jUpdateButtonActionPerformed
-
+    }
+    
     private void jCinemaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCinemaTableMouseClicked
         // Helps to find index in the table.
         int selectedRow = jCinemaTable.getSelectedRow();
@@ -482,9 +542,78 @@ public class CinemasPanel extends javax.swing.JPanel {
         refreshTable();
     }//GEN-LAST:event_jRefreshButtonActionPerformed
 
+    private void jClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jClearButtonActionPerformed
+        int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to clear your inputs?");
+            if(confirmation==JOptionPane.YES_OPTION){
+            jCinemaName.setText("");
+            jCinemaType.setSelectedIndex(0);
+            jSearchbar.setText("");
+        }
+    }//GEN-LAST:event_jClearButtonActionPerformed
+
+    private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
+        selectedAction = 3;
+        refreshActionButtons();
+        deleteCinema();
+    }//GEN-LAST:event_jDeleteButtonActionPerformed
+
+    private void jUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUpdateButtonActionPerformed
+        selectedAction = 2;
+        jCancelButton.setEnabled(true);
+        jSaveButton.setEnabled(true);
+        refreshActionButtons();
+        jCinemaName.setEnabled(true);
+        jCinemaType.setEnabled(true);
+    }//GEN-LAST:event_jUpdateButtonActionPerformed
+
+    private void refreshActionButtons() {
+        jAddButton.setBackground(selectedAction == 1 ? new Color(247,222,200) : new Color(240,240,240));
+        jAddButton.setBorder(selectedAction == 1 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jAddButton.setForeground(selectedAction == 1 ? new Color(0,0,0) : new Color(255,153,0));
+        jUpdateButton.setBackground(selectedAction == 2 ? new Color(247,222,200) : new Color(240,240,240));
+        jUpdateButton.setBorder(selectedAction == 2 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jUpdateButton.setForeground(selectedAction == 2 ? new Color(0,0,0) : new Color(255,153,0));
+        jDeleteButton.setBackground(selectedAction == 3 ? new Color(247,222,200) : new Color(240,240,240));
+        jDeleteButton.setBorder(selectedAction == 3 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jDeleteButton.setForeground(selectedAction == 3 ? new Color(0,0,0) : new Color(255,153,0));
+        jClearButton.setBackground(selectedAction == 4 ? new Color(247,222,200) : new Color(240,240,240));
+        jClearButton.setBorder(selectedAction == 4 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
+        jClearButton.setForeground(selectedAction == 4 ? new Color(0,0,0) : new Color(255,153,0));
+    }
+    
+    private void jAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddButtonActionPerformed
+        selectedAction = 1;
+        jCancelButton.setEnabled(true);
+        jSaveButton.setEnabled(true);
+        refreshActionButtons();
+        jCinemaName.setEnabled(true);
+        jCinemaType.setEnabled(true);
+    }//GEN-LAST:event_jAddButtonActionPerformed
+
+    private void jSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSaveButtonActionPerformed
+        if (selectedAction == 1) addCinema();
+        if (selectedAction == 2) updateCinema();
+        selectedAction = 0;
+        refreshActionButtons();
+        jCancelButton.setEnabled(false);
+        jSaveButton.setEnabled(false);
+        jCinemaName.setEnabled(false);
+        jCinemaType.setEnabled(false);
+    }//GEN-LAST:event_jSaveButtonActionPerformed
+
+    private void jCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCancelButtonActionPerformed
+        selectedAction = 0;
+        refreshActionButtons();
+        jCancelButton.setEnabled(false);
+        jSaveButton.setEnabled(false);
+        jCinemaName.setEnabled(false);
+        jCinemaType.setEnabled(false);
+    }//GEN-LAST:event_jCancelButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jAddButton;
+    private javax.swing.JButton jCancelButton;
     private javax.swing.JTextField jCinemaName;
     private javax.swing.JTable jCinemaTable;
     private javax.swing.JComboBox<String> jCinemaType;
@@ -493,7 +622,12 @@ public class CinemasPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JButton jRefreshButton;
+    private javax.swing.JButton jSaveButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchbar;
