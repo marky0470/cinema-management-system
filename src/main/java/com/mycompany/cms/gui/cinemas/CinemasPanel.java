@@ -396,41 +396,6 @@ public class CinemasPanel extends javax.swing.JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-                
-
-//        String query = "INSERT INTO cinemas (name, type) VALUES (?, ?)";
-//
-//        try {
-//            Connector connector = new Connector();
-//            Connection con = connector.getConnection();
-//
-//            PreparedStatement prepStmt = con.prepareStatement(query);
-//
-//            prepStmt.setString(1,cinemaName);
-//            prepStmt.setString(2,cinemaType);
-//            
-//            String dupliError = "SELECT * FROM movies WHERE name = ?";
-//            PreparedStatement prepStmtCheck = con.prepareStatement(dupliError);
-//            prepStmtCheck.setString(1, cinemaName);
-//            ResultSet result = prepStmtCheck.executeQuery();
-//
-//            if (result.next()) {
-//                JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" Already Exist.");
-//                jCinemaName.setText("");
-//                jCinemaType.setSelectedIndex(0);
-//            } else {
-//
-//                String cinemaAdd = "INSERT INTO cinemas VALUES (cinema_id, ?, ?)";
-//                prepStmt.executeUpdate(cinemaAdd);
-//
-//                JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" successfully added!");
-//                jCinemaName.setText("");
-//                jCinemaType.setSelectedIndex(0);
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
 
         jCinemaName.setText("");
         jCinemaType.setSelectedIndex(0);
