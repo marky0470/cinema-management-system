@@ -987,14 +987,14 @@ try {
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 int count = rs.getInt(1);
-                return count > 0; // If count is greater than 0, email is a duplicate
+                return count > 0; 
             }
         }
     } catch (SQLException e) {
-        // Handle the exception or print the stack trace for debugging
+        
         e.printStackTrace();
     }
-    return false; // Default to false in case of an error
+    return false; 
     }
              
        

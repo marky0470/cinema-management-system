@@ -369,7 +369,7 @@ public class CinemasPanel extends javax.swing.JPanel {
         }
     
     private void addCinema() {
-        if("".equals(jCinemaName)){
+        if("".equals(jCinemaName.getText())){
             JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -379,34 +379,38 @@ public class CinemasPanel extends javax.swing.JPanel {
             return;
         }
         
-        String cinemaName = jCinemaName.getText();
-        String cinemaType = (String) jCinemaType.getSelectedItem();
-
-        String query = "INSERT INTO cinemas (name, type) VALUES (?, ?)";
-
         try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
+            
+            String cinemaName = jCinemaName.getText();
+            String cinemaType = (String) jCinemaType.getSelectedItem();
 
-            PreparedStatement prepStmt = con.prepareStatement(query);
-
-            String dupliError = "select * from cinemas where name ="+cinemaName+"";
-            ResultSet result = prepStmt.executeQuery(dupliError);
-
-            if (result.next()) {
-                JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" Already Exist.");
+            // Check for duplicate cinema names
+            String query = "SELECT * FROM cinemas WHERE name = ?";
+            PreparedStatement prepStmtCheck = con.prepareStatement(query);
+            prepStmtCheck.setString(1, cinemaName);
+            
+            if (prepStmtCheck.executeQuery().next()) {
+                JOptionPane.showMessageDialog(this, "Cinema " + cinemaName + " Already Exist.");
                 jCinemaName.setText("");
                 jCinemaType.setSelectedIndex(0);
-            } else {
-
-                String cinemaAdd = "INSERT INTO cinemas VALUES (cinema_id, "+cinemaName+", '"+cinemaType+"')";
-                prepStmt.executeUpdate(cinemaAdd);
-
-                JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" successfully added!");
-                jCinemaName.setText("");
-                jCinemaType.setSelectedIndex(0);
+                return;
             }
-
+            
+            // Add cinema to db
+            query = "INSERT INTO cinemas (name, type) VALUES (?, ?)";
+            PreparedStatement prepStmt = con.prepareStatement(query);
+            prepStmt.setString(1, cinemaName);
+            prepStmt.setString(2, cinemaType);
+            
+            prepStmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Cinema " + cinemaName + " successfully added!");
+            jCinemaName.setText("");
+            jCinemaType.setSelectedIndex(0);
+            
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -505,6 +509,7 @@ public class CinemasPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Cinema " + newCinema + " Already Exist.");
             return;
         }
+
 
         if (!jCinemaTable.getSelectionModel().isSelectionEmpty()) {
             try {
