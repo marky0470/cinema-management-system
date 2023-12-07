@@ -818,60 +818,72 @@ private void applyFilter() {
             }
         }
     }
-    
+    private String getCurrentUserEmail(){
+    int selectedRow = jtable1.getSelectedRow();
+        String email = (String) jtable1.getValueAt(selectedRow, 3);
+        return email;
+    }
     private void updateAccount() {
         int selectedRow = jtable1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else {
-            if (!jPasswordTextField.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
-            } else {
-                if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    if (!validateFields()) {
-                        JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        String email = jEmailTextField.getText();
 
-                        if (isEmailDuplicate(email)) {
-                            JOptionPane.showMessageDialog(this, "Duplicate email found!");
-                        } else {
-                            int userId = (int) jtable1.getValueAt(selectedRow, 0);
-                            String firstName = jFirstNameTextField.getText();
-                            String lastName = jLastNameTextField.getText();
-                            boolean admin = jAdminCheckBox.isSelected();
+if (selectedRow == -1) {
+    JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
 
-                            String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
+if (!jPasswordTextField.getText().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
+    return;
+}
 
-                            try {
-                                Connector connector = new Connector();
-                                Connection con = connector.getConnection();
+String currentEmail = getCurrentUserEmail(); 
 
-                                try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                                    pstmt.setString(1, firstName);
-                                    pstmt.setString(2, lastName);
-                                    pstmt.setString(3, email);
-                                    pstmt.setBoolean(4, admin);
-                                    pstmt.setInt(5, userId);
+if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
+    return;
+}
 
-                                    pstmt.executeUpdate();
-                                    refreshTable();
-                                    JOptionPane.showMessageDialog(this, "Sucessfully Updated");
+if (!validateFields()) {
+    JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
 
-                                }
-                            } catch (SQLException e) {
-                                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                                System.out.println(e);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+String newEmail = jEmailTextField.getText();
+
+if (!currentEmail.equals(newEmail) && isEmailDuplicate(newEmail)) {
+    JOptionPane.showMessageDialog(this, "Duplicate email found!");
+    return;
+}
+
+int userId = (int) jtable1.getValueAt(selectedRow, 0);
+String firstName = jFirstNameTextField.getText();
+String lastName = jLastNameTextField.getText();
+boolean admin = jAdminCheckBox.isSelected();
+
+String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
+
+try {
+    Connector connector = new Connector();
+    Connection con = connector.getConnection();
+
+    try (PreparedStatement pstmt = con.prepareStatement(query)) {
+        pstmt.setString(1, firstName);
+        pstmt.setString(2, lastName);
+        pstmt.setString(3, newEmail); 
+        pstmt.setBoolean(4, admin);
+        pstmt.setInt(5, userId);
+
+        pstmt.executeUpdate();
+        refreshTable();
+        JOptionPane.showMessageDialog(this, "Successfully Updated");
     }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    System.out.println(e);
+}
+}
+   
+
     
     private void deleteAccounts() {
         int[] selectedRows = jtable1.getSelectedRows();
@@ -973,14 +985,21 @@ private void applyFilter() {
     }//GEN-LAST:event_jAddButtonActionPerformed
     
     private boolean isEmailDuplicate(String email) {
-        DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
-        int rowCount = model.getRowCount();
-        for (int i = 0; i < rowCount; i++) {
-            if (email.equals(model.getValueAt(i, 3))) { // Assuming email is in the fourth column
-                return true; // Duplicate found
+         String query = "SELECT COUNT(*) FROM users WHERE email=?";
+    try (Connection con = new Connector().getConnection();
+         PreparedStatement pstmt = con.prepareStatement(query)) {
+        pstmt.setString(1, email);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; // If count is greater than 0, email is a duplicate
             }
         }
-        return false; // No duplicate found
+    } catch (SQLException e) {
+        // Handle the exception or print the stack trace for debugging
+        e.printStackTrace();
+    }
+    return false; // Default to false in case of an error
     }
              
        
