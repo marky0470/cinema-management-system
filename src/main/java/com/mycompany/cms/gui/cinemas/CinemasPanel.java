@@ -350,6 +350,24 @@ public class CinemasPanel extends javax.swing.JPanel {
               }
     }
     
+    private boolean cinemaDupli(String cinemaName) {
+         String query = "SELECT COUNT(name) FROM cinemas WHERE name = ?";
+        try (Connection con = new Connector().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, cinemaName);
+            try (ResultSet result = pstmt.executeQuery()) {
+                if (result.next()) {
+                    
+                    int count = result.getInt(1);
+                return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+        }
+    
     private void addCinema() {
         if("".equals(jCinemaName.getText())){
             JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
@@ -448,10 +466,11 @@ public class CinemasPanel extends javax.swing.JPanel {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
 
-            String query = "SELECT cinema_id, name, type FROM cinemas WHERE name LIKE ?";
+            String query = "SELECT cinema_id, name, type FROM cinemas WHERE name LIKE ? OR type LIKE ?";
 
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, "%" + searchInput + "%");
+            pstmt.setString(2, "%" + searchInput + "%");
             ResultSet resultSet = pstmt.executeQuery();
 
             DefaultTableModel model = (DefaultTableModel) jCinemaTable.getModel();
@@ -470,21 +489,29 @@ public class CinemasPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
+    private String getCurrentCinema(){
+        int selectedRow = jCinemaTable.getSelectedRow();
+        String cinemaName = (String) jCinemaTable.getValueAt(selectedRow, 1);
+        return cinemaName;
+    }
+    
     private void updateCinema() {
-        if("".equals(jCinemaName.getText())){
-            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if("Select Type".equals(jCinemaType.getSelectedItem())){
-            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert!",JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if(!jCinemaTable.getSelectionModel().isSelectionEmpty()){
-        
-            String cinemaName = jCinemaName.getText();
-            String cinemaType = (String) jCinemaType.getSelectedItem();
+        String currentCinema = getCurrentCinema();
+        String cinemaType = (String) jCinemaType.getSelectedItem();
+        String newCinema = jCinemaName.getText();
 
+        if ("Select Type".equals(jCinemaType.getSelectedItem())) {
+            JOptionPane.showMessageDialog(this, "Some of the information needed is missing.", "Alert!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!currentCinema.equals(newCinema) && cinemaDupli(newCinema)) {
+            JOptionPane.showMessageDialog(this, "Cinema " + newCinema + " Already Exist.");
+            return;
+        }
+
+
+        if (!jCinemaTable.getSelectionModel().isSelectionEmpty()) {
             try {
                 Connector connector = new Connector();
                 Connection con = connector.getConnection();
@@ -493,45 +520,24 @@ public class CinemasPanel extends javax.swing.JPanel {
                 int cinemaIDColumn = 0;
                 int cinemaTableID = (int) jCinemaTable.getModel().getValueAt(selectedRow, cinemaIDColumn);
 
-                String query = "UPDATE cinemas SET name = ?, type = ? WHERE cinema_id = ?";
-                PreparedStatement prepStmt = con.prepareStatement(query);
+                String cinemaUpdate = "UPDATE cinemas SET name = ?, type = ? WHERE cinema_id = ?";
 
-                //This if/else block will prevent data duplication in the database.
-                //At the same time it will normally update the selected row.
-                String dupliError = "select * from cinemas where name ="+cinemaName+"";
-                ResultSet result = prepStmt.executeQuery(dupliError);
+                JOptionPane.showMessageDialog(this, "Cinema " + newCinema + " successfully updated!");
+                jCinemaName.setText("");
+                jCinemaType.setSelectedIndex(0);
 
-                if(result.next()){
-                    JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" Already Exist.");
-                    jCinemaName.setText("");
-                    jCinemaType.setSelectedIndex(0);
-                }else {
+                PreparedStatement prepStatement = con.prepareStatement(cinemaUpdate);
+                prepStatement.setString(1, newCinema);
+                prepStatement.setString(2, cinemaType);
+                prepStatement.setInt(3, cinemaTableID);
 
-                        String cinemaUpdate = "UPDATE cinemas SET name = ?, type = ? WHERE cinema_id = ?";
-
-
-
-                        JOptionPane.showMessageDialog(this, "Cinema "+cinemaName+" successfully updated!");
-                        jCinemaName.setText("");
-                        jCinemaType.setSelectedIndex(0);
-
-                        try (PreparedStatement prepStatement = con.prepareStatement(cinemaUpdate)) {
-                            prepStatement.setString(1, cinemaName);
-                            prepStatement.setString(2, cinemaType);
-                            prepStatement.setInt(3, cinemaTableID);
-
-                            prepStatement.executeUpdate();
-
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                prepStatement.executeUpdate();
 
             } catch (SQLException e) {
             System.out.println(e);
             }
         }else {
-                JOptionPane.showMessageDialog(this,"Please select an item.","Alert!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Please select an item.","Alert!",JOptionPane.INFORMATION_MESSAGE);
             }
         refreshTable();
     }
