@@ -868,7 +868,7 @@ public class AdminScreening extends javax.swing.JPanel {
 
     private void jAddDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddDateButtonActionPerformed
         // TODO add your handling code here:
-        DateTimePanel dateTimePanel = new DateTimePanel();
+        DateTimePanel dateTimePanel = new DateTimePanel(jScrollContPanel);
         jScrollContPanel.setLayout(new BoxLayout(jScrollContPanel, BoxLayout.Y_AXIS));
         jScrollContPanel.add(dateTimePanel);
         jScrollContPanel.repaint();

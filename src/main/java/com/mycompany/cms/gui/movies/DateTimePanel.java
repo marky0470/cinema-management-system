@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.cms.gui.movies;
-import java.util.Calendar;
-import java.util.Date;
+import javax.swing.JPanel;
 
 /**
  *
@@ -12,16 +11,17 @@ import java.util.Date;
  */
 public class DateTimePanel extends javax.swing.JPanel {
 
+    JPanel scrollCont;
     /**
      * Creates new form dateTimePanel
      */
-    public DateTimePanel() {
+    public DateTimePanel(JPanel scrollCont) {
         initComponents();
         jDateSpinner.setName("dateSpinner");
         jTimeStartSpinner.setName("timeStartSpinner");
-        jTimeEndLabel.setName("timeEndLabel");
         jTimeLabel1.setName("timeLabel");
         jShowDateLabel1.setName("dateLabel");
+        this.scrollCont = scrollCont;
     }
 
     /**
@@ -37,7 +37,7 @@ public class DateTimePanel extends javax.swing.JPanel {
         jTimeLabel1 = new javax.swing.JLabel();
         jDateSpinner = new javax.swing.JSpinner();
         jTimeStartSpinner = new javax.swing.JSpinner();
-        jTimeEndLabel = new javax.swing.JLabel();
+        jDeleteShowtimeButton = new javax.swing.JButton();
 
         jShowDateLabel1.setText("Show Date");
 
@@ -50,27 +50,31 @@ public class DateTimePanel extends javax.swing.JPanel {
         jTimeStartSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.AM_PM));
         jTimeStartSpinner.setEditor(new javax.swing.JSpinner.DateEditor(jTimeStartSpinner, "hh:mm aa"));
 
-        jTimeEndLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jTimeEndLabel.setText("7:00 PM");
-        jTimeEndLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTimeEndLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jDeleteShowtimeButton.setText("Delete");
+        jDeleteShowtimeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDeleteShowtimeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTimeLabel1)
-                    .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jShowDateLabel1)
-                            .addComponent(jTimeStartSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jShowDateLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jTimeStartSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTimeEndLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addComponent(jDeleteShowtimeButton))
+                    .addComponent(jDateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,18 +86,24 @@ public class DateTimePanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTimeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTimeStartSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTimeEndLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDeleteShowtimeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTimeStartSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jDeleteShowtimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteShowtimeButtonActionPerformed
+        scrollCont.remove(this);
+        scrollCont.revalidate();
+        scrollCont.repaint();
+    }//GEN-LAST:event_jDeleteShowtimeButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner jDateSpinner;
+    private javax.swing.JButton jDeleteShowtimeButton;
     private javax.swing.JLabel jShowDateLabel1;
-    private javax.swing.JLabel jTimeEndLabel;
     private javax.swing.JLabel jTimeLabel1;
     private javax.swing.JSpinner jTimeStartSpinner;
     // End of variables declaration//GEN-END:variables
