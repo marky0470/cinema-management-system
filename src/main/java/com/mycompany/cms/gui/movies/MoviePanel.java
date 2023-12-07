@@ -462,9 +462,19 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
         
         //UPDATE//
         //Updates both the database and the table//
+        
+        if("".equals(jTitleText.getText())){
+            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+        
+        else if("".equals(jDurationText.getText())){
+            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+            
+        else{
 
         if(!jMovieTable.getSelectionModel().isSelectionEmpty()){
-        
+            
             String title = jTitleText.getText();
             String rating = (String) jRatingComboBox.getSelectedItem();
             String released = (String) jReleasedComboBox.getSelectedItem();
@@ -475,54 +485,73 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
             int selectedRow = jMovieTable.getSelectedRow();
             int movie_id_column = 0;
             int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
-            
-            String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ?, image = ? WHERE movie_id = ?";          
-        
-            
+                 
+            if(!"".equals(jFilePathText.getText())){
                 
                 try {
                     Connector connector = new Connector();
                     Connection con = connector.getConnection();
-
-                    int releasedInt = Integer.parseInt(released);
-                    int durationInt = Integer.parseInt(jDurationText.getText());
-
+                    
+                    String query = "UPDATE movies SET image = ? WHERE movie_id = ?";
+                    
                     PreparedStatement prepStmt = con.prepareStatement(query);
-
-                    prepStmt.setString(1, title);
-                    prepStmt.setString(2, rating);
-                    prepStmt.setInt(3, releasedInt);
-                    prepStmt.setString(4, genre);
-                    prepStmt.setInt(5, durationInt);
-
+                    
                     InputStream in;
                     try {
                         in = new FileInputStream(imagePath);
-                        prepStmt.setBlob(6, in);
+                        prepStmt.setBlob(1, in);
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    prepStmt.setInt(7, movie_id);
-
+                    prepStmt.setInt(2, movie_id);
+                    
                     prepStmt.executeUpdate();
-
-
+                    
+                    clearEverything();
+                    
                     } catch (SQLException e) {
                     System.out.println(e);
                     }
 
-                    clearEverything();
+            }
+                   
+            String query = "UPDATE movies SET title = ?, rating = ?, released = ?, genre = ?, duration = ? WHERE movie_id = ?"; 
                     
-                    JOptionPane.showMessageDialog(this, "Your changes have been applied!");
+            try {
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
+
+                int releasedInt = Integer.parseInt(released);
+                int durationInt = Integer.parseInt(jDurationText.getText());
+
+                PreparedStatement prepStmt = con.prepareStatement(query);
+
+                prepStmt.setString(1, title);
+                prepStmt.setString(2, rating);
+                prepStmt.setInt(3, releasedInt);
+                prepStmt.setString(4, genre);
+                prepStmt.setInt(5, durationInt);
+                prepStmt.setInt(6, movie_id);
+
+                prepStmt.executeUpdate();
+
+
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+
+                    clearEverything();
+
+                    JOptionPane.showMessageDialog(this, "Your changes have been applied!");                    
                     
             }
             
-            else{
-                    JOptionPane.showMessageDialog(this,"No table row was selected.","Alert",JOptionPane.WARNING_MESSAGE);
+        else{
+            JOptionPane.showMessageDialog(this,"No table row was selected.","Alert",JOptionPane.WARNING_MESSAGE);
             }
+        }
         
-                refreshTable();
+            refreshTable();
         
         
     }//GEN-LAST:event_jUpdateButtonActionPerformed
