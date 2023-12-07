@@ -4,7 +4,6 @@
  */
 package com.mycompany.cms.gui;
 
-import com.mycompany.cms.gui.movies.MoviesPanel;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.mycompany.cms.gui.bookings.BookingsPanel;
 import com.mycompany.cms.gui.bookings.BookingsTabbedPanel;

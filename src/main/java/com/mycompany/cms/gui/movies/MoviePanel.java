@@ -180,7 +180,7 @@ public class MoviePanel extends javax.swing.JPanel {
             }
         });
 
-        jMovieLabel.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jMovieLabel.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jMovieLabel.setText("Movies");
 
         jTitleLabel.setText("Title");
@@ -363,8 +363,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
                                 .addComponent(jGenreLabel)
                                 .addComponent(jRatingLabel)
                                 .addComponent(jDateLabel)
-                                .addComponent(jDurationLabel)
-                                .addComponent(jMovieLabel))
+                                .addComponent(jDurationLabel))
                             .addGap(0, 0, Short.MAX_VALUE)))
                     .addGap(120, 120, 120)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,13 +390,17 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
             .addGap(18, 18, 18)
             .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(178, 178, 178))
+        .addGroup(layout.createSequentialGroup()
+            .addGap(26, 26, 26)
+            .addComponent(jMovieLabel)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
-            .addGap(45, 45, 45)
+            .addGap(46, 46, 46)
             .addComponent(jMovieLabel)
-            .addGap(34, 34, 34)
+            .addGap(39, 39, 39)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(imageContainerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
