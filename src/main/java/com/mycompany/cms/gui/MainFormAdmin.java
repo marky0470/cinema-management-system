@@ -5,6 +5,7 @@
 package com.mycompany.cms.gui;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.mycompany.cms.gui.admin.DashboardPanel;
 import com.mycompany.cms.gui.bookings.BookingsTabbedPanel;
 import com.mycompany.cms.gui.cinemas.CinemasPanel;
 import com.mycompany.cms.gui.movies.MoviePanel;
@@ -43,8 +44,8 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         jTicketsButton.addMouseListener(getMouseAdapter(jTicketsButton));
         
         
-        BookingsTabbedPanel bookingsPanel = new BookingsTabbedPanel();
-        showPanel(bookingsPanel, jMoviesButton);
+        DashboardPanel dashboardPanel = new DashboardPanel();
+        showPanel(dashboardPanel, jDashboardButton);
     }
 
     /**
@@ -60,6 +61,7 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jDashboardButton = new javax.swing.JLabel();
         jBookingsButton = new javax.swing.JLabel();
         jMoviesButton = new javax.swing.JLabel();
         jScreeningsButton = new javax.swing.JLabel();
@@ -123,6 +125,20 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         );
 
         jNavbarPanel.add(jPanel2);
+
+        jDashboardButton.setBackground(new java.awt.Color(239, 124, 18));
+        jDashboardButton.setForeground(new java.awt.Color(255, 255, 255));
+        jDashboardButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jDashboardButton.setText("Dashboard");
+        jDashboardButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jDashboardButton.setOpaque(true);
+        jDashboardButton.setPreferredSize(new java.awt.Dimension(300, 45));
+        jDashboardButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jDashboardButtonMouseClicked(evt);
+            }
+        });
+        jNavbarPanel.add(jDashboardButton);
 
         jBookingsButton.setBackground(new java.awt.Color(239, 124, 18));
         jBookingsButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -209,7 +225,7 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         jNavbarPanel.add(jAccountButton);
 
         jPanel1.setBackground(new java.awt.Color(239, 124, 18));
-        jPanel1.setPreferredSize(new java.awt.Dimension(300, 300));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 250));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -219,7 +235,7 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 250, Short.MAX_VALUE)
         );
 
         jNavbarPanel.add(jPanel1);
@@ -291,6 +307,11 @@ public final class MainFormAdmin extends javax.swing.JFrame {
         showPanel(ticketsPanel, jTicketsButton);
     }//GEN-LAST:event_jTicketsButtonMouseClicked
 
+    private void jDashboardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDashboardButtonMouseClicked
+        DashboardPanel dashboardPanel = new DashboardPanel();
+        showPanel(dashboardPanel, jDashboardButton);
+    }//GEN-LAST:event_jDashboardButtonMouseClicked
+
     private static MouseAdapter getMouseAdapter(JLabel label) {
         return new MouseAdapter() {
             @Override
@@ -356,6 +377,7 @@ public final class MainFormAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jBookingsButton;
     private javax.swing.JLabel jCinemaButton;
     private javax.swing.JPanel jContentPanel;
+    private javax.swing.JLabel jDashboardButton;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLogOutButton;
