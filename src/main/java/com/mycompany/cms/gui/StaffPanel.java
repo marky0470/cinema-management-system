@@ -191,7 +191,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
-        jSearchButton.setBackground(new java.awt.Color(255, 153, 0));
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
         jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
@@ -243,7 +243,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
@@ -255,7 +255,7 @@ public class StaffPanel extends javax.swing.JPanel {
                     .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.WEST);
@@ -322,7 +322,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(253, 253, 253));
 
         jChangePasswordButton.setBackground(new java.awt.Color(240, 240, 240));
-        jChangePasswordButton.setForeground(new java.awt.Color(255, 153, 0));
+        jChangePasswordButton.setForeground(new java.awt.Color(239, 124, 18));
         jChangePasswordButton.setText("Change Password");
         jChangePasswordButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jChangePasswordButton.addActionListener(new java.awt.event.ActionListener() {
@@ -332,7 +332,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jDeleteButton.setBackground(new java.awt.Color(240, 240, 240));
-        jDeleteButton.setForeground(new java.awt.Color(255, 153, 0));
+        jDeleteButton.setForeground(new java.awt.Color(239, 124, 18));
         jDeleteButton.setText("Delete");
         jDeleteButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -342,7 +342,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jUpdateButton.setBackground(new java.awt.Color(240, 240, 240));
-        jUpdateButton.setForeground(new java.awt.Color(255, 153, 0));
+        jUpdateButton.setForeground(new java.awt.Color(239, 124, 18));
         jUpdateButton.setText("Update");
         jUpdateButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -352,7 +352,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jAddButton.setBackground(new java.awt.Color(240, 240, 240));
-        jAddButton.setForeground(new java.awt.Color(255, 153, 0));
+        jAddButton.setForeground(new java.awt.Color(239, 124, 18));
         jAddButton.setText("Add");
         jAddButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         buttonGroup1.add(jAddButton);
@@ -419,7 +419,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Helvetica Neue", 2, 10)); // NOI18N
         jLabel8.setText("*Check if account should be admin");
 
-        jSaveButton.setBackground(new java.awt.Color(255, 153, 0));
+        jSaveButton.setBackground(new java.awt.Color(239, 124, 18));
         jSaveButton.setForeground(new java.awt.Color(255, 255, 255));
         jSaveButton.setText("Save");
         jSaveButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
@@ -447,7 +447,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addContainerGap(42, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -483,21 +483,21 @@ public class StaffPanel extends javax.swing.JPanel {
                                 .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -522,7 +522,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
