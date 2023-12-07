@@ -818,7 +818,7 @@ private void applyFilter() {
             }
         }
     }
-    private String getCurrentUserEmail(){
+    private String getCurrentEmail(){
     int selectedRow = jtable1.getSelectedRow();
         String email = (String) jtable1.getValueAt(selectedRow, 3);
         return email;
@@ -836,7 +836,7 @@ if (!jPasswordTextField.getText().isEmpty()) {
     return;
 }
 
-String currentEmail = getCurrentUserEmail(); 
+String currentEmail = getCurrentEmail(); 
 
 if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
     JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
