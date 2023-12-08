@@ -718,7 +718,7 @@ public class AdminScreening extends javax.swing.JPanel {
             LocalTime endTime = null;
             
             for (Component innerComp : innerComponents) {
-                
+                System.out.println(innerComp);
                 if (innerComp.getName().equals("dateSpinner")) {
                     JSpinner dateSpinner = (JSpinner) innerComp;
                     SpinnerDateModel dateModel = (SpinnerDateModel) dateSpinner.getModel();
@@ -842,34 +842,59 @@ public class AdminScreening extends javax.swing.JPanel {
         
         String searchInput = jSearchField.getText();
         
+        if (searchInput.equals("")) {
+            refreshTable();
+            return;
+        }
+        
         try {
             Connector connector = new Connector();
             Connection con = connector.getConnection();
 
-            String query = "SELECT screening_id, movie_id, cinema_id, time_start, time_end, date, price FROM screening WHERE screening_id LIKE ?";
+            String query = """
+                        SELECT 
+                            s.screening_id, 
+                            s.movie_id, 
+                            m.title AS movie_title,
+                            s.cinema_id, 
+                            c.name AS cinema_name,
+                            s.time_start, 
+                            s.time_end, 
+                            s.date, 
+                            s.price 
+                        FROM 
+                            screening s 
+                        JOIN 
+                            movies m ON s.movie_id = m.movie_id 
+                        JOIN 
+                            cinemas c ON s.cinema_id = c.cinema_id
+                        WHERE
+                            m.title = ?""";
             
-                    PreparedStatement pstmt = con.prepareStatement(query);                    
-                    pstmt.setString(1, "%" + searchInput + "%");
-                    ResultSet resultSet = pstmt.executeQuery();
+            PreparedStatement pstmt = con.prepareStatement(query);                    
+            pstmt.setString(1, searchInput);
+            ResultSet resultSet = pstmt.executeQuery();
 
-                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
-                    model.setRowCount(0);
+            DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+            model.setRowCount(0);
 
-                    while (resultSet.next()) {
-                    int screeningId = resultSet.getInt("screening_id");
-                    int movieId = resultSet.getInt("movie_id");
-                    int cinemaId = resultSet.getInt("cinema_id");
-                    Time timeStart = resultSet.getTime("time_start");
-                    Time timeEnd = resultSet.getTime("time_end");
-                    Date date = resultSet.getDate("date");
-                    int price = resultSet.getInt("price");
+            while (resultSet.next()) {
+            int screeningId = resultSet.getInt("screening_id");
+            int movieId = resultSet.getInt("movie_id");
+            String movieTitle = resultSet.getString("movie_title");
+            int cinemaId = resultSet.getInt("cinema_id");
+            String cinemaName = resultSet.getString("cinema_name");
+            Time timeStart = resultSet.getTime("time_start");
+            Time timeEnd = resultSet.getTime("time_end");
+            Date date = resultSet.getDate("date");
+            int price = resultSet.getInt("price");
 
-                    model.addRow(new Object[]{screeningId, movieId, cinemaId, timeStart, timeEnd, date, price});
-                    }
-
-            } catch (SQLException e) {
-              System.out.println(e);
+            model.addRow(new Object[]{screeningId, movieId, movieTitle, cinemaId, cinemaName, timeStart, timeEnd, date, price});
             }
+
+        } catch (SQLException e) {
+          System.out.println(e);
+        }
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
     private void jMovieDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMovieDropDownActionPerformed
