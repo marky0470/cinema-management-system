@@ -141,12 +141,6 @@ public class BookingsPanel extends javax.swing.JPanel {
     private void displayScreenings(ResultSet res) {
         try {
             jMoviesPanel.removeAll();
-            jMoviesPanel.setLayout(new BoxLayout(jMoviesPanel, BoxLayout.Y_AXIS));
-            jMoviesPanel.setBackground(Color.WHITE);
-
-            int index = 0;
-            JPanel panel = new JPanel();
-            panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
 
             while (res.next()) {
                 String title = res.getString("title");
@@ -155,23 +149,13 @@ public class BookingsPanel extends javax.swing.JPanel {
 
                 if (inputStream == null) {
                     JPanel card = createCardPanelNoImage(movieId, title);
-                    panel.add(card);
+                    jMoviesPanel.add(card, FlowLayout.LEFT);
                 } else {
                     BufferedImage im = ImageIO.read(inputStream);
                     JPanel card = createCardPanel(movieId, title, im);
-                    panel.add(card);
-                }
-
-                index++;
-                if (index == 5) {
-                    jMoviesPanel.add(panel);
-                    index = 0;
-                    panel = new JPanel();
-                    panel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+                    jMoviesPanel.add(card, FlowLayout.LEFT);
                 }
             }
-
-            jMoviesPanel.add(panel);
 
             jMoviesPanel.revalidate();
             jMoviesPanel.repaint();
@@ -185,13 +169,13 @@ public class BookingsPanel extends javax.swing.JPanel {
     
     private JPanel createCardPanelNoImage(int movieId, String title) {
         JPanel cardPanel = new JPanel();
-        
+        cardPanel.setBackground(new Color(253,253,253));
         cardPanel.setBorder(new CompoundBorder(
             new LineBorder(new Color(45, 45, 45, 50), 1, true),
             new EmptyBorder(1, 1, 1, 1)
         ));
         cardPanel.setPreferredSize(new Dimension(200, 350));
-        cardPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+        cardPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         
         JPanel card = new JPanel();
         card.setPreferredSize(new Dimension(180, 300));
@@ -210,13 +194,13 @@ public class BookingsPanel extends javax.swing.JPanel {
     
     private JPanel createCardPanel(int movieId, String title, BufferedImage image) {
         JPanel cardPanel = new JPanel();
-        
+        cardPanel.setBackground(new Color(253,253,253));
         cardPanel.setBorder(new CompoundBorder(
             new LineBorder(new Color(45, 45, 45, 50), 1, true),
             new EmptyBorder(1, 1, 1, 1)
         ));
         cardPanel.setPreferredSize(new Dimension(200, 350));
-        cardPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+        cardPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         
         JPanel card = new JPanel();
         card.setPreferredSize(new Dimension(180, 300));
@@ -326,6 +310,7 @@ public class BookingsPanel extends javax.swing.JPanel {
         jRefreshButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jDateLabel = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         jScrollPane = new javax.swing.JScrollPane();
         jMoviesPanel = new javax.swing.JPanel();
 
@@ -440,35 +425,49 @@ public class BookingsPanel extends javax.swing.JPanel {
                     .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         add(jPanel1, java.awt.BorderLayout.NORTH);
 
+        jPanel5.setPreferredSize(new java.awt.Dimension(1140, 670));
+
         jScrollPane.setBackground(new java.awt.Color(242, 242, 242));
         jScrollPane.setBorder(null);
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setToolTipText("");
+        jScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane.setPreferredSize(new java.awt.Dimension(610, 200));
 
-        jMoviesPanel.setPreferredSize(new java.awt.Dimension(1440, 600));
-        jMoviesPanel.setSize(new java.awt.Dimension(1440, 800));
-
-        javax.swing.GroupLayout jMoviesPanelLayout = new javax.swing.GroupLayout(jMoviesPanel);
-        jMoviesPanel.setLayout(jMoviesPanelLayout);
-        jMoviesPanelLayout.setHorizontalGroup(
-            jMoviesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1440, Short.MAX_VALUE)
-        );
-        jMoviesPanelLayout.setVerticalGroup(
-            jMoviesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 680, Short.MAX_VALUE)
-        );
-
+        jMoviesPanel.setPreferredSize(new java.awt.Dimension(600, 2000));
+        jMoviesPanel.setSize(new java.awt.Dimension(600, 600));
+        jMoviesPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 15, 5));
         jScrollPane.setViewportView(jMoviesPanel);
 
-        add(jScrollPane, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1140, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                    .addContainerGap(20, Short.MAX_VALUE)
+                    .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(16, 16, 16)))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 670, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                    .addContainerGap(21, Short.MAX_VALUE)
+                    .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(20, Short.MAX_VALUE)))
+        );
+
+        add(jPanel5, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTodayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTodayButtonActionPerformed
@@ -495,6 +494,7 @@ public class BookingsPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JButton jRefreshButton;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JButton jSearchButton;
