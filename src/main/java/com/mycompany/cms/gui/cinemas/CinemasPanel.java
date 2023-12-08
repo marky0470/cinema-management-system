@@ -445,7 +445,7 @@ public class CinemasPanel extends javax.swing.JPanel {
 
                         prepStmt.executeUpdate();
                         
-                        JOptionPane.showMessageDialog(this, "Cinema " + cinemaName + " successfully Delete!");
+                        JOptionPane.showMessageDialog(this, "Cinema " + cinemaName + " successfully deleted!");
                         jCinemaName.setText("");
                         jCinemaType.setSelectedIndex(0);
 
