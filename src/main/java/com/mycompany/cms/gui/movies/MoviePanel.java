@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ikelm
+ * @author ikelm, l4ckluster
  */
 public class MoviePanel extends javax.swing.JPanel {
 
@@ -221,8 +221,8 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
 
     jDeleteButton.setBackground(new java.awt.Color(242, 242, 242));
     jDeleteButton.setText("Delete");
+    jDeleteButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(242, 242, 242)));
     jDeleteButton.setBorderPainted(false);
-    jDeleteButton.setPreferredSize(null);
     jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jDeleteButtonActionPerformed(evt);
@@ -231,8 +231,8 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
 
     jClearButton.setBackground(new java.awt.Color(242, 242, 242));
     jClearButton.setText("Clear");
+    jClearButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(242, 242, 242)));
     jClearButton.setBorderPainted(false);
-    jClearButton.setPreferredSize(null);
     jClearButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jClearButtonActionPerformed(evt);
@@ -241,8 +241,8 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
 
     jUpdateButton.setBackground(new java.awt.Color(242, 242, 242));
     jUpdateButton.setText("Update");
+    jUpdateButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(242, 242, 242)));
     jUpdateButton.setBorderPainted(false);
-    jUpdateButton.setPreferredSize(null);
     jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jUpdateButtonActionPerformed(evt);
@@ -385,10 +385,10 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         jMovieTable1.getColumnModel().getColumn(5).setResizable(false);
     }
 
-    jRefreshButton.setBackground(new java.awt.Color(242, 242, 242));
+    jRefreshButton.setBackground(new java.awt.Color(247, 222, 200));
     jRefreshButton.setText("Refresh");
+    jRefreshButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(247, 222, 200)));
     jRefreshButton.setBorderPainted(false);
-    jRefreshButton.setPreferredSize(null);
     jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jRefreshButtonActionPerformed(evt);
