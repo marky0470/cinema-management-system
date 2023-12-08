@@ -21,6 +21,7 @@ public class DateTimePanel extends javax.swing.JPanel {
         jTimeStartSpinner.setName("timeStartSpinner");
         jTimeLabel1.setName("timeLabel");
         jShowDateLabel1.setName("dateLabel");
+        jDeleteShowtimeButton.setName("deleteButton");
         this.scrollCont = scrollCont;
     }
 
