@@ -165,8 +165,8 @@ public class MoviePanel extends javax.swing.JPanel {
         jAddButton.setBackground(new java.awt.Color(239, 124, 18));
         jAddButton.setForeground(new java.awt.Color(255, 255, 255));
         jAddButton.setText("Add");
+        jAddButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jAddButton.setBorderPainted(false);
-        jAddButton.setPreferredSize(null);
         jAddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAddButtonActionPerformed(evt);
@@ -194,8 +194,8 @@ public class MoviePanel extends javax.swing.JPanel {
         jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
+        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jSearchButton.setBorderPainted(false);
-        jSearchButton.setPreferredSize(null);
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSearchButtonActionPerformed(evt);
@@ -443,7 +443,7 @@ jFilePathText.addActionListener(new java.awt.event.ActionListener() {
                 .addComponent(jAddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap(32, Short.MAX_VALUE))
     );
     }// </editor-fold>//GEN-END:initComponents
 

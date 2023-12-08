@@ -9,6 +9,7 @@ import com.mycompany.cms.models.Movie;
 import com.mycompany.cms.gui.movies.DateTimePanel;
 import com.mycompany.cms.models.Cinema;
 import com.mycompany.cms.util.Connector;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,10 +25,12 @@ import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Comparator;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
@@ -55,7 +58,8 @@ public class AdminScreening extends javax.swing.JPanel {
         getMovieList();
         getCinemasList();
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(12);
-        //Populate movie selector with movies
+        
+        //Populate selectors with lists
         String[] movieList = getMovieTitles();
         jMovieDropDown.setModel(new javax.swing.DefaultComboBoxModel<>( movieList));
         String[] cinemaList = getCinemaNames();
@@ -63,8 +67,8 @@ public class AdminScreening extends javax.swing.JPanel {
         jCinemaSelector.setModel(new javax.swing.DefaultComboBoxModel<>(cinemaList));
         
         jCinemaSelector.addActionListener(cinemaSelectActionListener());
-        
         jDateSelector.addChangeListener(dateSelectChangeListener());
+        
 
     }
     
@@ -407,6 +411,7 @@ public class AdminScreening extends javax.swing.JPanel {
         jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
+        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jSearchButton.setPreferredSize(new java.awt.Dimension(72, 30));
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -416,6 +421,7 @@ public class AdminScreening extends javax.swing.JPanel {
 
         jClearAllButton.setBackground(new java.awt.Color(247, 196, 149));
         jClearAllButton.setText("Clear All");
+        jClearAllButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(247, 196, 149)));
         jClearAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jClearAllButtonActionPerformed(evt);
@@ -425,6 +431,7 @@ public class AdminScreening extends javax.swing.JPanel {
         jAddShowtimeButton.setBackground(new java.awt.Color(239, 124, 18));
         jAddShowtimeButton.setForeground(new java.awt.Color(255, 255, 255));
         jAddShowtimeButton.setText("Add Showtime");
+        jAddShowtimeButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jAddShowtimeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAddShowtimeButtonActionPerformed(evt);
@@ -456,6 +463,7 @@ public class AdminScreening extends javax.swing.JPanel {
         jEditButton.setBackground(new java.awt.Color(239, 124, 18));
         jEditButton.setForeground(new java.awt.Color(255, 255, 255));
         jEditButton.setText("Edit");
+        jEditButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jEditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jEditButtonActionPerformed(evt);
@@ -464,6 +472,7 @@ public class AdminScreening extends javax.swing.JPanel {
 
         jDeleteButton.setBackground(new java.awt.Color(247, 196, 149));
         jDeleteButton.setText("Delete");
+        jDeleteButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(247, 196, 149)));
         jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jDeleteButtonActionPerformed(evt);
@@ -477,6 +486,7 @@ public class AdminScreening extends javax.swing.JPanel {
         jAddDateButton.setBackground(new java.awt.Color(239, 124, 18));
         jAddDateButton.setForeground(new java.awt.Color(255, 255, 255));
         jAddDateButton.setText("Add Date");
+        jAddDateButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jAddDateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jAddDateButton.setPreferredSize(new java.awt.Dimension(79, 30));
         jAddDateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -487,6 +497,8 @@ public class AdminScreening extends javax.swing.JPanel {
 
         jRefreshButton.setBackground(new java.awt.Color(247, 196, 149));
         jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(247, 196, 149)));
+        jRefreshButton.setPreferredSize(new java.awt.Dimension(72, 30));
         jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRefreshButtonActionPerformed(evt);
@@ -513,9 +525,9 @@ public class AdminScreening extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jEditButton)
+                        .addComponent(jEditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jDeleteButton))
+                        .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -540,29 +552,27 @@ public class AdminScreening extends javax.swing.JPanel {
                                 .addComponent(jScreenLabel1)
                                 .addComponent(jPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jClearAllButton)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jAddShowtimeButton))))
+                                    .addComponent(jClearAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jAddShowtimeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCinemaSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jMovieLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jMovieLabel2)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jMovieLabel2)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jDateSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jRefreshButton)))))))
+                                        .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -595,7 +605,7 @@ public class AdminScreening extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScreenLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -603,8 +613,8 @@ public class AdminScreening extends javax.swing.JPanel {
                         .addComponent(jPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jAddShowtimeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jClearAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jClearAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jAddShowtimeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jEditButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
