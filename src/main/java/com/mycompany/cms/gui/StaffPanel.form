@@ -204,7 +204,7 @@
         <Component class="javax.swing.JButton" name="jSearchButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="99" red="ff" type="rgb"/>
+              <Color blue="12" green="7c" red="ef" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -212,8 +212,8 @@
             <Property name="text" type="java.lang.String" value="Search"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder>
-                  <Color PropertyName="color" blue="0" green="99" red="ff" type="rgb"/>
+                <LineBorder roundedCorners="true">
+                  <Color PropertyName="color" blue="12" green="7c" red="ef" type="rgb"/>
                 </LineBorder>
               </Border>
             </Property>
@@ -349,9 +349,9 @@
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLastNameTextField" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jFirstNameTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="jFirstNameTextField" min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
@@ -521,7 +521,7 @@
                   <Color blue="f0" green="f0" red="f0" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                  <Color blue="12" green="7c" red="ef" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Change Password"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -542,7 +542,7 @@
                   <Color blue="f0" green="f0" red="f0" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                  <Color blue="12" green="7c" red="ef" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Delete"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -563,7 +563,7 @@
                   <Color blue="f0" green="f0" red="f0" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                  <Color blue="12" green="7c" red="ef" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Update"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -584,7 +584,7 @@
                   <Color blue="f0" green="f0" red="f0" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="99" red="ff" type="rgb"/>
+                  <Color blue="12" green="7c" red="ef" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Add"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -658,7 +658,7 @@
         <Component class="javax.swing.JButton" name="jSaveButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="99" red="ff" type="rgb"/>
+              <Color blue="12" green="7c" red="ef" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -667,7 +667,7 @@
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder roundedCorners="true">
-                  <Color PropertyName="color" blue="0" green="99" red="ff" type="rgb"/>
+                  <Color PropertyName="color" blue="12" green="7c" red="ef" type="rgb"/>
                 </LineBorder>
               </Border>
             </Property>
@@ -682,7 +682,7 @@
               <Color blue="fd" green="fd" red="fd" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="99" red="ff" type="rgb"/>
+              <Color blue="12" green="7c" red="ef" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cancel"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

@@ -191,10 +191,10 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
-        jSearchButton.setBackground(new java.awt.Color(255, 153, 0));
+        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
-        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        jSearchButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 124, 18), 1, true));
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSearchButtonActionPerformed(evt);
@@ -322,7 +322,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(253, 253, 253));
 
         jChangePasswordButton.setBackground(new java.awt.Color(240, 240, 240));
-        jChangePasswordButton.setForeground(new java.awt.Color(255, 153, 0));
+        jChangePasswordButton.setForeground(new java.awt.Color(239, 124, 18));
         jChangePasswordButton.setText("Change Password");
         jChangePasswordButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jChangePasswordButton.addActionListener(new java.awt.event.ActionListener() {
@@ -332,7 +332,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jDeleteButton.setBackground(new java.awt.Color(240, 240, 240));
-        jDeleteButton.setForeground(new java.awt.Color(255, 153, 0));
+        jDeleteButton.setForeground(new java.awt.Color(239, 124, 18));
         jDeleteButton.setText("Delete");
         jDeleteButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -342,7 +342,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jUpdateButton.setBackground(new java.awt.Color(240, 240, 240));
-        jUpdateButton.setForeground(new java.awt.Color(255, 153, 0));
+        jUpdateButton.setForeground(new java.awt.Color(239, 124, 18));
         jUpdateButton.setText("Update");
         jUpdateButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -352,7 +352,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jAddButton.setBackground(new java.awt.Color(240, 240, 240));
-        jAddButton.setForeground(new java.awt.Color(255, 153, 0));
+        jAddButton.setForeground(new java.awt.Color(239, 124, 18));
         jAddButton.setText("Add");
         jAddButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         buttonGroup1.add(jAddButton);
@@ -419,10 +419,10 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Helvetica Neue", 2, 10)); // NOI18N
         jLabel8.setText("*Check if account should be admin");
 
-        jSaveButton.setBackground(new java.awt.Color(255, 153, 0));
+        jSaveButton.setBackground(new java.awt.Color(239, 124, 18));
         jSaveButton.setForeground(new java.awt.Color(255, 255, 255));
         jSaveButton.setText("Save");
-        jSaveButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
+        jSaveButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(239, 124, 18), 1, true));
         jSaveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSaveButtonActionPerformed(evt);
@@ -430,7 +430,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jCancelButton.setBackground(new java.awt.Color(253, 253, 253));
-        jCancelButton.setForeground(new java.awt.Color(255, 153, 0));
+        jCancelButton.setForeground(new java.awt.Color(239, 124, 18));
         jCancelButton.setText("Cancel");
         jCancelButton.setBorder(null);
         jCancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -497,7 +497,7 @@ public class StaffPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
