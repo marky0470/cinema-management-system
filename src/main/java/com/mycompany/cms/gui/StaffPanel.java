@@ -191,7 +191,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel7.setLabelFor(jLabel7);
         jLabel7.setText("Search");
 
-        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
+        jSearchButton.setBackground(new java.awt.Color(255, 153, 0));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
         jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
@@ -222,7 +222,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -243,7 +243,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
@@ -255,7 +255,7 @@ public class StaffPanel extends javax.swing.JPanel {
                     .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.WEST);
@@ -322,7 +322,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(253, 253, 253));
 
         jChangePasswordButton.setBackground(new java.awt.Color(240, 240, 240));
-        jChangePasswordButton.setForeground(new java.awt.Color(239, 124, 18));
+        jChangePasswordButton.setForeground(new java.awt.Color(255, 153, 0));
         jChangePasswordButton.setText("Change Password");
         jChangePasswordButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jChangePasswordButton.addActionListener(new java.awt.event.ActionListener() {
@@ -332,7 +332,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jDeleteButton.setBackground(new java.awt.Color(240, 240, 240));
-        jDeleteButton.setForeground(new java.awt.Color(239, 124, 18));
+        jDeleteButton.setForeground(new java.awt.Color(255, 153, 0));
         jDeleteButton.setText("Delete");
         jDeleteButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jDeleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -342,7 +342,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jUpdateButton.setBackground(new java.awt.Color(240, 240, 240));
-        jUpdateButton.setForeground(new java.awt.Color(239, 124, 18));
+        jUpdateButton.setForeground(new java.awt.Color(255, 153, 0));
         jUpdateButton.setText("Update");
         jUpdateButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         jUpdateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -352,7 +352,7 @@ public class StaffPanel extends javax.swing.JPanel {
         });
 
         jAddButton.setBackground(new java.awt.Color(240, 240, 240));
-        jAddButton.setForeground(new java.awt.Color(239, 124, 18));
+        jAddButton.setForeground(new java.awt.Color(255, 153, 0));
         jAddButton.setText("Add");
         jAddButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 1, true));
         buttonGroup1.add(jAddButton);
@@ -419,7 +419,7 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Helvetica Neue", 2, 10)); // NOI18N
         jLabel8.setText("*Check if account should be admin");
 
-        jSaveButton.setBackground(new java.awt.Color(239, 124, 18));
+        jSaveButton.setBackground(new java.awt.Color(255, 153, 0));
         jSaveButton.setForeground(new java.awt.Color(255, 255, 255));
         jSaveButton.setText("Save");
         jSaveButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 0), 1, true));
@@ -447,7 +447,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(42, Short.MAX_VALUE)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jEmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -459,7 +459,12 @@ public class StaffPanel extends javax.swing.JPanel {
                                             .addComponent(jConfirmPasswordTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jLabel6)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(jLabel4))
+                                                        .addGap(0, 0, Short.MAX_VALUE))
                                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -478,21 +483,21 @@ public class StaffPanel extends javax.swing.JPanel {
                                 .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jFirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -517,7 +522,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -813,72 +818,60 @@ private void applyFilter() {
             }
         }
     }
-    private String getCurrentEmail(){
-    int selectedRow = jtable1.getSelectedRow();
-        String email = (String) jtable1.getValueAt(selectedRow, 3);
-        return email;
-    }
+    
     private void updateAccount() {
         int selectedRow = jtable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            if (!jPasswordTextField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
+            } else {
+                if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    if (!validateFields()) {
+                        JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        String email = jEmailTextField.getText();
 
-if (selectedRow == -1) {
-    JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
-    return;
-}
+                        if (isEmailDuplicate(email)) {
+                            JOptionPane.showMessageDialog(this, "Duplicate email found!");
+                        } else {
+                            int userId = (int) jtable1.getValueAt(selectedRow, 0);
+                            String firstName = jFirstNameTextField.getText();
+                            String lastName = jLastNameTextField.getText();
+                            boolean admin = jAdminCheckBox.isSelected();
 
-if (!jPasswordTextField.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
-    return;
-}
+                            String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
 
-String currentEmail = getCurrentEmail(); 
+                            try {
+                                Connector connector = new Connector();
+                                Connection con = connector.getConnection();
 
-if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
-    return;
-}
+                                try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                                    pstmt.setString(1, firstName);
+                                    pstmt.setString(2, lastName);
+                                    pstmt.setString(3, email);
+                                    pstmt.setBoolean(4, admin);
+                                    pstmt.setInt(5, userId);
 
-if (!validateFields()) {
-    JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
-    return;
-}
+                                    pstmt.executeUpdate();
+                                    refreshTable();
+                                    JOptionPane.showMessageDialog(this, "Sucessfully Updated");
 
-String newEmail = jEmailTextField.getText();
-
-if (!currentEmail.equals(newEmail) && isEmailDuplicate(newEmail)) {
-    JOptionPane.showMessageDialog(this, "Duplicate email found!");
-    return;
-}
-
-int userId = (int) jtable1.getValueAt(selectedRow, 0);
-String firstName = jFirstNameTextField.getText();
-String lastName = jLastNameTextField.getText();
-boolean admin = jAdminCheckBox.isSelected();
-
-String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
-
-try {
-    Connector connector = new Connector();
-    Connection con = connector.getConnection();
-
-    try (PreparedStatement pstmt = con.prepareStatement(query)) {
-        pstmt.setString(1, firstName);
-        pstmt.setString(2, lastName);
-        pstmt.setString(3, newEmail); 
-        pstmt.setBoolean(4, admin);
-        pstmt.setInt(5, userId);
-
-        pstmt.executeUpdate();
-        refreshTable();
-        JOptionPane.showMessageDialog(this, "Successfully Updated");
+                                }
+                            } catch (SQLException e) {
+                                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                System.out.println(e);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    System.out.println(e);
-}
-}
-   
-
     
     private void deleteAccounts() {
         int[] selectedRows = jtable1.getSelectedRows();
@@ -980,21 +973,14 @@ try {
     }//GEN-LAST:event_jAddButtonActionPerformed
     
     private boolean isEmailDuplicate(String email) {
-         String query = "SELECT COUNT(*) FROM users WHERE email=?";
-    try (Connection con = new Connector().getConnection();
-         PreparedStatement pstmt = con.prepareStatement(query)) {
-        pstmt.setString(1, email);
-        try (ResultSet rs = pstmt.executeQuery()) {
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                return count > 0; 
+        DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            if (email.equals(model.getValueAt(i, 3))) { // Assuming email is in the fourth column
+                return true; // Duplicate found
             }
         }
-    } catch (SQLException e) {
-        
-        e.printStackTrace();
-    }
-    return false; 
+        return false; // No duplicate found
     }
              
        
