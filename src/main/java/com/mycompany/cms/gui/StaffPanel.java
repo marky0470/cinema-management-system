@@ -210,7 +210,7 @@ public class StaffPanel extends javax.swing.JPanel {
             }
         });
 
-        jFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Admin" }));
+        jFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Admin", "Staff" }));
         jFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jFilterComboBoxActionPerformed(evt);
@@ -231,7 +231,7 @@ public class StaffPanel extends javax.swing.JPanel {
                         .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                         .addComponent(jFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -483,7 +483,7 @@ public class StaffPanel extends javax.swing.JPanel {
                                 .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -636,10 +636,13 @@ private void applyFilter() {
         Connection con = connector.getConnection();
 
         String query;
-        if ("All".equals(filterOption)) {
-            query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users";
-        } else {
+        if ("Admin".equals(filterOption)) {
             query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE is_admin = 1";
+        }else if("Staff".equals(filterOption)){
+            query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users WHERE is_admin = 0";
+        }
+        else{
+        query = "SELECT user_id, first_name, last_name, email, password, is_admin FROM users";
         }
 
         try (PreparedStatement pstmt = con.prepareStatement(query);
@@ -806,6 +809,7 @@ private void applyFilter() {
 
                             // Execute the query
                             pstmt.executeUpdate();
+                            JOptionPane.showMessageDialog(this, "New Account Created.");
                             refreshTable();
                         }
                     } catch (SQLException e) {
@@ -886,8 +890,9 @@ private void applyFilter() {
                     pstmt.setInt(5, userId);
 
                     pstmt.executeUpdate();
+                    JOptionPane.showMessageDialog(this, "Account Updated Succesfully.");
                     refreshTable();
-                    JOptionPane.showMessageDialog(this, "Successfully Updated");
+                    
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -917,6 +922,7 @@ private void applyFilter() {
                     }
                     pstmt.executeBatch();
                 }
+                JOptionPane.showMessageDialog(this, "Account Successfully Deleted.");
                 refreshTable();
             } catch (SQLException e) {
                 System.out.println(e);
@@ -936,7 +942,8 @@ private void applyFilter() {
 
             int option = JOptionPane.showConfirmDialog(this, "Confirm Update Password?", "Confirmation", JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION) {
-                
+                if (jPasswordTextField.getText().equals(jConfirmPasswordTextField.getText())){
+                   
                    String password = jPasswordTextField.getText();
 
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -949,16 +956,19 @@ private void applyFilter() {
                     try (PreparedStatement pstmt = con.prepareStatement(query)) {
                         pstmt.setString(1, hashedPassword);
                         pstmt.executeUpdate();
+                        JOptionPane.showMessageDialog(this, "Password Successfully Updated!");
                         refreshTable();
                     }
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     System.out.println(e);
                 }
-            }   
+            }else{
+                JOptionPane.showMessageDialog(this, "Passwords do not Match!");
+            }
         }
     }
-    
+    }
     private void refreshActionButtons() {
         jAddButton.setBackground(selectedAction == 1 ? new Color(247,222,200) : new Color(240,240,240));
         jAddButton.setBorder(selectedAction == 1 ? BorderFactory.createLineBorder(new Color(255,153,0)) : BorderFactory.createLineBorder(new Color(240,240,240)));
