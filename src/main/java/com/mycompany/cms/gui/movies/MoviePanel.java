@@ -55,7 +55,7 @@ public class MoviePanel extends javax.swing.JPanel {
                 try (PreparedStatement pstmt = con.prepareStatement(query);
                     ResultSet resultSet = pstmt.executeQuery()) {
 
-                    DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                    DefaultTableModel model = (DefaultTableModel) jMovieTable1.getModel();
                     model.setRowCount(0);
 
                     while (resultSet.next()) {
@@ -90,7 +90,7 @@ public class MoviePanel extends javax.swing.JPanel {
 	jReleasedComboBox.setSelectedIndex(0);
 	jGenreComboBox.setSelectedIndex(0);
 	jDurationText.setText("");
-        jSearchText.setText("");
+        jSearchText1.setText("");
         moviePosterLabel.setIcon(null);
         jFilePathText.setText("");
         refreshTable();
@@ -106,11 +106,6 @@ public class MoviePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSearchText = new javax.swing.JTextField();
-        jSearchButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jMovieTable = new javax.swing.JTable();
-        jRefreshButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jGenreComboBox = new javax.swing.JComboBox<>();
         jDurationLabel = new javax.swing.JLabel();
@@ -131,73 +126,11 @@ public class MoviePanel extends javax.swing.JPanel {
         jUpdateButton = new javax.swing.JButton();
         jAddButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jSearchText1 = new javax.swing.JTextField();
-        jSearchButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jMovieTable1 = new javax.swing.JTable();
-        jRefreshButton1 = new javax.swing.JButton();
-
-        jSearchText.setPreferredSize(null);
-        jSearchText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSearchTextActionPerformed(evt);
-            }
-        });
-
-        jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
-        jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
-        jSearchButton.setText("Search");
-        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
-        jSearchButton.setBorderPainted(false);
-        jSearchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSearchButtonActionPerformed(evt);
-            }
-        });
-
-        jMovieTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jMovieTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Title ", "Rating", "Release year", "Genre", "Duration"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jMovieTable.getTableHeader().setReorderingAllowed(false);
-        jMovieTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jMovieTableMouseReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jMovieTable);
-        if (jMovieTable.getColumnModel().getColumnCount() > 0) {
-            jMovieTable.getColumnModel().getColumn(0).setResizable(false);
-            jMovieTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jMovieTable.getColumnModel().getColumn(1).setResizable(false);
-            jMovieTable.getColumnModel().getColumn(2).setResizable(false);
-            jMovieTable.getColumnModel().getColumn(3).setResizable(false);
-            jMovieTable.getColumnModel().getColumn(4).setResizable(false);
-            jMovieTable.getColumnModel().getColumn(5).setResizable(false);
-        }
-
-        jRefreshButton.setBackground(new java.awt.Color(242, 242, 242));
-        jRefreshButton.setText("Refresh");
-        jRefreshButton.setBorderPainted(false);
-        jRefreshButton.setPreferredSize(null);
-        jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRefreshButtonActionPerformed(evt);
-            }
-        });
+        jRefreshButton = new javax.swing.JButton();
+        jSearchText1 = new javax.swing.JTextField();
+        jSearchButton = new javax.swing.JButton();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(1080, 800));
@@ -418,24 +351,6 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         }
     });
 
-    jSearchText1.setPreferredSize(null);
-    jSearchText1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jSearchText1ActionPerformed(evt);
-        }
-    });
-
-    jSearchButton1.setBackground(new java.awt.Color(239, 124, 18));
-    jSearchButton1.setForeground(new java.awt.Color(255, 255, 255));
-    jSearchButton1.setText("Search");
-    jSearchButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
-    jSearchButton1.setBorderPainted(false);
-    jSearchButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jSearchButton1ActionPerformed(evt);
-        }
-    });
-
     jMovieTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
     jMovieTable1.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
@@ -459,7 +374,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
             jMovieTable1MouseReleased(evt);
         }
     });
-    jScrollPane2.setViewportView(jMovieTable1);
+    jScrollPane1.setViewportView(jMovieTable1);
     if (jMovieTable1.getColumnModel().getColumnCount() > 0) {
         jMovieTable1.getColumnModel().getColumn(0).setResizable(false);
         jMovieTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -470,13 +385,31 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         jMovieTable1.getColumnModel().getColumn(5).setResizable(false);
     }
 
-    jRefreshButton1.setBackground(new java.awt.Color(242, 242, 242));
-    jRefreshButton1.setText("Refresh");
-    jRefreshButton1.setBorderPainted(false);
-    jRefreshButton1.setPreferredSize(null);
-    jRefreshButton1.addActionListener(new java.awt.event.ActionListener() {
+    jRefreshButton.setBackground(new java.awt.Color(242, 242, 242));
+    jRefreshButton.setText("Refresh");
+    jRefreshButton.setBorderPainted(false);
+    jRefreshButton.setPreferredSize(null);
+    jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jRefreshButton1ActionPerformed(evt);
+            jRefreshButtonActionPerformed(evt);
+        }
+    });
+
+    jSearchText1.setPreferredSize(null);
+    jSearchText1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jSearchText1ActionPerformed(evt);
+        }
+    });
+
+    jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
+    jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
+    jSearchButton.setText("Search");
+    jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
+    jSearchButton.setBorderPainted(false);
+    jSearchButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jSearchButtonActionPerformed(evt);
         }
     });
 
@@ -484,29 +417,31 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel2Layout.createSequentialGroup()
-            .addContainerGap(54, Short.MAX_VALUE)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGap(55, 55, 55)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
-                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createSequentialGroup()
                     .addComponent(jSearchText1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jSearchButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jRefreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addContainerGap(54, Short.MAX_VALUE))
+                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(55, 55, 55))
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel2Layout.createSequentialGroup()
             .addGap(60, 60, 60)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jSearchText1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jSearchButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jRefreshButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(54, 54, 54))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jRefreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jSearchText1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 641, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(56, 56, 56))
     );
 
     add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -557,7 +492,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         //DELETE//
         //Deletes the entry selected on the table//
 
-        if(!jMovieTable.getSelectionModel().isSelectionEmpty()){
+        if(!jMovieTable1.getSelectionModel().isSelectionEmpty()){
 
             int confirmation=JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this entry?");
 
@@ -567,9 +502,9 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
                     Connector connector = new Connector();
                     Connection con = connector.getConnection();
 
-                    int selectedRow = jMovieTable.getSelectedRow();
+                    int selectedRow = jMovieTable1.getSelectedRow();
                     int movieid_column = 0;
-                    int movie_table_id = (int) jMovieTable.getModel().getValueAt(selectedRow, movieid_column);
+                    int movie_table_id = (int) jMovieTable1.getModel().getValueAt(selectedRow, movieid_column);
 
                     String query = "DELETE FROM movies WHERE movie_id = ?";
 
@@ -671,7 +606,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
 
         else{
 
-            if(!jMovieTable.getSelectionModel().isSelectionEmpty()){
+            if(!jMovieTable1.getSelectionModel().isSelectionEmpty()){
 
                 String title = jTitleText.getText();
                 String rating = (String) jRatingComboBox.getSelectedItem();
@@ -680,9 +615,9 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
                 String duration = jDurationText.getText();
                 String imagePath = jFilePathText.getText();
 
-                int selectedRow = jMovieTable.getSelectedRow();
+                int selectedRow = jMovieTable1.getSelectedRow();
                 int movie_id_column = 0;
-                int movie_id = (int)jMovieTable.getModel().getValueAt(selectedRow, movie_id_column);
+                int movie_id = (int)jMovieTable1.getModel().getValueAt(selectedRow, movie_id_column);
 
                 if(!"".equals(jFilePathText.getText())){
 
@@ -768,22 +703,6 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel2formMouseMoved
 
-    private void jRefreshButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRefreshButton1ActionPerformed
-
-    private void jMovieTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTable1MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMovieTable1MouseReleased
-
-    private void jSearchButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jSearchButton1ActionPerformed
-
-    private void jSearchText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchText1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jSearchText1ActionPerformed
-
     private void jRefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRefreshButtonActionPerformed
         // TODO add your handling code here:
 
@@ -799,7 +718,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
             try (PreparedStatement pstmt = con.prepareStatement(query);
                 ResultSet resultSet = pstmt.executeQuery()) {
 
-                DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+                DefaultTableModel model = (DefaultTableModel) jMovieTable1.getModel();
                 model.setRowCount(0);
 
                 while (resultSet.next()) {
@@ -818,28 +737,28 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         }
     }//GEN-LAST:event_jRefreshButtonActionPerformed
 
-    private void jMovieTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTableMouseReleased
+    private void jMovieTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMovieTable1MouseReleased
         // TODO add your handling code here:
 
         //TABLE IS CLICKED//
         //Provides the needed variables when a row is selected on the table//
 
-        int selectedRow = jMovieTable.getSelectedRow();
+        int selectedRow = jMovieTable1.getSelectedRow();
         int movie_id_column = 0;
         int title_column = 1;
         int rating_column = 2;
         int release_date_column = 3;
         int genre_column = 4;
         int duration_column = 5;
-        String movie_id = jMovieTable.getModel().getValueAt(selectedRow, movie_id_column).toString();
+        String movie_id = jMovieTable1.getModel().getValueAt(selectedRow, movie_id_column).toString();
 
         if(selectedRow!=-1){
 
-            jTitleText.setText(jMovieTable.getModel().getValueAt(selectedRow, title_column).toString());
-            jRatingComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, rating_column).toString());
-            jReleasedComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, release_date_column).toString());
-            jGenreComboBox.setSelectedItem(jMovieTable.getModel().getValueAt(selectedRow, genre_column).toString());
-            jDurationText.setText(jMovieTable.getModel().getValueAt(selectedRow, duration_column).toString());
+            jTitleText.setText(jMovieTable1.getModel().getValueAt(selectedRow, title_column).toString());
+            jRatingComboBox.setSelectedItem(jMovieTable1.getModel().getValueAt(selectedRow, rating_column).toString());
+            jReleasedComboBox.setSelectedItem(jMovieTable1.getModel().getValueAt(selectedRow, release_date_column).toString());
+            jGenreComboBox.setSelectedItem(jMovieTable1.getModel().getValueAt(selectedRow, genre_column).toString());
+            jDurationText.setText(jMovieTable1.getModel().getValueAt(selectedRow, duration_column).toString());
 
             try{
 
@@ -867,7 +786,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
                 Logger.getLogger(MoviePanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_jMovieTableMouseReleased
+    }//GEN-LAST:event_jMovieTable1MouseReleased
 
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
         // TODO add your handling code here:
@@ -875,7 +794,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         //SEARCH//
         //Scours the dattabase for the inputed movie title and shows results in the table//
 
-        String searchInput = jSearchText.getText();
+        String searchInput = jSearchText1.getText();
 
         try {
             Connector connector = new Connector();
@@ -887,7 +806,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
             pstmt.setString(1, "%" + searchInput + "%");
             ResultSet resultSet = pstmt.executeQuery();
 
-            DefaultTableModel model = (DefaultTableModel) jMovieTable.getModel();
+            DefaultTableModel model = (DefaultTableModel) jMovieTable1.getModel();
             model.setRowCount(0);
 
             while (resultSet.next()) {
@@ -906,9 +825,9 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         }
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
-    private void jSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchTextActionPerformed
+    private void jSearchText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchText1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jSearchTextActionPerformed
+    }//GEN-LAST:event_jSearchText1ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -923,20 +842,15 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
     private javax.swing.JComboBox<String> jGenreComboBox;
     private javax.swing.JLabel jGenreLabel;
     private javax.swing.JLabel jMovieLabel;
-    private javax.swing.JTable jMovieTable;
     private javax.swing.JTable jMovieTable1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox<String> jRatingComboBox;
     private javax.swing.JLabel jRatingLabel;
     private javax.swing.JButton jRefreshButton;
-    private javax.swing.JButton jRefreshButton1;
     private javax.swing.JComboBox<String> jReleasedComboBox;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jSearchButton;
-    private javax.swing.JButton jSearchButton1;
-    private javax.swing.JTextField jSearchText;
     private javax.swing.JTextField jSearchText1;
     private javax.swing.JLabel jTitleLabel;
     private javax.swing.JTextField jTitleText;
