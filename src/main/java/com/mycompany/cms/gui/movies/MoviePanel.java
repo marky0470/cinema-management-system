@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Year;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -39,6 +40,7 @@ public class MoviePanel extends javax.swing.JPanel {
     public MoviePanel() {
         initComponents();
         refreshTable();
+        getCurrentYear();
 
     }
     
@@ -94,6 +96,13 @@ public class MoviePanel extends javax.swing.JPanel {
         moviePosterLabel.setIcon(null);
         jFilePathText.setText("");
         refreshTable();
+    }
+    
+    private void getCurrentYear(){
+        
+        int currentYear = Year.now().getValue();
+        jReleasedComboBox.setSelectedItem(currentYear);
+        
     }
     
     
@@ -162,7 +171,7 @@ jRatingComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "
 
 jTitleText.setPreferredSize(null);
 
-jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959",
+jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2023","1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959",
     "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969",
     "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979",
     "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989",
@@ -179,6 +188,11 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
     "2090", "2091", "2092", "2093", "2094", "2095", "2096", "2097", "2098", "2099",
     "2100"
     }));
+    jReleasedComboBox.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jReleasedComboBoxActionPerformed(evt);
+        }
+    });
 
     jDurationText.setPreferredSize(null);
     jDurationText.addActionListener(new java.awt.event.ActionListener() {
@@ -201,7 +215,7 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
 
     jRatingLabel.setText("Rating");
 
-    jDateLabel.setText("Release date");
+    jDateLabel.setText("Release year");
 
     jGenreLabel.setText("Genre");
 
@@ -351,7 +365,6 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         }
     });
 
-    jMovieTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
     jMovieTable1.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
 
@@ -543,6 +556,10 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         String imagePath = jFilePathText.getText();
 
         if("".equals(title)){
+            JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+        
+        if("".equals(imagePath)){
             JOptionPane.showMessageDialog(this,"Some of the information needed is missing.","Alert",JOptionPane.WARNING_MESSAGE);
         }
 
@@ -829,7 +846,10 @@ jReleasedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
         // TODO add your handling code here:
     }//GEN-LAST:event_jSearchText1ActionPerformed
 
-    
+    private void jReleasedComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jReleasedComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jReleasedComboBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton chooseImageButton;
     private javax.swing.JButton jAddButton;
