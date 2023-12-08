@@ -49,6 +49,7 @@ public class ScreeningsPanel extends javax.swing.JPanel {
         jSearchButton.setBackground(new java.awt.Color(239, 124, 18));
         jSearchButton.setForeground(new java.awt.Color(255, 255, 255));
         jSearchButton.setText("Search");
+        jSearchButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(239, 124, 18)));
         jSearchButton.setBorderPainted(false);
         jSearchButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jSearchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -119,6 +120,7 @@ public class ScreeningsPanel extends javax.swing.JPanel {
 
         jRefreshButton.setBackground(new java.awt.Color(247, 196, 149));
         jRefreshButton.setText("Refresh");
+        jRefreshButton.setBorder(null);
         jRefreshButton.setBorderPainted(false);
         jRefreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jRefreshButton.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +145,7 @@ public class ScreeningsPanel extends javax.swing.JPanel {
                         .addComponent(jSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +162,7 @@ public class ScreeningsPanel extends javax.swing.JPanel {
                             .addComponent(jRefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
