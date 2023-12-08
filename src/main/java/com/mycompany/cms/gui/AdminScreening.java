@@ -9,8 +9,8 @@ import com.mycompany.cms.models.Movie;
 import com.mycompany.cms.gui.movies.DateTimePanel;
 import com.mycompany.cms.models.Cinema;
 import com.mycompany.cms.util.Connector;
-import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -24,13 +24,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Comparator;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
@@ -75,6 +74,12 @@ public class AdminScreening extends javax.swing.JPanel {
     private ActionListener cinemaSelectActionListener() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                
+                if (jCinemaSelector.getSelectedIndex() == 0) {
+                    refreshTable();
+                    return;
+                }
+                
                 Connector connector = new Connector();
                 Connection con = connector.getConnection();
                 
@@ -196,6 +201,7 @@ public class AdminScreening extends javax.swing.JPanel {
     private String[] getMovieTitles() {
         ArrayList<String> movies = new ArrayList<String>();
         ArrayList<Movie> arrangedMovies = arrangeByMovieId();
+        movies.add("All");
         for (Movie m : arrangedMovies) {
             movies.add(m.getTitle());
         }
@@ -252,6 +258,7 @@ public class AdminScreening extends javax.swing.JPanel {
     
     private String[] getCinemaNames() {
         ArrayList<String> names = new ArrayList<String>();
+        names.add("All");
         for (Cinema c : this.cinemas) {
             names.add(c.getName());
         }
@@ -447,18 +454,13 @@ public class AdminScreening extends javax.swing.JPanel {
 
         jScreenDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Screen", "1", "2", "3", "4" }));
 
-        javax.swing.GroupLayout jScrollContPanelLayout = new javax.swing.GroupLayout(jScrollContPanel);
-        jScrollContPanel.setLayout(jScrollContPanelLayout);
-        jScrollContPanelLayout.setHorizontalGroup(
-            jScrollContPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 273, Short.MAX_VALUE)
-        );
-        jScrollContPanelLayout.setVerticalGroup(
-            jScrollContPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
-        );
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(275, 32767));
 
+        jScrollContPanel.setPreferredSize(new java.awt.Dimension(273, 600));
+        jScrollContPanel.setLayout(new javax.swing.BoxLayout(jScrollContPanel, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane2.setViewportView(jScrollContPanel);
+        jScrollContPanel.getAccessibleContext().setAccessibleDescription("");
 
         jEditButton.setBackground(new java.awt.Color(239, 124, 18));
         jEditButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -904,10 +906,15 @@ public class AdminScreening extends javax.swing.JPanel {
     private void jAddDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddDateButtonActionPerformed
         // TODO add your handling code here:
         DateTimePanel dateTimePanel = new DateTimePanel(jScrollContPanel);
+        int addedHeight = dateTimePanel.getPreferredSize().height;
+        
         jScrollContPanel.setLayout(new BoxLayout(jScrollContPanel, BoxLayout.Y_AXIS));
         jScrollContPanel.add(dateTimePanel);
-        jScrollContPanel.repaint();
-        jScrollContPanel.revalidate();
+        jScrollContPanel.add(Box.createVerticalStrut(5));
+        
+        int scrollContMaxHeight = jScrollContPanel.getMaximumSize().height;
+        int newHeight = scrollContMaxHeight + addedHeight;
+        jScrollContPanel.setPreferredSize(new Dimension(273, newHeight));
 
         repaint();
         revalidate();
