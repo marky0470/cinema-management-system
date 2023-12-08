@@ -754,7 +754,7 @@ private void applyFilter() {
         jConfirmPasswordTextField.setEnabled(false);
         jAdminCheckBox.setEnabled(true);
     }//GEN-LAST:event_jUpdateButtonActionPerformed
-    
+
     private boolean validateFields() {
         String firstName = jFirstNameTextField.getText();
         String lastName = jLastNameTextField.getText();
@@ -762,7 +762,6 @@ private void applyFilter() {
 
         return !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty();
     }
-    
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         selectedAction = 3;
         refreshActionButtons();
@@ -818,69 +817,89 @@ private void applyFilter() {
             }
         }
     }
-    
-    private void updateAccount() {
-        int selectedRow = jtable1.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else {
-            if (!jPasswordTextField.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
-            } else {
-                if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    if (!validateFields()) {
-                        JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        String email = jEmailTextField.getText();
-
-                        if (isEmailDuplicate(email)) {
-                            JOptionPane.showMessageDialog(this, "Duplicate email found!");
-                        } else {
-                            int userId = (int) jtable1.getValueAt(selectedRow, 0);
-                            String firstName = jFirstNameTextField.getText();
-                            String lastName = jLastNameTextField.getText();
-                            boolean admin = jAdminCheckBox.isSelected();
-
-                            String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
-
-                            try {
-                                Connector connector = new Connector();
-                                Connection con = connector.getConnection();
-
-                                try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                                    pstmt.setString(1, firstName);
-                                    pstmt.setString(2, lastName);
-                                    pstmt.setString(3, email);
-                                    pstmt.setBoolean(4, admin);
-                                    pstmt.setInt(5, userId);
-
-                                    pstmt.executeUpdate();
-                                    refreshTable();
-                                    JOptionPane.showMessageDialog(this, "Sucessfully Updated");
-
-                                }
-                            } catch (SQLException e) {
-                                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                                System.out.println(e);
-                            }
-                        }
-                    }
-                }
+    private boolean isEmailDuplicate(String email) {
+         String query = "SELECT COUNT(*) FROM users WHERE email=?";
+    try (Connection con = new Connector().getConnection();
+         PreparedStatement pstmt = con.prepareStatement(query)) {
+        pstmt.setString(1, email);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; 
             }
         }
+    } catch (SQLException e) {
+        
+        e.printStackTrace();
+    }
+    return false; 
     }
     
+    private String getCurrentEmail(){
+    int selectedRow = jtable1.getSelectedRow();
+        String email = (String) jtable1.getValueAt(selectedRow, 3);
+        return email;
+    }
+    private void updateAccount() {
+        int selectedRow = jtable1.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a row to edit", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!jPasswordTextField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Use Change Password button to update password");
+                return;
+            }
+            String currentEmail = getCurrentEmail(); 
+
+            if (jFirstNameTextField.getText().isEmpty() || jLastNameTextField.getText().isEmpty() || jEmailTextField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (!validateFields()) {
+                JOptionPane.showMessageDialog(this, "Please fill in all required fields", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String newEmail = jEmailTextField.getText();
+
+
+            if (!currentEmail.equals(newEmail) && isEmailDuplicate(newEmail)) {
+                JOptionPane.showMessageDialog(this, "Duplicate email found!");
+                return;
+            }
+            int userId = (int) jtable1.getValueAt(selectedRow, 0);
+            String firstName = jFirstNameTextField.getText();
+            String lastName = jLastNameTextField.getText();
+            boolean admin = jAdminCheckBox.isSelected();
+
+            String query = "UPDATE users SET first_name=?, last_name=?, email=?, is_admin=? WHERE user_id=?";
+
+            try {
+                Connector connector = new Connector();
+                Connection con = connector.getConnection();
+
+                try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                    pstmt.setString(1, firstName);
+                    pstmt.setString(2, lastName);
+                    pstmt.setString(3, newEmail); 
+                    pstmt.setBoolean(4, admin);
+                    pstmt.setInt(5, userId);
+
+                    pstmt.executeUpdate();
+                    refreshTable();
+                    JOptionPane.showMessageDialog(this, "Successfully Updated");
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error updating data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println(e);
+            }
+    }
     private void deleteAccounts() {
         int[] selectedRows = jtable1.getSelectedRows();
-
         if (selectedRows.length == 0) {
             JOptionPane.showMessageDialog(this, "Please select one or more rows to delete", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
         int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the selected record(s)?", "Confirmation", JOptionPane.YES_NO_OPTION);
 
         if (option == JOptionPane.YES_OPTION) {
@@ -896,18 +915,14 @@ private void applyFilter() {
                         pstmt.setInt(1, userId);
                         pstmt.addBatch();
                     }
-
                     pstmt.executeBatch();
                 }
-
                 refreshTable();
-
             } catch (SQLException e) {
                 System.out.println(e);
             }
         }
     }
-    
     private void changeAccountPassword() {
         if (jConfirmPasswordTextField.getText().equals("")|| jPasswordTextField.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Missing Information", "Missing Information", JOptionPane.WARNING_MESSAGE);
@@ -971,19 +986,7 @@ private void applyFilter() {
         jConfirmPasswordTextField.setEnabled(true);
         jAdminCheckBox.setEnabled(true);
     }//GEN-LAST:event_jAddButtonActionPerformed
-    
-    private boolean isEmailDuplicate(String email) {
-        DefaultTableModel model = (DefaultTableModel) jtable1.getModel();
-        int rowCount = model.getRowCount();
-        for (int i = 0; i < rowCount; i++) {
-            if (email.equals(model.getValueAt(i, 3))) { // Assuming email is in the fourth column
-                return true; // Duplicate found
-            }
-        }
-        return false; // No duplicate found
-    }
              
-       
     private void jChangePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChangePasswordButtonActionPerformed
         selectedAction = 4;
         jCancelButton.setEnabled(true);
