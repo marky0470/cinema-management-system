@@ -431,10 +431,11 @@ public class CinemasPanel extends javax.swing.JPanel {
 
                         Connector connector = new Connector();
                         Connection con = connector.getConnection();
-
+                        
                         int selectedRow = jCinemaTable.getSelectedRow();
                         int cinemaIDColumn = 0;
                         int cinemaTableID = (int) jCinemaTable.getModel().getValueAt(selectedRow, cinemaIDColumn);
+                        String cinemaName = jCinemaName.getText();
 
                         String query = "DELETE FROM cinemas WHERE cinema_id = ?";
 
@@ -443,6 +444,10 @@ public class CinemasPanel extends javax.swing.JPanel {
                         prepStmt.setInt(1, cinemaTableID);
 
                         prepStmt.executeUpdate();
+                        
+                        JOptionPane.showMessageDialog(this, "Cinema " + cinemaName + " successfully deleted!");
+                        jCinemaName.setText("");
+                        jCinemaType.setSelectedIndex(0);
 
                     } catch (SQLException e) {
                     System.out.println(e);
